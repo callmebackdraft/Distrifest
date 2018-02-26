@@ -1,0 +1,49 @@
+﻿@using DistriFest.Models
+@using System.Text.RegularExpressions
+@using System.Text
+@model ShoppingCartViewModel
+@{
+    int i = 0;
+    StringBuilder prodName = new StringBuilder();
+}
+
+<div class="overflow-scroll">
+    @if (ViewBag.ErrorMessage != null)
+    {
+    <div class="text-center" style="white-space:normal; padding-top:0; width:100%; height:2em; background-color:#c8dff7">
+        <span class="text-success" style="background-color:#c8dff7; margin-top: 0px">@ViewBag.ErrorMessage</span>
+    </div>
+    }
+    @if (Model.OrderList.Count > 0)
+    {
+        foreach (Order order in Model.OrderList)
+        {
+            {
+                var split = Regex.Split(order.Product.Name, @"(?<!^)(?=[A-Z])");
+                foreach (string s in split)
+                {
+                    prodName.Append(s);
+                    prodName.Append(' ');
+                }
+                i += order.AmountOrdered;
+                using (Html.BeginForm("DeleteProductFromOrder", "Home", new Product { ID = order.Product.ID }, FormMethod.Post, new { style = "display: inline-block; width: 100%" }))
+                {
+                    <div style="width:100%">
+                        <span>
+                            @order.AmountOrdered X @prodName
+                            <input type="submit" value="verwijder" class="" style="float:right; background-color:transparent;vertical-align:top;  overflow:visible; font-size:1em; display:inline;  margin:0; padding:0; border:0; color:white; cursor:pointer;" onclick="" />
+                        </span>
+                    </div>
+                }
+                prodName.Clear();
+            }
+        }
+    }
+    else
+    {
+        <p>Geen Producten in de winkelwagen</p>
+    }
+</div>
+<div style="background-color:#343477; font-weight:bolder; border-bottom: 2px solid black; padding-top: 1em; padding-bottom: .5em;">
+    <p>Totaal aantal producten: @i &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; @Html.ActionLink("Bekijk", "ShoppingCart", "Home", null, new { @class = "btn btn-default", style = "background-color: #615192; color: #999" })</p>
+</div>

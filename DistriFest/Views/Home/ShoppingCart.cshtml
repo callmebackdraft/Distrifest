@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Winkelwagen";
+    TempData["Return"] = "ShoppingCart";
+}
+@using DistriFest.Models
+@model ShoppingCartViewModel
+
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="text-center errorbox" style="margin-top:10px; width:99%; height:50px; background-color:#c8dff7">
+        <span class="text-warning" style="margin-top:auto; margin-bottom:auto">@ViewBag.ErrorMessage</span>
+    </div>
+}
+<div class="container">
+    <h2>WinkelWagen</h2>
+    <p>Hier kunt u, de door u bestelde producten controleren, wijzigen en de bestelling doorvoeren.</p>
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="col-xs-2">Aantal</th>
+                <th class="col-xs-2">Product</th>
+                <th class="col-xs-6">Product Beschrijving</th>
+                <th class="col-xs-1 text-center">Verwijder</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OrderList.Count() > 0)
+            {
+
+                foreach (Order order in Model.OrderList)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @using (Html.BeginForm("ChangeProductInOrder", "Home", new OrderViewModel { OrderID = order.OrderID, ProdID = order.Product.ID }, FormMethod.Post, new { style = "display: inline" }))
+                            {
+                                @Html.TextBox("AmountOrdered", order.AmountOrdered, new { Value = order.AmountOrdered, type = "Number", min = "0", style = "width: 50px;" })
+                                <input type="submit" value="Opslaan" class="btn btn-default" style="display:inline; background-color: #343477; color: #999" onclick="" />
+                            }
+                        </td>
+                        @Html.Partial("PartialShoppingCartTable", order.Product)
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Nog Geen</td>
+                    <td>Producten in uw</td>
+                    <td>Winkelwagen</td>
+                    <td>Geplaatst</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+@if (Model.OrderList.Count() > 0)
+{
+    <div class="container text-right">
+        @using (Html.BeginForm("ProcessOrder", "Home", FormMethod.Post))
+        {
+            <input type="submit" value="Bevestig Bestelling" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
+        }
+    </div>
+}

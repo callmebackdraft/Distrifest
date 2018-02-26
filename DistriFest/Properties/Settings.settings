@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DistriFest.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DBConnectionstring" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=distrifest.database.windows.net;Initial Catalog=DistriFest;Integrated Security=False;User ID=Callmebackdraft;Password=Brainiac1988;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;MultipleActiveResultSets=true;&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=distrifest.database.windows.net;Initial Catalog=DistriFest;Integrated Security=False;User ID=Callmebackdraft;Password=Brainiac1988;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;MultipleActiveResultSets=true;</Value>
+    </Setting>
+    <Setting Name="SecondaryDB" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=SQL6003.site4now.net;Initial Catalog=DB_A2C9F3_Distrifestdb;User Id=DB_A2C9F3_Distrifestdb_admin;Password=Insomniac1988!;MultiSubnetFailover=False;MultipleActiveResultSets=true;&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=SQL6003.site4now.net;Initial Catalog=DB_A2C9F3_Distrifestdb;User Id=DB_A2C9F3_Distrifestdb_admin;Password=Insomniac1988!;MultiSubnetFailover=False;MultipleActiveResultSets=true;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

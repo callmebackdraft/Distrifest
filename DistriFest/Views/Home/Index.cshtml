@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using System.Security.Claims
+@model IEnumerable<Claim>
+<div class="jumbotron" style="background-color: #49499A; color: #999">
+    <h1>DistriFest</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="text-center">
+            <p class="lead">Login from @User.Identity.Name Account.</p>
+            @*<p>@ViewBag.Hash</p>*@
+            @Model.Last().Value
+            @foreach (Claim claim in Model)
+            {
+                <p>@claim.Value</p>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="lead">
+            DistriFest is een speciaal ontworpen bestelsysteem voor festivals, met DistriFest kunnen bars snel en simpel bestellingen plaatsen welke ontvangen worden door een centraal
+            systeem en daardoor verwerkt worden bij het Distributiecentrum van het festival. Dit zal zorgdragen voor snelle en accurate leveringen en daarbij ook volledige rapportage mogelijkheden
+            over all producten die tijdens het festival zijn binnengekomen en uitgeleverd.
+        </p>
+    }
+</div>

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Mijn Bestellingen";
+    var identity = (ClaimsIdentity)User.Identity;
+    ShoppingCartViewModel scvm = new ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+    TempData["Return"] = "AllOrders";
+}
+@using System.Security.Claims
+@using DistriFest.Models
+@model ProductOrderViewModel
+
+
+
+
+<div id="Fix_Divrt">
+    <div class="inner_middle" style="color: #999; background-color: #615192; border: 2px solid black; margin-top: 10px; box-shadow: 6px 6px 5px #343477">
+        <div class="text-center" style="background-color:#343477; font-weight:bolder; border-bottom: 2px solid black; padding-top: 1em; padding-bottom: .5em;">
+            <p>WinkelWagen</p>
+        </div>
+        @Html.Partial("ShoppingCartPartial",scvm)
+    </div>
+</div>
+<div class="row" style="margin-top: 10px">
+    @foreach (OrderViewModel prod in Model.OrderDetails)
+    {
+        if (prod.Product.Active)
+        {
+            @Html.Partial("PartialItem", prod);
+        }
+
+    }
+</div>

@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.title = "Mijn Bestellingen";
+}
+@using FestDistri.Models
+@model ProductOrderViewModel
+
+
+
+
+<div id="Fix_Divrt">
+    <div class="inner_middle" style="color: #999; background-color: #615192; border: 2px solid black; margin-top: 10px; box-shadow: 6px 6px 5px #343477">
+        <div class="text-center" style="background-color:#343477; font-weight:bolder; border-bottom: 2px solid black; padding-top: 1em; padding-bottom: .5em;">
+            <p>WinkelWagen</p>
+        </div>
+        <div class="overflow-scroll">
+            <p>Lorum Ipsum</p>
+        </div>
+        <div style="background-color:#343477; font-weight:bolder; border-bottom: 2px solid black; padding-top: 1em; padding-bottom: .5em;">
+            <p>Totaal aantal producten:</p>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px">
+    @foreach (Tuple<Product, OrderViewModel> prod in Model.ProductOrderInfo)
+    {
+        @Html.Partial("PartialItem", prod);
+    }
+</div>
