@@ -9,15 +9,15 @@ namespace Models
     public class OrderStatus
     {
         public int OrderID { get; private set; }
-        public OrderStatuses RegisteredStatus { get; private set; }
+        public OrderStatusesEnum RegisteredStatus { get; private set; }
         public DateTime RegisteredDate { get; private set; }
 
-        public OrderStatus(OrderStatuses _registeredStatus, DateTime _registeredDate)
+        public OrderStatus(OrderStatusesEnum _registeredStatus, DateTime _registeredDate)
         {
             RegisteredStatus = _registeredStatus;
             RegisteredDate = _registeredDate;
         }
-        public enum OrderStatuses
+        public enum OrderStatusesEnum
         {
             Ordering,
             Processing,

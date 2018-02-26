@@ -27,19 +27,38 @@ namespace DataHandling
             return SQL_CRUD_Methods.SQLRead(query, parameters);
         }
 
-        public bool ProcessOrder(Order _order)
+        public bool ProcessOrder(int _orderID)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID) VALUES (@Status, @DateTime, @OrderID)";
+            List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@Status", OrderStatus.OrderStatusesEnum.Processing),
+                new KeyValuePair<string, object>("@DateTime", DateTime.Now),
+                new KeyValuePair<string, object>("@OrderID", _orderID)
+            };
+            return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
         }
 
         public int RegisterNewOrder(int _customerID)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO [Orders](CustomerID) VALUES (@CustomerID); SELECT SCOPE_IDENTITY();";
+            List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@CustomerID", _customerID),
+            };
+            return SQL_CRUD_Methods.SQLInsert(query, parameters);
         }
 
         public bool AddProductToOrder(int _orderID, int _productID, int _productAmount)
         {
-            throw new NotImplementedException();
+            string query = "INSERT INTO [Order_Product](OrderID, ProductID, Amount) VALUES (@OrderID, @ProductID, @Amount)";
+            List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@OrderID", _orderID),
+                new KeyValuePair<string, object>("@ProductID", _productID),
+                new KeyValuePair<string, object>("@Amount", _productAmount)
+            };
+            return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
         }
     }
 }

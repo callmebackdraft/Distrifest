@@ -42,7 +42,7 @@ namespace Repositories
 
         public bool ProcessOrder(Order _order)
         {
-            return Orderctx.ProcessOrder(_order);
+            return Orderctx.ProcessOrder(_order.ID);
         }
 
         public int RegisterNewOrder(int _customerID)

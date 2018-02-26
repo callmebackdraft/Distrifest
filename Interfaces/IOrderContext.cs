@@ -13,7 +13,7 @@ namespace Interfaces
         DataTable GetAllOrders();
         DataTable GetOrderByID(int _orderID);
         int RegisterNewOrder(int _customerID);
-        bool ProcessOrder(Order _order);
+        bool ProcessOrder(int _orderID);
         bool AddProductToOrder(int _orderID, int _productID, int _productAmount);
     }
 }

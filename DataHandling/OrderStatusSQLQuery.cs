@@ -23,7 +23,7 @@ namespace DataHandling
 
         public bool SaveOrderStatusForOrder(int _orderID, OrderStatus _orderStatus)
         {
-            string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID)";
+            string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID) VALUES (@Status, @DateTime, @OrderID)";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@Status", _orderStatus.RegisteredStatus),

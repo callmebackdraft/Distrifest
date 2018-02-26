@@ -79,7 +79,7 @@ namespace DistriFest.Controllers
                 Order.RegisterOrder(OVM.OrderID, OVM.ProdID, OVM.AmountOrdered);
             }
 
-            return RedirectToAction("AllOrders");
+            return RedirectToAction("Ordering");
         }
 
         [HttpPost]
@@ -113,9 +113,9 @@ namespace DistriFest.Controllers
                 TempData["ProcessResult"] = "Er ging iets mis tijdens het verwijderen van het product, probeer het opnieuw.";
             }
 
-            if ((string)TempData["Return"] == "AllOrders")
+            if ((string)TempData["Return"] == "Ordering")
             {
-                return RedirectToAction("AllOrders");
+                return RedirectToAction("Ordering");
             }
             return RedirectToAction("ShoppingCart");
         }
