@@ -13,7 +13,6 @@ namespace Models
         public int Volume { get; private set; }
         public string VolumeType { get; private set; }
         public bool Active { get; private set; }
-        public int OrderedAmount { get; private set; }
 
         public Product(int _id, string _name, int _volume, string _volumeType, bool _active)
         {

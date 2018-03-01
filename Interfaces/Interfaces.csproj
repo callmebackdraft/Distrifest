@@ -43,6 +43,8 @@
     <Compile Include="IDeliveryContext.cs" />
     <Compile Include="IDeliveryRepository.cs" />
     <Compile Include="IOrderContext.cs" />
+    <Compile Include="IOrderLineContext.cs" />
+    <Compile Include="IOrderLineRepository.cs" />
     <Compile Include="IOrderRepository.cs" />
     <Compile Include="IOrderStatusContext.cs" />
     <Compile Include="IOrderStatusRepository.cs" />
