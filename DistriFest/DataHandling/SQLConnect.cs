@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using DistriFest.Models;
 using DistriFest.Exceptions;
+using Models;
 
 namespace DistriFest.DataHandling
 {

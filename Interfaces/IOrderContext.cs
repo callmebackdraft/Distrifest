@@ -11,7 +11,7 @@ namespace Interfaces
     public interface IOrderContext
     {
         DataTable GetAllOrders();
-        DataTable GetOrderByID(int _orderID);
+        DataRow GetOrderByID(int _orderID);
         int RegisterNewOrder(int _customerID);
         bool ProcessOrder(int _orderID);
         bool AddProductToOrder(int _orderID, int _productID, int _productAmount);

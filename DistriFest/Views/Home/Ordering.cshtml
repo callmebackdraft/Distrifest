@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.title = "Mijn Bestellingen";
+    ViewBag.title = "Product Lijst";
     var identity = (ClaimsIdentity)User.Identity;
     ShoppingCartViewModel scvm = new ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
     TempData["Return"] = "AllOrders";

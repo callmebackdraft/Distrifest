@@ -37,7 +37,7 @@ namespace Repositories
 
         public Order GetOrderByID(int _orderID)
         {
-            return DataRowToOrder(Orderctx.GetOrderByID(_orderID).Rows[0]);
+            return DataRowToOrder(Orderctx.GetOrderByID(_orderID));
         }
 
         public bool ProcessOrder(Order _order)

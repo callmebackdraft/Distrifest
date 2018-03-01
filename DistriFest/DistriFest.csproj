@@ -243,11 +243,9 @@
     </Compile>
     <Compile Include="Models\AuthorizeAttribute.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\Delivery.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductOrderViewModel.cs" />
     <Compile Include="Models\ReportingViewModel.cs" />
     <Compile Include="Models\ShoppingCartViewModel.cs" />
@@ -281,6 +279,7 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\BierBekers.png" />
     <Content Include="Content\Images\Bospop_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -299,15 +298,18 @@
     <Content Include="Content\Images\CocaColaZero.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\DraagTrays.png" />
     <Content Include="Content\Images\Fanta.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\FrisBekers.png" />
     <Content Include="Content\Images\HoegaardenRadler.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Images\HoegaardenWit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\JackDanielsBekers.png" />
     <Content Include="Content\Images\JackDanielsCola.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -441,6 +443,20 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{3d443e34-ed16-40ce-8985-3c42b3fd5d75}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{1e3ec137-b12c-4b0b-a8e3-4d67e22f909b}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repositories\Repositories.csproj">
+      <Project>{efb59f82-613b-4f47-ad75-97124a135b0b}</Project>
+      <Name>Repositories</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

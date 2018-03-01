@@ -1,4 +1,5 @@
 ﻿@using DistriFest.Models
+@using Models
 @using System.Text.RegularExpressions
 @using System.Text
 @model ShoppingCartViewModel
@@ -16,7 +17,7 @@
     }
     @if (Model.OrderList.Count > 0)
     {
-        foreach (Order order in Model.OrderList)
+        foreach (DistriFest.Models.Order order in Model.OrderList)
         {
             {
                 var split = Regex.Split(order.Product.Name, @"(?<!^)(?=[A-Z])");

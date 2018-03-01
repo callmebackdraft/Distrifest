@@ -7,6 +7,10 @@ using DistriFest.Models;
 using DistriFest.Exceptions;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Models;
+using Repositories;
+using Interfaces;
+
 
 namespace DistriFest.Controllers
 {
@@ -24,6 +28,8 @@ namespace DistriFest.Controllers
 
         public ActionResult Ordering()
         {
+            IProductRepository prodRepo = new ProductRepository();
+            //List<Product> newproductlist = new Produ
             //shows only orders for bar signed, or all of the orders for any of the bars for everyone else
             var identity = (ClaimsIdentity)User.Identity;
             ProductOrderViewModel productlist = new ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
@@ -76,7 +82,7 @@ namespace DistriFest.Controllers
         {
             if (OVM.AmountOrdered > 0)
             {
-                Order.RegisterOrder(OVM.OrderID, OVM.ProdID, OVM.AmountOrdered);
+                DistriFest.Models.Order.RegisterOrder(OVM.OrderID, OVM.ProdID, OVM.AmountOrdered);
             }
 
             return RedirectToAction("Ordering");
@@ -88,7 +94,7 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                Order.ProcessOrder(Convert.ToInt16(identity.Claims.Last().Value));
+                DistriFest.Models.Order.ProcessOrder(Convert.ToInt16(identity.Claims.Last().Value));
                 TempData["ProcessResult"] = "Bestelling succesvol verwerkt";
             }
             catch
@@ -105,7 +111,7 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                Order.RemoveProduct(Convert.ToInt16(identity.Claims.Last().Value), prod.ID);
+                DistriFest.Models.Order.RemoveProduct(Convert.ToInt16(identity.Claims.Last().Value), prod.ID);
                 TempData["ProcessResult"] = "Product succesvol verwijderd";
             }
             catch
@@ -131,7 +137,7 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                Order.EditOrderedAmount(Convert.ToInt16(identity.Claims.Last().Value), ovm.ProdID, ovm.AmountOrdered);
+                DistriFest.Models.Order.EditOrderedAmount(Convert.ToInt16(identity.Claims.Last().Value), ovm.ProdID, ovm.AmountOrdered);
                 TempData["ProcessResult"] = "Product succesvol aangepast";
             }
             catch

@@ -1,9 +1,11 @@
 ﻿@using DistriFest.Models
+@using System.Text.RegularExpressions;
 @model OrderViewModel
 @{
     string imgLoc = "~/Content/Images/" + Model.Product.Name + ".png";
     Console.WriteLine(imgLoc);
     string volumeString = "Volume: " + Model.Product.Volume + " " + Model.Product.VolumeType;
+    string productName = Regex.Replace(Model.Product.Name, "([a-z?])[_ ]?([A-Z])", "$1 $2");
 }
 
 <div class="col-sm-4 text-center">
@@ -13,7 +15,8 @@
         </div>
         <center>
             <div style="margin-left: auto; margin-right: auto; height: 90px">
-                <p style="color: white">@volumeString</p>
+
+                <p style="color: white"> @productName <br /> @volumeString</p>
 
 
                 @using (Html.BeginForm("OrderProduct", "Home", FormMethod.Post))
