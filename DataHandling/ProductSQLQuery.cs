@@ -12,17 +12,28 @@ namespace DataHandling
     {
         public DataTable GetAllProducts()
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Product";
+            return SQL_CRUD_Methods.SQLRead(query);
         }
 
         public DataTable GetAllProducts(int _orderID)
         {
-            throw new NotImplementedException();
+            string query = "";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@OrderID",_orderID)
+            };
+            return SQL_CRUD_Methods.SQLRead(query, parameterlist);
         }
 
         public DataRow GetProductByID(int _productID)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Product WHERE ID = @ProductID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@ProductID",_productID)
+            };
+            return SQL_CRUD_Methods.SQLRead(query, parameterlist).Rows[0];
         }
     }
 }

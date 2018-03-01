@@ -17,14 +17,14 @@ namespace DataHandling
             return SQL_CRUD_Methods.SQLRead(query);
         }
 
-        public DataTable GetOrderByID(int _orderID)
+        public DataRow GetOrderByID(int _orderID)
         {
             string query = "SELECT * FROM Orders WHERE ID = @OrderID";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@OrderID", _orderID)
             };
-            return SQL_CRUD_Methods.SQLRead(query, parameters);
+            return SQL_CRUD_Methods.SQLRead(query, parameters).Rows[0];
         }
 
         public bool ProcessOrder(int _orderID)
