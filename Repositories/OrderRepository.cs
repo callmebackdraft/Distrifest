@@ -52,6 +52,8 @@ namespace Repositories
 
         private Order DataRowToOrder(DataRow _dataRow)
         {
+            Order result = new Order(Convert.ToInt16(_dataRow.Field<int>("OrderID")));
+
             throw new NotImplementedException();
         }
 
