@@ -17,7 +17,6 @@ namespace Repositories
         public OrderLineRepository()
         {
             OrderLinectx = new OrderLineSQLQuery();
-
         }
         public List<OrderLine> GetAllOrderLinesForOrder(int _orderID)
         {

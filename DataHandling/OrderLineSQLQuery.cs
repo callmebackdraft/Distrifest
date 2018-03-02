@@ -23,6 +23,7 @@ namespace DataHandling
 
         public bool AddOrderLineToOrder(OrderLine _orderLine, int _orderID)
         {
+
             string query = "INSERT INTO Order_Product(OrderID, ProductID, Amount) VALUES (@OrderID, @ProductID, @Amount)";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
