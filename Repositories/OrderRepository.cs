@@ -69,7 +69,7 @@ namespace Repositories
 
         private Order DataRowToOrder(DataRow _dataRow)
         {
-            int OrderID = Convert.ToInt16(_dataRow.Field<int>("OrderID"));
+            int OrderID = Convert.ToInt16(_dataRow.Field<decimal>("ID"));
             IOrderLineRepository OrderLineRepo = new OrderLineRepository();
             IOrderStatusRepository OrderStatusRepo = new OrderStatusRepository();
             Order result = new Order(OrderID);

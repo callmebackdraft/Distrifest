@@ -13,7 +13,7 @@ namespace DataHandling
     {
         public DataTable GetOrderStatusesForOrder(int _orderID)
         {
-            string query = "SELECT * FROM OrderStatus WHERE ID = @OrderID";
+            string query = "SELECT * FROM OrderStatus WHERE OrderID = @OrderID";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@OrderID", _orderID)
