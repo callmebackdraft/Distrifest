@@ -18,13 +18,24 @@ namespace Repositories
         {
             OrderLinectx = new OrderLineSQLQuery();
         }
-        public List<Order> GetAllOrderLinesForOrder(int _orderID)
+        public List<OrderLine> GetAllOrderLinesForOrder(int _orderID)
         {
-            throw new NotImplementedException();
+            List<OrderLine> result = new List<OrderLine>();
+            foreach (DataRow dr in OrderLinectx.GetAllOrderLinesForOrder(_orderID).Rows)
+            {
+                result.Add(DataRowToOrderLine(dr));
+            }
+            return result;
+        }
+        public bool AddOrderLineToOrder(OrderLine _orderLine, int _orderID)
+        {
+            return OrderLinectx.AddOrderLineToOrder(_orderLine, _orderID);
         }
         private OrderLine DataRowToOrderLine(DataRow _dr)
         {
-            throw new NotImplementedException();
+            IProductRepository ProdRepo = new ProductRepository();
+            return new OrderLine(ProdRepo.GetProductByID(Convert.ToInt16(_dr.Field<decimal>("ProductID"))), Convert.ToInt16(_dr.Field<decimal>("Amount")));
         }
+        
     }
 }

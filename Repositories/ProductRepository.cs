@@ -44,8 +44,7 @@ namespace Repositories
 
         private Product  DataRowToProduct(DataRow _dataRow)
         {
-
-            throw new NotImplementedException();
+            return new Product(Convert.ToInt32(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Name"), Convert.ToInt32(_dataRow.Field<decimal>("Volume")), _dataRow.Field<string>("VolumeType"), _dataRow.Field<bool>("Active"));
         }
     }
 }

@@ -10,5 +10,11 @@ namespace Models
     {
         public Product Product { get; private set; }
         public int Amount { get; private set; }
+
+        public OrderLine(Product _product, int _amount)
+        {
+            Product = _product;
+            Amount = _amount;
+        }
     }
 }

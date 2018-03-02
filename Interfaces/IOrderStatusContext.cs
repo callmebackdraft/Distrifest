@@ -11,6 +11,6 @@ namespace Interfaces
     public interface IOrderStatusContext
     {
         DataTable GetOrderStatusesForOrder(int _orderID);
-        bool SaveOrderStatusForOrder(int _orderID, OrderStatus _orderStatus);
+        bool SaveOrderStatusForOrder(OrderStatus _orderStatus);
     }
 }

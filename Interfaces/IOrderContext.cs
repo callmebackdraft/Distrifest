@@ -15,5 +15,6 @@ namespace Interfaces
         int RegisterNewOrder(int _customerID);
         bool ProcessOrder(int _orderID);
         bool AddProductToOrder(int _orderID, int _productID, int _productAmount);
+        DataTable CheckForOpenOrder(int _userID);
     }
 }

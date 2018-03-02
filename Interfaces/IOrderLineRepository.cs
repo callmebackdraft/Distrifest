@@ -9,6 +9,7 @@ namespace Interfaces
 {
     public interface IOrderLineRepository
     {
-        List<Order> GetAllOrderLinesForOrder(int _orderID);
+        List<OrderLine> GetAllOrderLinesForOrder(int _orderID);
+        bool AddOrderLineToOrder(OrderLine _orderLine,int _orderID);
     }
 }

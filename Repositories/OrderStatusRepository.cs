@@ -18,6 +18,12 @@ namespace Repositories
         {
             OrderStatusCtx = new OrderStatusSQLQuery();
         }
+
+        public OrderStatus GenerateOrderStatus(int _orderID,OrderStatus.OrderStatusesEnum _orderStatus)
+        {
+            return new OrderStatus(_orderStatus, DateTime.Now, _orderID);
+        }
+
         public List<OrderStatus> GetOrderStatusesForOrder(int _orderID)
         {
             List<OrderStatus> result = new List<OrderStatus>();
@@ -29,14 +35,14 @@ namespace Repositories
             return result;
         }
 
-        public bool SaveOrderStatusForOrder(int _orderID, OrderStatus _orderStatus)
+        public bool SaveOrderStatusForOrder(OrderStatus _orderStatus)
         {
-            return OrderStatusCtx.SaveOrderStatusForOrder(_orderID,_orderStatus);
+            return OrderStatusCtx.SaveOrderStatusForOrder(_orderStatus);
         }
 
         private OrderStatus DataRowToOrderStatus(DataRow _dataRow)
         {
-            throw new NotImplementedException();
+            return new OrderStatus(_dataRow.Field<OrderStatus.OrderStatusesEnum>("Status"), _dataRow.Field<DateTime>("DateTime"), Convert.ToInt16(_dataRow.Field<decimal>("OrderID")));
         }
     }
 }

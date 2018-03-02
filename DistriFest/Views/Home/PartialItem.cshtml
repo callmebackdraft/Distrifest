@@ -1,6 +1,6 @@
-﻿@using DistriFest.Models
+﻿@using Models
 @using System.Text.RegularExpressions;
-@model OrderViewModel
+@model OrderLine
 @{
     string imgLoc = "~/Content/Images/" + Model.Product.Name + ".png";
     Console.WriteLine(imgLoc);
@@ -21,9 +21,8 @@
 
                 @using (Html.BeginForm("OrderProduct", "Home", FormMethod.Post))
                 {
-                    @Html.HiddenFor(x => x.OrderID, Model.OrderID)
-                    @Html.HiddenFor(x => x.ProdID, Model.ProdID)
-                    @Html.TextBoxFor(x => x.AmountOrdered, new { type = "Number", min = "0", style = "width: 75px; margin-right: 50px" })
+                    @Html.HiddenFor(x => x.Product, Model.Product)
+                    @Html.TextBoxFor(x => x.Amount, new { type = "Number", min = "0", style = "width: 75px; margin-right: 50px" })
                     <input type="submit" value="Bestel" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
                 }
             </div>

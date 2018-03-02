@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DistriFest.Models;
+using DFModels = DistriFest.Models;
 using DistriFest.Exceptions;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -29,22 +29,27 @@ namespace DistriFest.Controllers
         public ActionResult Ordering()
         {
             IProductRepository prodRepo = new ProductRepository();
-            //List<Product> newproductlist = new Produ
+            List<OrderLine> productList = new List<OrderLine>();
+            foreach(Product prod in prodRepo.GetAllProducts())
+            {
+                productList.Add(new OrderLine(prod,0));
+            }
+
             //shows only orders for bar signed, or all of the orders for any of the bars for everyone else
-            var identity = (ClaimsIdentity)User.Identity;
-            ProductOrderViewModel productlist = new ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            //var identity = (ClaimsIdentity)User.Identity;
+            //ProductOrderViewModel productlist = new ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
             }
-            return View(productlist);
+            return View(productList);
 
         }
 
         public ActionResult ShoppingCart()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            ShoppingCartViewModel scvm = new ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            DFModels.ShoppingCartViewModel scvm = new DFModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
@@ -56,7 +61,7 @@ namespace DistriFest.Controllers
         public ActionResult ManageProducts()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            ProductOrderViewModel productlist = new ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            DFModels.ProductOrderViewModel productlist = new DFModels.ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
@@ -67,7 +72,7 @@ namespace DistriFest.Controllers
         [Models.Authorize(Roles = "Admin, SuperAdmin"), HandleError]
         public ActionResult Reporting()
         {
-            ReportingViewModel report = new ReportingViewModel();
+            DFModels.ReportingViewModel report = new DFModels.ReportingViewModel();
             return View(report);
         }
 
@@ -78,11 +83,15 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult OrderProduct(OrderViewModel OVM)
+        public ActionResult OrderProduct(OrderLine OL)
         {
-            if (OVM.AmountOrdered > 0)
+            if (OL.Amount > 0)
             {
-                DistriFest.Models.Order.RegisterOrder(OVM.OrderID, OVM.ProdID, OVM.AmountOrdered);
+                var identity = (ClaimsIdentity)User.Identity;
+                IOrderRepository OrderRepo = new OrderRepository();
+                IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+                Order Order = OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value));
+                OrderLineRepo.AddOrderLineToOrder(OL, Order.ID);
             }
 
             return RedirectToAction("Ordering");
@@ -94,8 +103,17 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                DistriFest.Models.Order.ProcessOrder(Convert.ToInt16(identity.Claims.Last().Value));
-                TempData["ProcessResult"] = "Bestelling succesvol verwerkt";
+                IOrderRepository OrderRepo = new OrderRepository();
+                Order Order = OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value));
+                if (Order.Products.Count > 0)
+                {
+                    OrderRepo.ProcessOrder(Order);
+                    TempData["ProcessResult"] = "Bestelling succesvol verwerkt";
+                }
+                else
+                {
+                    TempData["ProcessResult"] = "Geen Producten in bestelling";
+                }                
             }
             catch
             {
@@ -111,7 +129,7 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                DistriFest.Models.Order.RemoveProduct(Convert.ToInt16(identity.Claims.Last().Value), prod.ID);
+                DFModels.Order.RemoveProduct(Convert.ToInt16(identity.Claims.Last().Value), prod.ID);
                 TempData["ProcessResult"] = "Product succesvol verwijderd";
             }
             catch
@@ -127,7 +145,7 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeProductInOrder(OrderViewModel ovm)
+        public ActionResult ChangeProductInOrder(DFModels.OrderViewModel ovm)
         {
             if (ovm.AmountOrdered == 0)
             {
@@ -137,7 +155,7 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                DistriFest.Models.Order.EditOrderedAmount(Convert.ToInt16(identity.Claims.Last().Value), ovm.ProdID, ovm.AmountOrdered);
+                DFModels.Order.EditOrderedAmount(Convert.ToInt16(identity.Claims.Last().Value), ovm.ProdID, ovm.AmountOrdered);
                 TempData["ProcessResult"] = "Product succesvol aangepast";
             }
             catch

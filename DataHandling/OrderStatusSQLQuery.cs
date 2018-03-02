@@ -21,14 +21,14 @@ namespace DataHandling
             return SQL_CRUD_Methods.SQLRead(query, parameters);
         }
 
-        public bool SaveOrderStatusForOrder(int _orderID, OrderStatus _orderStatus)
+        public bool SaveOrderStatusForOrder(OrderStatus _orderStatus)
         {
             string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID) VALUES (@Status, @DateTime, @OrderID)";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@Status", _orderStatus.RegisteredStatus),
                 new KeyValuePair<string, object>("@DateTime", _orderStatus.RegisteredDate),
-                new KeyValuePair<string, object>("@OrderID", _orderID)
+                new KeyValuePair<string, object>("@OrderID", _orderStatus.OrderID)
             };
             return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
         }

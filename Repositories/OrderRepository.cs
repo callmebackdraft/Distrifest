@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Repositories
 {
-    class OrderRepository : IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
         IOrderContext Orderctx;
 
@@ -22,6 +22,19 @@ namespace Repositories
         public bool AddProductToOrder(int _orderID, int _productID, int _productAmount)
         {
             return Orderctx.AddProductToOrder(_orderID, _productID, _productAmount);
+        }
+
+        public Order CheckForOpenOrder(int _userID)
+        {
+            DataTable dbResult = Orderctx.CheckForOpenOrder(_userID);
+            if(dbResult.Rows.Count > 0 && dbResult.Rows.Count < 2)
+            {
+                return DataRowToOrder(Orderctx.GetOrderByID(Convert.ToInt16(dbResult.Rows[0].Field<decimal>("ID"))));
+            }
+            else
+            {
+                return RegisterNewOrder(_userID);
+            }
         }
 
         public List<Order> GetAllOrders()
@@ -45,16 +58,30 @@ namespace Repositories
             return Orderctx.ProcessOrder(_order.ID);
         }
 
-        public int RegisterNewOrder(int _customerID)
+        public Order RegisterNewOrder(int _customerID)
         {
-            return Orderctx.RegisterNewOrder(_customerID);
+            int newOrderID = Orderctx.RegisterNewOrder(_customerID);
+            IOrderStatusRepository OrderStatusRepo = new OrderStatusRepository();
+            Order result = DataRowToOrder(Orderctx.GetOrderByID(newOrderID));
+            result.AddOrderStatus(OrderStatusRepo.GenerateOrderStatus(newOrderID, OrderStatus.OrderStatusesEnum.Ordering));
+            return result;
         }
 
         private Order DataRowToOrder(DataRow _dataRow)
         {
-            Order result = new Order(Convert.ToInt16(_dataRow.Field<int>("OrderID")));
-
-            throw new NotImplementedException();
+            int OrderID = Convert.ToInt16(_dataRow.Field<int>("OrderID"));
+            IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+            IOrderStatusRepository OrderStatusRepo = new OrderStatusRepository();
+            Order result = new Order(OrderID);
+            foreach (OrderLine OL in OrderLineRepo.GetAllOrderLinesForOrder(OrderID))
+            {
+                result.AddOrderLine(OL);
+            }
+            foreach (OrderStatus OS in OrderStatusRepo.GetOrderStatusesForOrder(OrderID))
+            {
+                result.AddOrderStatus(OS);
+            }
+            return result;
         }
 
     }

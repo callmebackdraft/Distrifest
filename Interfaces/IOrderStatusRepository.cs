@@ -10,7 +10,8 @@ namespace Interfaces
     public interface IOrderStatusRepository
     {
         List<OrderStatus> GetOrderStatusesForOrder(int _orderID);
-        bool SaveOrderStatusForOrder(int _orderID, OrderStatus _orderStatus);
+        OrderStatus GenerateOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatus);
+        bool SaveOrderStatusForOrder(OrderStatus _orderStatus);
 
     }
 }

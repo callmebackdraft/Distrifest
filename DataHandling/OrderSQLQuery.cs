@@ -42,11 +42,11 @@ namespace DataHandling
         public int RegisterNewOrder(int _customerID)
         {
             string query = "INSERT INTO [Orders](CustomerID) VALUES (@CustomerID); SELECT SCOPE_IDENTITY();";
-            List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@CustomerID", _customerID),
+                new KeyValuePair<string, object>("@CustomerID", _customerID)
             };
-            return SQL_CRUD_Methods.SQLInsert(query, parameters);
+            return SQL_CRUD_Methods.SQLInsert(query, parameterlist);
         }
 
         public bool AddProductToOrder(int _orderID, int _productID, int _productAmount)
@@ -59,6 +59,16 @@ namespace DataHandling
                 new KeyValuePair<string, object>("@Amount", _productAmount)
             };
             return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
+        }
+
+        public DataTable CheckForOpenOrder(int _userID)
+        {
+            string query = "SELECT OrderStatus.Status, Orders.ID, Orders.CustomerID FROM OrderStatus LEFT JOIN Orders ON Orders.ID = OrderStatus.OrderID WHERE Orders.CustomerID = @UserID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@UserID", _userID)
+            };
+            return SQL_CRUD_Methods.SQLRead(query, parameterlist);
         }
     }
 }
