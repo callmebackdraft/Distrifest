@@ -2,10 +2,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Reporting";
 }
-@using DistriFest.Models
-@using DistriFest.DataHandling
-@model ReportingViewModel
-
+@using Models
+@model List<Report>
 @if (ViewBag.ErrorMessage != null)
 {
     <div class="text-center errorbox" style="margin-top:10px; width:99%; height:50px; background-color:#c8dff7">
@@ -13,7 +11,7 @@
     </div>
 }
 
-@foreach (ReportChart chart in Model.ReportList)
+@foreach (Report chart in Model)
 {
     <div style="margin-top:10px;">
         @Html.Partial("PartialChart", chart);

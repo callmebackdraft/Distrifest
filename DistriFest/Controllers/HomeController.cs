@@ -59,8 +59,8 @@ namespace DistriFest.Controllers
         [Models.Authorize(Roles = "Admin, SuperAdmin"), HandleError]
         public ActionResult Reporting()
         {
-            DFModels.ReportingViewModel report = new DFModels.ReportingViewModel();
-            return View(report);
+            IReportRepository ReportRepo = new ReportRepository();
+            return View(ReportRepo.GetAllReportCharts());
         }
 
         [Models.Authorize(Roles = "Admin, SuperAdmin, DC"), HandleError]

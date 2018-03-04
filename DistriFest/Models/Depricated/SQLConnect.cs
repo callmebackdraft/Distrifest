@@ -147,32 +147,32 @@ namespace DistriFest.DataHandling
         //}
 
 
-        public List<ReportChart> GetReportData()
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            List<ReportChart> ReportChartList = new List<ReportChart>();
-            string query = "Select * from dbo.Chart";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                Dictionary<string, int> dict = new Dictionary<string, int>();
-                ReportChart chart = new ReportChart(dr["Title"].ToString(), dr["Type"].ToString(), dr["DivID"].ToString(), dr["JSVar"].ToString());
-                SqlCommand subCommand = new SqlCommand(dr["Query"].ToString(), DBConnection);
-                SqlDataReader sdr = subCommand.ExecuteReader();
-                var sdrcolumns = Enumerable.Range(0, sdr.FieldCount).Select(sdr.GetName).ToList();
-                while (sdr.Read())
-                {
-                    dict.Add(sdr[sdrcolumns[0]].ToString(), Convert.ToInt16(sdr[sdrcolumns[1]]));
-                }
-                chart.AddChartData(dict);
-                ReportChartList.Add(chart);
-                sdr.Close();
-            }
-            dr.Close();
-            DBConnection.Close();
-            return ReportChartList;
-        }
+        //public List<ReportChart> GetReportData()
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    List<ReportChart> ReportChartList = new List<ReportChart>();
+        //    string query = "Select * from dbo.Chart";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    SqlDataReader dr = cmd.ExecuteReader();
+        //    while (dr.Read())
+        //    {
+        //        Dictionary<string, int> dict = new Dictionary<string, int>();
+        //        ReportChart chart = new ReportChart(dr["Title"].ToString(), dr["Type"].ToString(), dr["DivID"].ToString(), dr["JSVar"].ToString());
+        //        SqlCommand subCommand = new SqlCommand(dr["Query"].ToString(), DBConnection);
+        //        SqlDataReader sdr = subCommand.ExecuteReader();
+        //        var sdrcolumns = Enumerable.Range(0, sdr.FieldCount).Select(sdr.GetName).ToList();
+        //        while (sdr.Read())
+        //        {
+        //            dict.Add(sdr[sdrcolumns[0]].ToString(), Convert.ToInt16(sdr[sdrcolumns[1]]));
+        //        }
+        //        chart.AddChartData(dict);
+        //        ReportChartList.Add(chart);
+        //        sdr.Close();
+        //    }
+        //    dr.Close();
+        //    DBConnection.Close();
+        //    return ReportChartList;
+        //}
 
         public void AddNewReport(ReportChart chart)
         {
