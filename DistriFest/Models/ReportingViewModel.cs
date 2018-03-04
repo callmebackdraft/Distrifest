@@ -13,13 +13,13 @@ namespace DistriFest.Models
 
         public ReportingViewModel()
         {
-            SQLConnect sql = new SQLConnect();
-            ReportList = sql.GetReportData();
+            //SQLConnect sql = new SQLConnect();
+            //ReportList = sql.GetReportData();
         }
 
         public void AddChart()
         {
-            SQLConnect sql = new SQLConnect();
+            //SQLConnect sql = new SQLConnect();
             ReportChart chart = new ReportChart("A", "A", "A", "A");
             chart.AddQuery("Select [Name] From dbo.Product");
             //sql.AddNewReport(chart);

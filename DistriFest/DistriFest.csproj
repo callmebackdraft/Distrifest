@@ -214,25 +214,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataHandling\PasswordHandling.cs" />
     <Compile Include="DataHandling\ReportChart.cs" />
-    <Compile Include="DataHandling\SQLConnect.cs" />
-    <Compile Include="DistriFestADO.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DistriFestADO.Context.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="DistriFestADO.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DistriFestADO.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="DistriFestADO.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DistriFestADO.edmx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="Exceptions\QueryException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -242,13 +223,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\AuthorizeAttribute.cs" />
+    <Compile Include="Models\Depricated\SQLConnect.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\OrderViewModel.cs" />
-    <Compile Include="Models\ProductOrderViewModel.cs" />
+    <Compile Include="Models\ViewModels\OLChangeViewModel.cs" />
     <Compile Include="Models\ReportingViewModel.cs" />
-    <Compile Include="Models\ShoppingCartViewModel.cs" />
+    <Compile Include="Models\ViewModels\ShoppingCartViewModel.cs" />
     <Compile Include="Models\UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -331,18 +311,6 @@
     <Content Include="Content\Images\ZoeteWitteWijn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DistriFestADO.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DistriFestADO.edmx</DependentUpon>
-      <LastGenOutput>DistriFestADO.Context.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DistriFestADO.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DistriFestADO.edmx</DependentUpon>
-      <LastGenOutput>DistriFestADO.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -351,15 +319,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="DistriFestADO.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DistriFestADO.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EntityDeploy>
-    <Content Include="DistriFestADO.edmx.diagram">
-      <DependentUpon>DistriFestADO.edmx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EntityDeploy Include="ADODistriFestEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

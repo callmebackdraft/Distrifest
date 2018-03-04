@@ -2,8 +2,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Winkelwagen";
     TempData["Return"] = "ShoppingCart";
+    OLChangeViewModel OrderLineChanger;
 }
-@using DistriFest.Models
+@using DistriFest.Models.ViewModels
+@using Models
 @model ShoppingCartViewModel
 
 
@@ -26,20 +28,29 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.OrderList.Count() > 0)
+            @if (Model.Order.Products.Count() > 0)
             {
 
-                foreach (Order order in Model.OrderList)
+                foreach (OrderLine order in Model.Order.Products)
                 {
                     <tr>
                         <td class="text-center">
-                            @using (Html.BeginForm("ChangeProductInOrder", "Home", new OrderViewModel { OrderID = order.OrderID, ProdID = order.Product.ID }, FormMethod.Post, new { style = "display: inline" }))
+                            @using (Html.BeginForm("ChangeProductInOrder", "Home", OrderLineChanger = new OLChangeViewModel { OrderID = Model.Order.ID, ProdID = order.Product.ID }, FormMethod.Post, new { style = "display: inline" }))
                             {
-                                @Html.TextBox("AmountOrdered", order.AmountOrdered, new { Value = order.AmountOrdered, type = "Number", min = "0", style = "width: 50px;" })
+                                @Html.TextBox("Amount", order.Amount, new { Value = order.Amount, type = "Number", min = "0", style = "width: 50px;" })
                                 <input type="submit" value="Opslaan" class="btn btn-default" style="display:inline; background-color: #343477; color: #999" onclick="" />
                             }
                         </td>
-                        @Html.Partial("PartialShoppingCartTable", order.Product)
+                        <td>@order.Product.Name</td>
+                        @if (order.Product.VolumeType == "Liter")
+                        {
+                            <td>Fust met inhoud van @order.Product.Volume Liter</td>
+                        }
+                        else
+                        {
+                            <td>Verpakking met inhoud van @order.Product.Volume @order.Product.VolumeType</td>
+                        }
+                        @Html.Partial("PartialShoppingCartTable", OrderLineChanger)
                     </tr>
                 }
             }
@@ -56,7 +67,7 @@
         </tbody>
     </table>
 </div>
-@if (Model.OrderList.Count() > 0)
+@if (Model.Order.Products.Count() > 0)
 {
     <div class="container text-right">
         @using (Html.BeginForm("ProcessOrder", "Home", FormMethod.Post))

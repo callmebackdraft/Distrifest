@@ -29,27 +29,18 @@ namespace DistriFest.Controllers
         public ActionResult Ordering()
         {
             IProductRepository prodRepo = new ProductRepository();
-            List<OrderLine> productList = new List<OrderLine>();
-            foreach(Product prod in prodRepo.GetAllProducts())
-            {
-                productList.Add(new OrderLine(prod,0));
-            }
-
-            //shows only orders for bar signed, or all of the orders for any of the bars for everyone else
-            //var identity = (ClaimsIdentity)User.Identity;
-            //ProductOrderViewModel productlist = new ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            List<Product> productList = prodRepo.GetAllProducts();
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
             }
             return View(productList);
-
         }
 
         public ActionResult ShoppingCart()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            DFModels.ShoppingCartViewModel scvm = new DFModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            DFModels.ViewModels.ShoppingCartViewModel scvm = new DFModels.ViewModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
@@ -60,13 +51,9 @@ namespace DistriFest.Controllers
         [Models.Authorize(Roles = "Admin, SuperAdmin"), HandleError]
         public ActionResult ManageProducts()
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            DFModels.ProductOrderViewModel productlist = new DFModels.ProductOrderViewModel(Convert.ToInt16(identity.Claims.Last().Value));
-            if (TempData["ProcessResult"] != null)
-            {
-                ViewBag.ErrorMessage = TempData["ProcessResult"];
-            }
-            return View(productlist);
+            IProductRepository prodRepo = new ProductRepository();
+            List<Product> productList = prodRepo.GetAllProducts();
+            return View(productList);
         }
 
         [Models.Authorize(Roles = "Admin, SuperAdmin"), HandleError]
@@ -83,17 +70,18 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult OrderProduct(OrderLine OL)
+        public ActionResult OrderProduct(int Amount, int ProdID)
         {
-            if (OL.Amount > 0)
+            if (Amount > 0)
             {
                 var identity = (ClaimsIdentity)User.Identity;
                 IOrderRepository OrderRepo = new OrderRepository();
                 IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+                IProductRepository ProductRepository = new ProductRepository();
+                OrderLine OL = new OrderLine(ProductRepository.GetProductByID(ProdID), Amount);
                 Order Order = OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value));
                 OrderLineRepo.AddOrderLineToOrder(OL, Order.ID);
             }
-
             return RedirectToAction("Ordering");
         }
 
@@ -124,12 +112,14 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteProductFromOrder(Product prod)
+        public ActionResult DeleteProductFromOrder(DFModels.ViewModels.OLChangeViewModel ocm)
         {
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                DFModels.Order.RemoveProduct(Convert.ToInt16(identity.Claims.Last().Value), prod.ID);
+                IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+                OrderLineRepo.RemoveOrderLineFromOrder(ocm.ProdID,ocm.OrderID);
+                
                 TempData["ProcessResult"] = "Product succesvol verwijderd";
             }
             catch
@@ -145,17 +135,18 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeProductInOrder(DFModels.OrderViewModel ovm)
+        public ActionResult ChangeProductInOrder(DFModels.ViewModels.OLChangeViewModel ocm)
         {
-            if (ovm.AmountOrdered == 0)
+            if (ocm.Amount == 0)
             {
-                DeleteProductFromOrder(new Product { ID = ovm.ProdID});
+                DeleteProductFromOrder(ocm);
                 return RedirectToAction("ShoppingCart");
             }
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
-                DFModels.Order.EditOrderedAmount(Convert.ToInt16(identity.Claims.Last().Value), ovm.ProdID, ovm.AmountOrdered);
+                IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+                OrderLineRepo.EditOrderedAmount(ocm.OrderID, ocm.ProdID, ocm.Amount);
                 TempData["ProcessResult"] = "Product succesvol aangepast";
             }
             catch

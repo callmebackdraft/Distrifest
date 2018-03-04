@@ -1,37 +1,23 @@
-﻿@using DistriFest.Models'
+﻿@using DistriFest.Models.ViewModels
 @using Models
 @using System.Text
 @using System.Text.RegularExpressions
-@model Product
+@model OLChangeViewModel
 @{
     StringBuilder prodName = new StringBuilder();
-    var split = Regex.Split(Model.Name, @"(?<!^)(?=[A-Z])");
-    foreach (string s in split)
-    {
-        //prodName.Append(s);
-        //prodName.Append(' ');
-    }
+    ////var split = Regex.Split(Model.Name, @"(?<!^)(?=[A-Z])");
+    //foreach (string s in split)
+    //{
+    //    //prodName.Append(s);
+    //    //prodName.Append(' ');
+    //}
 }
-
-
-<td>@prodName</td>
-@if (Model.VolumeType == "Liter")
-{
-    <td>Fust met inhoud van @Model.Volume Liter</td>
-}
-else
-{
-    <td>Verpakking met inhoud van @Model.Volume @Model.VolumeType</td>
-}
-
-
 <td class="text-center">
     @using (Html.BeginForm("DeleteProductFromOrder", "Home", FormMethod.Post, new { style = "display: inline" }))
     {
-        @Html.HiddenFor(x => x.ID, Model.ID)
+        @Html.HiddenFor(x => x.ProdID, Model.ProdID)
+        @Html.HiddenFor(x => x.OrderID, Model.OrderID)
         <input type="submit" value="Verwijder" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
     }
 </td>
-
-
 @prodName.Clear()

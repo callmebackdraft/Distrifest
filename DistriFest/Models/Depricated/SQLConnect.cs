@@ -24,65 +24,65 @@ namespace DistriFest.DataHandling
             DBConnection.Close();
         }
 
-        internal static List<Tuple<Product,int,int,string,DateTime>> GetOrderDetails(int orderID)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            List<Tuple<Product, int, int, string, DateTime>> result = new List<Tuple<Product, int, int, string, DateTime>>();
-            string query = "SELECT OP.OrderID, P.ID AS ProductID, P.Type, P.Name, P.Volume, P.VolumeType, P.Active, Amount = SUM(OP.Amount) , O.[DateTime], O.[Status] FROM Order_Product AS OP Left JOIN Product AS P ON OP.ProductID = P.ID Left Join dbo.[Order] AS O ON OP.OrderID = O.ID WHERE OP.OrderID = @OrderID GROUP BY OP.OrderID, P.ID, P.Type, P.Name, P.Volume, P.VolumeType, P.AmountInStock, P.Active, O.[DateTime], O.[Status]";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            cmd.Parameters.AddWithValue("@OrderID", orderID);
-            SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                Product product = new Product(Convert.ToInt16(dr["ProductID"]),dr["Name"].ToString(), Convert.ToInt16(dr["Volume"]),dr["VolumeType"].ToString(),Convert.ToBoolean(dr["Active"]));
-                Tuple<Product, int, int, string, DateTime> tuple = new Tuple<Product, int, int, string, DateTime>(product, orderID, Convert.ToInt16(dr["Amount"]), dr["Status"].ToString(),Convert.ToDateTime(dr["DateTime"]));
-                result.Add(tuple);
-            }
-            dr.Close();
-            DBConnection.Close();
+        //internal static List<Tuple<Product,int,int,string,DateTime>> GetOrderDetails(int orderID)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    List<Tuple<Product, int, int, string, DateTime>> result = new List<Tuple<Product, int, int, string, DateTime>>();
+        //    string query = "SELECT OP.OrderID, P.ID AS ProductID, P.Type, P.Name, P.Volume, P.VolumeType, P.Active, Amount = SUM(OP.Amount) , O.[DateTime], O.[Status] FROM Order_Product AS OP Left JOIN Product AS P ON OP.ProductID = P.ID Left Join dbo.[Order] AS O ON OP.OrderID = O.ID WHERE OP.OrderID = @OrderID GROUP BY OP.OrderID, P.ID, P.Type, P.Name, P.Volume, P.VolumeType, P.AmountInStock, P.Active, O.[DateTime], O.[Status]";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    cmd.Parameters.AddWithValue("@OrderID", orderID);
+        //    SqlDataReader dr = cmd.ExecuteReader();
+        //    while (dr.Read())
+        //    {
+        //        Product product = new Product(Convert.ToInt16(dr["ProductID"]),dr["Name"].ToString(), Convert.ToInt16(dr["Volume"]),dr["VolumeType"].ToString(),Convert.ToBoolean(dr["Active"]));
+        //        Tuple<Product, int, int, string, DateTime> tuple = new Tuple<Product, int, int, string, DateTime>(product, orderID, Convert.ToInt16(dr["Amount"]), dr["Status"].ToString(),Convert.ToDateTime(dr["DateTime"]));
+        //        result.Add(tuple);
+        //    }
+        //    dr.Close();
+        //    DBConnection.Close();
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        internal static void ChangeProductAmountInOrder(int userID, int prodID, int amountOrdered)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            string query = "UPDATE [dbo].[Order_Product] SET Amount = @amountOrdered WHERE OrderID = @OrderID AND ProductID = @prodID";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            cmd.Parameters.AddWithValue("@amountOrdered", amountOrdered);
-            cmd.Parameters.AddWithValue("@prodID", prodID);
-            cmd.Parameters.AddWithValue("@OrderID", CheckCreateActiveOrder(userID));
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch 
-            {
-                throw new QueryException("");
-            }
-            DBConnection.Close();
-        }
+        //internal static void ChangeProductAmountInOrder(int userID, int prodID, int amountOrdered)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    string query = "UPDATE [dbo].[Order_Product] SET Amount = @amountOrdered WHERE OrderID = @OrderID AND ProductID = @prodID";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    cmd.Parameters.AddWithValue("@amountOrdered", amountOrdered);
+        //    cmd.Parameters.AddWithValue("@prodID", prodID);
+        //    cmd.Parameters.AddWithValue("@OrderID", CheckCreateActiveOrder(userID));
+        //    try
+        //    {
+        //        cmd.ExecuteNonQuery();
+        //    }
+        //    catch 
+        //    {
+        //        throw new QueryException("");
+        //    }
+        //    DBConnection.Close();
+        //}
 
-        internal static void RemoveProductFromOrder(int userID, int prodiD)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            string query = "DELETE FROM [Order_Product] WHERE ProductID = @prodID AND OrderID = @OrderID";
-            SqlCommand cmd = new SqlCommand(query,DBConnection);
-            cmd.Parameters.AddWithValue("@prodID", prodiD);
-            cmd.Parameters.AddWithValue("@OrderID", CheckCreateActiveOrder(userID));
-            cmd.ExecuteNonQuery();
-            DBConnection.Close();
-        }
+        //internal static void RemoveProductFromOrder(int userID, int prodiD)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    string query = "DELETE FROM [Order_Product] WHERE ProductID = @prodID AND OrderID = @OrderID";
+        //    SqlCommand cmd = new SqlCommand(query,DBConnection);
+        //    cmd.Parameters.AddWithValue("@prodID", prodiD);
+        //    cmd.Parameters.AddWithValue("@OrderID", CheckCreateActiveOrder(userID));
+        //    cmd.ExecuteNonQuery();
+        //    DBConnection.Close();
+        //}
 
-        internal static void ProcessOrder(int userID)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            string query = "UPDATE [dbo].[Order] SET Status = 'Ordered' WHERE CustomerID = @UserID AND Status = 'Ordering'";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            cmd.Parameters.AddWithValue("@UserID", userID);
-            cmd.ExecuteScalar();
-            DBConnection.Close();
-        }
+        //internal static void ProcessOrder(int userID)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    string query = "UPDATE [dbo].[Order] SET Status = 'Ordered' WHERE CustomerID = @UserID AND Status = 'Ordering'";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    cmd.Parameters.AddWithValue("@UserID", userID);
+        //    cmd.ExecuteScalar();
+        //    DBConnection.Close();
+        //}
 
         public SQLConnect()
         {
@@ -118,33 +118,33 @@ namespace DistriFest.DataHandling
             return (string)cmd.ExecuteScalar();
         }
 
-        public List<OrderViewModel> GetProductOrder(int UserID)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            List<OrderViewModel> OVMList = new List<OrderViewModel>();
-            int orderID = CheckCreateActiveOrder(UserID);
-            string query = "select * from dbo.Product";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
+        //public List<OrderViewModel> GetProductOrder(int UserID)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    List<OrderViewModel> OVMList = new List<OrderViewModel>();
+        //    int orderID = CheckCreateActiveOrder(UserID);
+        //    string query = "select * from dbo.Product";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    SqlDataReader dr = cmd.ExecuteReader();
+        //    while (dr.Read())
+        //    {
 
-                Product product = new Product(Convert.ToInt16(dr["ID"]), dr["Name"].ToString(), Convert.ToInt16(dr["Volume"]),dr["VolumeType"].ToString(),Convert.ToBoolean(dr["Active"]));
+        //        Product product = new Product(Convert.ToInt16(dr["ID"]), dr["Name"].ToString(), Convert.ToInt16(dr["Volume"]),dr["VolumeType"].ToString(),Convert.ToBoolean(dr["Active"]));
 
-                OrderViewModel order = new OrderViewModel
-                {
-                    OrderID = orderID,
-                    Product = product,
-                    ProdID = product.ID
-                };
+        //        OrderViewModel order = new OrderViewModel
+        //        {
+        //            OrderID = orderID,
+        //            Product = product,
+        //            ProdID = product.ID
+        //        };
                 
 
-                OVMList.Add(order);
-            }
-            dr.Close();
-            DBConnection.Close();
-            return OVMList;
-        }
+        //        OVMList.Add(order);
+        //    }
+        //    dr.Close();
+        //    DBConnection.Close();
+        //    return OVMList;
+        //}
 
 
         public List<ReportChart> GetReportData()
@@ -205,24 +205,24 @@ namespace DistriFest.DataHandling
 
         }
 
-        public static int CheckCreateActiveOrder(int UserID)
-        {
-            SqlConnection DBConnection = EstablishConnection();
-            string query = "SELECT ID FROM [Order] WHERE [CustomerID] = @UserID AND [Status] = 'Ordering'";
-            SqlCommand cmd = new SqlCommand(query, DBConnection);
-            cmd.Parameters.AddWithValue("@UserID", UserID);
-            int OrderID = Convert.ToInt16(cmd.ExecuteScalar());
-            if (OrderID == 0)
-            {
-                query = "INSERT INTO [Order](CustomerID, Status, DateTime) VALUES (@UserID, @Status, @DateTime); SELECT SCOPE_IDENTITY();";
-                cmd.CommandText = query;
-                cmd.Parameters.AddWithValue("@Status", "Ordering");
-                cmd.Parameters.AddWithValue("@DateTime", DateTime.Now);
-                OrderID = Convert.ToInt16(cmd.ExecuteScalar());
-            }
-            DBConnection.Close();
-            return OrderID;
-        }
+        //public static int CheckCreateActiveOrder(int UserID)
+        //{
+        //    SqlConnection DBConnection = EstablishConnection();
+        //    string query = "SELECT ID FROM [Order] WHERE [CustomerID] = @UserID AND [Status] = 'Ordering'";
+        //    SqlCommand cmd = new SqlCommand(query, DBConnection);
+        //    cmd.Parameters.AddWithValue("@UserID", UserID);
+        //    int OrderID = Convert.ToInt16(cmd.ExecuteScalar());
+        //    if (OrderID == 0)
+        //    {
+        //        query = "INSERT INTO [Order](CustomerID, Status, DateTime) VALUES (@UserID, @Status, @DateTime); SELECT SCOPE_IDENTITY();";
+        //        cmd.CommandText = query;
+        //        cmd.Parameters.AddWithValue("@Status", "Ordering");
+        //        cmd.Parameters.AddWithValue("@DateTime", DateTime.Now);
+        //        OrderID = Convert.ToInt16(cmd.ExecuteScalar());
+        //    }
+        //    DBConnection.Close();
+        //    return OrderID;
+        //}
 
         public bool CheckAuth(string user, string password)
         {

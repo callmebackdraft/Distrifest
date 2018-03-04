@@ -21,7 +21,9 @@ namespace Repositories
 
         public OrderStatus GenerateOrderStatus(int _orderID,OrderStatus.OrderStatusesEnum _orderStatus)
         {
-            return new OrderStatus(_orderStatus, DateTime.Now, _orderID);
+            OrderStatus result = new OrderStatus(_orderStatus, DateTime.Now, _orderID);
+            SaveOrderStatusForOrder(result);
+            return result;
         }
 
         public List<OrderStatus> GetOrderStatusesForOrder(int _orderID)
@@ -42,7 +44,7 @@ namespace Repositories
 
         private OrderStatus DataRowToOrderStatus(DataRow _dataRow)
         {
-            return new OrderStatus(_dataRow.Field<OrderStatus.OrderStatusesEnum>("Status"), _dataRow.Field<DateTime>("DateTime"), Convert.ToInt16(_dataRow.Field<decimal>("OrderID")));
+            return new OrderStatus((OrderStatus.OrderStatusesEnum)Enum.Parse(typeof(OrderStatus.OrderStatusesEnum), _dataRow.Field<string>("Status")), _dataRow.Field<DateTime>("DateTime"), Convert.ToInt16(_dataRow.Field<decimal>("OrderID")));
         }
     }
 }

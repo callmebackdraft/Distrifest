@@ -50,6 +50,8 @@
     <Compile Include="IOrderStatusRepository.cs" />
     <Compile Include="IProductContext.cs" />
     <Compile Include="IProductRepository.cs" />
+    <Compile Include="IReportContext.cs" />
+    <Compile Include="IReportRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -50,6 +50,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ReportSQLQuery.cs" />
     <Compile Include="SQL_CRUD_Methods.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,6 +31,14 @@ namespace Repositories
         {
             return OrderLinectx.AddOrderLineToOrder(_orderLine, _orderID);
         }
+        public void RemoveOrderLineFromOrder(int _prodID, int _orderID)
+        {
+            OrderLinectx.RemoveOrderLineFromOrder(_prodID, _orderID);
+        }
+        public void EditOrderedAmount(int _orderID, int _prodID, int _amount)
+        {
+            OrderLinectx.EditOrderedAmount(_prodID, _orderID, _amount);
+        }
         private OrderLine DataRowToOrderLine(DataRow _dr)
         {
             IProductRepository ProdRepo = new ProductRepository();

@@ -95,7 +95,7 @@ namespace DataHandling
 
         public static bool SQLDelete(string query, List<KeyValuePair<string, object>> parameterlist)
         {
-            throw new NotImplementedException();
+            return (BuildSQLCommand(query, parameterlist).ExecuteNonQuery() > 0);
         }
 
         public static DataTable SQLRead(string query)

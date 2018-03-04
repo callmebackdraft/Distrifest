@@ -4,14 +4,13 @@ using System.Linq;
 using System.Web;
 using Models;
 
-namespace DistriFest.Models
+namespace DistriFest.Models.ViewModels
 {
-    public class OrderViewModel
+    public class OLChangeViewModel
     {
         public int OrderID { get; set; }
-        public int AmountOrdered { get; set; }
-        public Product Product { get; set; }
         public int ProdID { get; set; }
+        public int Amount { get; set; }
 
     }
 }
