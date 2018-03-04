@@ -13,8 +13,8 @@ namespace DistriFest
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
+    using DataHandling;
     using System.Linq;
-    using DistriFest.DataHandling;
 
     public partial class ADODistriFestEntities : DbContext
     {
@@ -30,17 +30,17 @@ namespace DistriFest
     
         public virtual DbSet<User> Users { get; set; }
     
-        public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string username, string password)
+        public virtual ObjectResult<LoginByUsernamePassword_Result> LoginByUsernamePassword(string _username, string _password)
         {
-            var usernameParameter = username != null ?
-                new ObjectParameter("username", username) :
+            var usernameParameter = _username != null ?
+                new ObjectParameter("username", _username) :
                 new ObjectParameter("username", typeof(string));
 
             var passwordParameter = "invalid" != null ?
                 new ObjectParameter("password", "invalid") :
                 new ObjectParameter("password", typeof(string));
 
-            Tuple<string, bool> checktuple = PasswordHandling.ValidatePassword(password, username);
+            Tuple<string, bool> checktuple = BCryptPasswordHandling.ValidatePassword(_password, _username);
 
             if (checktuple.Item2)
             {
@@ -51,8 +51,8 @@ namespace DistriFest
             }
             else
             {
-                passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
+                passwordParameter = _password != null ?
+                new ObjectParameter("password", _password) :
                 new ObjectParameter("password", typeof(string));
             }
 

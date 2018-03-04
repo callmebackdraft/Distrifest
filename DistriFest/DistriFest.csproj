@@ -212,8 +212,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DataHandling\PasswordHandling.cs" />
-    <Compile Include="DataHandling\ReportChart.cs" />
     <Compile Include="Exceptions\QueryException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -223,12 +221,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Models\AuthorizeAttribute.cs" />
-    <Compile Include="Models\Depricated\SQLConnect.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\OLChangeViewModel.cs" />
     <Compile Include="Models\ViewModels\ShoppingCartViewModel.cs" />
-    <Compile Include="Models\UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -403,6 +399,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataHandling\DataHandling.csproj">
+      <Project>{372ed0b1-3efb-4e87-a236-7607e89395b6}</Project>
+      <Name>DataHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">
       <Project>{3d443e34-ed16-40ce-8985-3c42b3fd5d75}</Project>
       <Name>Interfaces</Name>
