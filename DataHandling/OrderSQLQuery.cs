@@ -32,7 +32,7 @@ namespace DataHandling
             string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID) VALUES (@Status, @DateTime, @OrderID)";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@Status", OrderStatus.OrderStatusesEnum.Processing),
+                new KeyValuePair<string, object>("@Status", OrderStatus.OrderStatusesEnum.WaitingForDC),
                 new KeyValuePair<string, object>("@DateTime", DateTime.Now),
                 new KeyValuePair<string, object>("@OrderID", _orderID)
             };
@@ -63,10 +63,10 @@ namespace DataHandling
 
         public DataTable CheckForOpenOrder(int _userID)
         {
-            string query = "SELECT OrderStatus.Status, Orders.ID, Orders.CustomerID FROM OrderStatus LEFT JOIN Orders ON Orders.ID = OrderStatus.OrderID WHERE Orders.CustomerID = @UserID";
+            string query = "SELECT OrderStatus.Status, Orders.ID, Orders.CustomerID FROM OrderStatus LEFT JOIN Orders ON Orders.ID = OrderStatus.OrderID WHERE OrderID =(SELECT Orders.ID FROM Orders WHERE CustomerID = @UserID AND ID=( SELECT MAX(ID) FROM Orders WHERE CustomerID = @UserID))";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@UserID", _userID)
+                new KeyValuePair<string, object>("@UserID", _userID),
             };
             return SQL_CRUD_Methods.SQLRead(query, parameterlist);
         }

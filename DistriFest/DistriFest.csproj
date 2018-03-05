@@ -372,6 +372,7 @@
     <Content Include="Views\Error\NotAllowed.cshtml" />
     <Content Include="Views\Home\ShoppingCartPartial.cshtml" />
     <Content Include="Views\Home\PartialShoppingCartTable.cshtml" />
+    <Content Include="Views\Home\DCOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

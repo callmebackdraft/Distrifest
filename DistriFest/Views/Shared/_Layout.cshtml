@@ -27,13 +27,13 @@
                         <li>@Html.ActionLink("WinkelWagen", "ShoppingCart", "Home")</li>
                         @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                         {
+                            <li>@Html.ActionLink("Bestel Overzicht", "DCOverview", "Home")</li>
                             <li>@Html.ActionLink("Voorraadbeheer", "StockControl", "Home")</li>
-                            <li>@Html.ActionLink("Beheer Producten", "ManageProducts", "Home")</li>
                             <li>@Html.ActionLink("Reporting", "Reporting", "Home")</li>
                         }
                         @if (User.IsInRole("SuperAdmin"))
                         {
-
+                            <li>@Html.ActionLink("Beheer Producten", "ManageProducts", "Home")</li>
                         }
                     </ul>
                 }

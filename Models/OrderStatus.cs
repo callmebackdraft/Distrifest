@@ -21,8 +21,8 @@ namespace Models
         public enum OrderStatusesEnum
         {
             Ordering,
+            WaitingForDC,
             Processing,
-            EnRoute,
             Delivered
         }
     }

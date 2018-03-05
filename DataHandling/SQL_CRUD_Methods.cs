@@ -24,6 +24,12 @@ namespace DataHandling
             }
         }
 
+        private static void CloseConnection(SqlConnection _sqlConn)
+        {
+            _sqlConn.Close();
+        }
+
+
         private static SqlCommand BuildSQLCommand(string query, List<KeyValuePair<string, object>> parameterlist)
         {
             SqlConnection conn = EstablishConnection();
@@ -75,12 +81,18 @@ namespace DataHandling
 
         public static int SQLInsert(string query, List<KeyValuePair<string, object>> parameterlist)
         {
-            return (Convert.ToInt16(BuildSQLCommand(query, parameterlist).ExecuteScalar()));
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            int result = Convert.ToInt16(sqlComm.ExecuteScalar());
+            CloseConnection(sqlComm.Connection);
+            return result;
         }
 
         public static bool SQLInsertBoolReturn(string query, List<KeyValuePair<string, object>> parameterlist)
         {
-            return (BuildSQLCommand(query, parameterlist).ExecuteNonQuery() > 0) ? true : false;
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            int result = sqlComm.ExecuteNonQuery();
+            CloseConnection(sqlComm.Connection);
+            return (result > 0);
         }
 
         public static bool SQLCreate(string query, List<KeyValuePair<string, object>> parameterlist)
@@ -90,31 +102,41 @@ namespace DataHandling
 
         public static bool SQLUpdate(string query, List<KeyValuePair<string, object>> parameterlist)
         {
-            return (BuildSQLCommand(query, parameterlist).ExecuteNonQuery() > 0);
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            int result = sqlComm.ExecuteNonQuery();
+            CloseConnection(sqlComm.Connection);
+            return (result > 0);
         }
 
         public static bool SQLDelete(string query, List<KeyValuePair<string, object>> parameterlist)
         {
-            return (BuildSQLCommand(query, parameterlist).ExecuteNonQuery() > 0);
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            int result = sqlComm.ExecuteNonQuery();
+            CloseConnection(sqlComm.Connection);
+            return (result > 0); ;
         }
 
         public static DataTable SQLRead(string query)
         {
             var result = new DataTable();
-            using (var da = new SqlDataAdapter(BuildSQLCommand(query)))
+            SqlCommand sqlComm = BuildSQLCommand(query);
+            using (var da = new SqlDataAdapter(sqlComm))
             {
                 da.Fill(result);
             }
+            CloseConnection(sqlComm.Connection);
             return result;
         }
 
         public static DataTable SQLRead(string query, List<KeyValuePair<string, object>> parameterlist)
         {
             var result = new DataTable();
-            using (var da = new SqlDataAdapter(BuildSQLCommand(query, parameterlist)))
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            using (var da = new SqlDataAdapter(sqlComm))
             {
                 da.Fill(result);
             }
+            CloseConnection(sqlComm.Connection);
             return result;
         }
     }

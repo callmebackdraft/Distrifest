@@ -72,7 +72,7 @@ namespace Repositories
             int OrderID = Convert.ToInt16(_dataRow.Field<decimal>("ID"));
             IOrderLineRepository OrderLineRepo = new OrderLineRepository();
             IOrderStatusRepository OrderStatusRepo = new OrderStatusRepository();
-            Order result = new Order(OrderID);
+            Order result = new Order(OrderID, Convert.ToInt16(_dataRow.Field<Decimal>("CustomerID")));
             foreach (OrderLine OL in OrderLineRepo.GetAllOrderLinesForOrder(OrderID))
             {
                 result.AddOrderLine(OL);

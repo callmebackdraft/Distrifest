@@ -1,4 +1,4 @@
-﻿@using DistriFest.Models
+﻿@using DistriFest.Models.ViewModels
 @using Models
 @using System.Text.RegularExpressions
 @using System.Text
@@ -15,9 +15,9 @@
         <span class="text-success" style="background-color:#c8dff7; margin-top: 0px">@ViewBag.ErrorMessage</span>
     </div>
     }
-    @if (Model.OrderList.Count > 0)
+    @if (Model.Order.Products.Count > 0)
     {
-        foreach (DistriFest.Models.Order order in Model.OrderList)
+        foreach (OrderLine order in Model.Order.Products)
         {
             {
                 var split = Regex.Split(order.Product.Name, @"(?<!^)(?=[A-Z])");
@@ -26,12 +26,12 @@
                     prodName.Append(s);
                     prodName.Append(' ');
                 }
-                i += order.AmountOrdered;
-                using (Html.BeginForm("DeleteProductFromOrder", "Home", new Product { ID = order.Product.ID }, FormMethod.Post, new { style = "display: inline-block; width: 100%" }))
+                i += order.Amount;
+                using (Html.BeginForm("DeleteProductFromOrder", "Home", new OLChangeViewModel { ProdID = order.Product.ID, Amount = order.Amount, OrderID = Model.Order.ID }, FormMethod.Post, new { style = "display: inline-block; width: 100%" }))
                 {
                     <div style="width:100%">
                         <span>
-                            @order.AmountOrdered X @prodName
+                            @order.Amount X @prodName
                             <input type="submit" value="verwijder" class="" style="float:right; background-color:transparent;vertical-align:top;  overflow:visible; font-size:1em; display:inline;  margin:0; padding:0; border:0; color:white; cursor:pointer;" onclick="" />
                         </span>
                     </div>

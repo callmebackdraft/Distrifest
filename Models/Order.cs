@@ -20,10 +20,11 @@ namespace Models
             Statuses = _orderStatuses;
         }
 
-        public Order(int _id)
+        public Order(int _id, int _customerID)
         {
             InstantiateLists();
             ID = _id;
+            CustomerID = _customerID;
         }
 
         public Order()

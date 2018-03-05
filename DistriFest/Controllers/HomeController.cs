@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using DFModels = DistriFest.Models;
+using DistriFest.Models;
 using DistriFest.Exceptions;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -40,7 +40,7 @@ namespace DistriFest.Controllers
         public ActionResult ShoppingCart()
         {
             var identity = (ClaimsIdentity)User.Identity;
-            DFModels.ViewModels.ShoppingCartViewModel scvm = new DFModels.ViewModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
+            Models.ViewModels.ShoppingCartViewModel scvm = new Models.ViewModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
             if (TempData["ProcessResult"] != null)
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
@@ -69,6 +69,13 @@ namespace DistriFest.Controllers
             return View();
         }
 
+        [Models.Authorize(Roles = "Admin, SuperAdmin, DC"), HandleError]
+        public ActionResult DCOverview()
+        {
+            IOrderRepository OrderRepo = new OrderRepository();
+            return View(OrderRepo.GetAllOrders());
+        }
+
         [HttpPost]
         public ActionResult OrderProduct(int Amount, int ProdID)
         {
@@ -80,7 +87,15 @@ namespace DistriFest.Controllers
                 IProductRepository ProductRepository = new ProductRepository();
                 OrderLine OL = new OrderLine(ProductRepository.GetProductByID(ProdID), Amount);
                 Order Order = OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value));
-                OrderLineRepo.AddOrderLineToOrder(OL, Order.ID);
+                List<OrderLine> results = Order.Products.FindAll(x => x.Product.ID == ProdID);
+                if (results.Count >= 1)
+                {
+                    OrderLineRepo.EditOrderedAmount(Order.ID,ProdID,Amount + results[0].Amount);
+                }
+                else
+                {
+                    OrderLineRepo.AddOrderLineToOrder(OL, Order.ID);
+                }
             }
             return RedirectToAction("Ordering");
         }
@@ -112,7 +127,7 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteProductFromOrder(DFModels.ViewModels.OLChangeViewModel ocm)
+        public ActionResult DeleteProductFromOrder(Models.ViewModels.OLChangeViewModel ocm)
         {
             var identity = (ClaimsIdentity)User.Identity;
             try
@@ -135,7 +150,7 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeProductInOrder(DFModels.ViewModels.OLChangeViewModel ocm)
+        public ActionResult ChangeProductInOrder(Models.ViewModels.OLChangeViewModel ocm)
         {
             if (ocm.Amount == 0)
             {

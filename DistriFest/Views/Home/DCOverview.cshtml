@@ -1,0 +1,84 @@
+﻿@using Models
+@model List<Order>
+@{
+    ViewBag.Title = "Bestel Overzicht";
+}
+<div class="container">
+    <h2>Nog te verwerken</h2>
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="col-xs-1">Bestel NR</th>
+                <th class="col-xs-1">Bar</th>
+                <th class="col-xs-3">Aantal Producten</th>
+                <th class="col-xs-3 text-center">Tijd Besteld</th>
+                <th class="col-xs-2 text-center">Neem In behandeling</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order order in Model)
+            {
+                if (order.Statuses.Count == 2)
+                {
+                    int ProductAmount = 0;
+                    <tr>
+                        <td>@order.ID</td>
+                        <td>@order.CustomerID</td>
+                        @foreach (OrderLine prod in order.Products)
+                        {
+                            ProductAmount += prod.Amount;
+                        }
+                        <td>@ProductAmount</td>
+                        @foreach (OrderStatus os in order.Statuses)
+                        {
+                            if (os.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
+                            {
+                                <td class="text-center">@os.RegisteredDate</td>
+                            }
+                        }
+                        @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                        {
+                            <td class="text-center"><input type="submit" value="Neem in Behandeling" /></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <h2>In Verwerking</h2>
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="col-xs-1">Bestel NR</th>
+                <th class="col-xs-1">Bar</th>
+                <th class="col-xs-3">Aantal Producten</th>
+                <th class="col-xs-3 text-center">Tijd Aangenomen</th>
+                <th class="col-xs-2 text-center">Verwerkt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order order in Model)
+            {
+                if (order.Statuses.Count == 3)
+                {
+                    <tr>
+                        <td>@order.ID</td>
+                        <td>@order.CustomerID</td>
+                        <td>@order.Products.Count</td>
+                        @foreach (OrderStatus os in order.Statuses)
+                        {
+                            if (os.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
+                            {
+                                <td>@os.RegisteredDate</td>
+                            }
+                        }
+                        @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                        {
+                            <td class="text-center"><input type="submit" value="Neem in Behandeling" /></td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
