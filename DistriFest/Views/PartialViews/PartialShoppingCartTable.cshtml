@@ -1,0 +1,23 @@
+﻿@using DistriFest.Models.ViewModels
+@using Models
+@using System.Text
+@using System.Text.RegularExpressions
+@model OLChangeViewModel
+@{
+    StringBuilder prodName = new StringBuilder();
+    ////var split = Regex.Split(Model.Name, @"(?<!^)(?=[A-Z])");
+    //foreach (string s in split)
+    //{
+    //    //prodName.Append(s);
+    //    //prodName.Append(' ');
+    //}
+}
+<td class="text-center">
+    @using (Html.BeginForm("DeleteProductFromOrder", "Home", FormMethod.Post, new { style = "display: inline" }))
+    {
+        @Html.HiddenFor(x => x.ProdID, Model.ProdID)
+        @Html.HiddenFor(x => x.OrderID, Model.OrderID)
+        <input type="submit" value="Verwijder" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
+    }
+</td>
+@prodName.Clear()

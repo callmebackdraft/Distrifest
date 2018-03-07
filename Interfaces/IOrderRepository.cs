@@ -29,12 +29,6 @@ namespace Interfaces
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="_order"></param>
-        /// <returns></returns>
-        bool ProcessOrder(Order _order);
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="_orderID"></param>
         /// <param name="_productID"></param>
         /// <param name="_productAmount"></param>
@@ -46,5 +40,6 @@ namespace Interfaces
         /// <param name="_userID"></param>
         /// <returns>Order</returns>
         Order CheckForOpenOrder(int _userID);
+        void FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus);
     }
 }

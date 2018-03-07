@@ -1,4 +1,5 @@
 ﻿@using Models
+@using Repositories
 @model List<Order>
 @{
     ViewBag.Title = "Bestel Overzicht";
@@ -21,7 +22,7 @@
                 if (order.Statuses.Count == 2)
                 {
                     int ProductAmount = 0;
-                    <tr>
+                    <tr onclick="location.href = '@(Url.Action("ShowOrder","Home", new { _orderID = order.ID }))'">
                         <td>@order.ID</td>
                         <td>@order.CustomerID</td>
                         @foreach (OrderLine prod in order.Products)
@@ -36,10 +37,14 @@
                                 <td class="text-center">@os.RegisteredDate</td>
                             }
                         }
-                        @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
-                        {
-                            <td class="text-center"><input type="submit" value="Neem in Behandeling" /></td>
-                        }
+                        <td class="text-center">
+                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                            {
+                                <input type="hidden" name="_orderID" value="@order.ID" />
+                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Processing" />
+                                <input type="submit" value="Behandelen" />
+                            }
+                        </td>
                     </tr>
                 }
             }
@@ -61,24 +66,29 @@
             {
                 if (order.Statuses.Count == 3)
                 {
-                    <tr>
+                    <tr onclick="location.href = '@(Url.Action("ShowOrder","Home", new { _orderID = order.ID }))'">
                         <td>@order.ID</td>
                         <td>@order.CustomerID</td>
                         <td>@order.Products.Count</td>
                         @foreach (OrderStatus os in order.Statuses)
                         {
-                            if (os.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
+                            if (os.RegisteredStatus == OrderStatus.OrderStatusesEnum.Processing)
                             {
-                                <td>@os.RegisteredDate</td>
+                                <td class="text-center">@os.RegisteredDate</td>
                             }
                         }
-                        @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
-                        {
-                            <td class="text-center"><input type="submit" value="Neem in Behandeling" /></td>
-                        }
+                        <td class="text-center">
+                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                            {
+                                <input type="hidden" name="_orderID" value="@order.ID" />
+                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Delivered" />
+                                <input type="submit" value="Afgehandeld" />
+                            }
+                        </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+    @Html.Partial("../PartialViews/PartialPackingSlip", new OrderRepository().GetOrderByID(64))
 </div>

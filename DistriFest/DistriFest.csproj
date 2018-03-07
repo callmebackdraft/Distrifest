@@ -54,6 +54,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -310,6 +313,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -322,6 +329,7 @@
     <Content Include="ADODistriFestEntities.edmx.diagram">
       <DependentUpon>ADODistriFestEntities.edmx</DependentUpon>
     </Content>
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\DistriFest - Web Deploy.pubxml" />
@@ -364,15 +372,18 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Ordering.cshtml" />
     <Content Include="Views\Home\ManageProducts.cshtml" />
-    <Content Include="Views\Home\PartialChart.cshtml" />
-    <Content Include="Views\Home\PartialItem.cshtml" />
+    <Content Include="Views\PartialViews\PartialChart.cshtml" />
+    <Content Include="Views\PartialViews\PartialItem.cshtml" />
     <Content Include="Views\Home\Reporting.cshtml" />
     <Content Include="Views\Home\ShoppingCart.cshtml" />
     <Content Include="Views\Home\StockControl.cshtml" />
     <Content Include="Views\Error\NotAllowed.cshtml" />
-    <Content Include="Views\Home\ShoppingCartPartial.cshtml" />
-    <Content Include="Views\Home\PartialShoppingCartTable.cshtml" />
+    <Content Include="Views\PartialViews\ShoppingCartPartial.cshtml" />
+    <Content Include="Views\PartialViews\PartialShoppingCartTable.cshtml" />
     <Content Include="Views\Home\DCOverview.cshtml" />
+    <Content Include="Views\PartialViews\PartialPackingSlip.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Order.cshtml" />
+    <Content Include="Views\PartialViews\PartialManageItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

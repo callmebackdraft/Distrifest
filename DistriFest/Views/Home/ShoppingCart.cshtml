@@ -50,7 +50,7 @@
                         {
                             <td>Verpakking met inhoud van @order.Product.Volume @order.Product.VolumeType</td>
                         }
-                        @Html.Partial("PartialShoppingCartTable", OrderLineChanger)
+                        @Html.Partial("../PartialViews/PartialShoppingCartTable", OrderLineChanger)
                     </tr>
                 }
             }
@@ -70,8 +70,10 @@
 @if (Model.Order.Products.Count() > 0)
 {
     <div class="container text-right">
-        @using (Html.BeginForm("ProcessOrder", "Home", FormMethod.Post))
+        @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
         {
+            <input type="hidden" name="_orderID" value="@Model.Order.ID" />
+            <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.WaitingForDC" />
             <input type="submit" value="Bevestig Bestelling" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
         }
     </div>

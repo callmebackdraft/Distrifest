@@ -27,16 +27,16 @@ namespace DataHandling
             return SQL_CRUD_Methods.SQLRead(query, parameters).Rows[0];
         }
 
-        public bool ProcessOrder(int _orderID)
+        public void FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatus)
         {
             string query = "INSERT INTO [OrderStatus](Status, DateTime, OrderID) VALUES (@Status, @DateTime, @OrderID)";
             List<KeyValuePair<string, object>> parameters = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@Status", OrderStatus.OrderStatusesEnum.WaitingForDC),
+                new KeyValuePair<string, object>("@Status", _orderStatus),
                 new KeyValuePair<string, object>("@DateTime", DateTime.Now),
                 new KeyValuePair<string, object>("@OrderID", _orderID)
             };
-            return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
+            SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameters);
         }
 
         public int RegisterNewOrder(int _customerID)
@@ -70,5 +70,6 @@ namespace DataHandling
             };
             return SQL_CRUD_Methods.SQLRead(query, parameterlist);
         }
+  
     }
 }

@@ -1,0 +1,27 @@
+﻿@using Models
+@model Order
+
+<h2>Bestelling: @Model.ID</h2>
+<p>Bar: @Model.CustomerID</p>
+
+<table class="table table-responsive table-striped table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Aantal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 1; i < Model.Products.Count + 1; i++)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@Model.Products[i - 1].Product.Name</td>
+                <td>@Model.Products[i - 1].Amount</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

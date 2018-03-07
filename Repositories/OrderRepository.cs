@@ -37,6 +37,11 @@ namespace Repositories
             }
         }
 
+        public void FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus)
+        {
+            Orderctx.FurtherOrderStatus(_order.ID, _orderStatus);
+        }
+
         public List<Order> GetAllOrders()
         {
             List<Order> result = new List<Order>();
@@ -51,11 +56,6 @@ namespace Repositories
         public Order GetOrderByID(int _orderID)
         {
             return DataRowToOrder(Orderctx.GetOrderByID(_orderID));
-        }
-
-        public bool ProcessOrder(Order _order)
-        {
-            return Orderctx.ProcessOrder(_order.ID);
         }
 
         public Order RegisterNewOrder(int _customerID)

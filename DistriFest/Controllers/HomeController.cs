@@ -7,6 +7,7 @@ using DistriFest.Models;
 using DistriFest.Exceptions;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Rotativa;
 using Models;
 using Repositories;
 using Interfaces;
@@ -101,16 +102,16 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProcessOrder()
+        public ActionResult FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatuses)
         {
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
                 IOrderRepository OrderRepo = new OrderRepository();
-                Order Order = OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value));
+                Order Order = OrderRepo.GetOrderByID(_orderID);
                 if (Order.Products.Count > 0)
                 {
-                    OrderRepo.ProcessOrder(Order);
+                    OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
                     TempData["ProcessResult"] = "Bestelling succesvol verwerkt";
                 }
                 else
@@ -173,6 +174,9 @@ namespace DistriFest.Controllers
         }
 
 
-
+        public ActionResult PackingSlipAsPDF(int _orderID)
+        {
+            return new PartialViewAsPdf(new OrderRepository().GetOrderByID(_orderID));
+        }
     }
 }

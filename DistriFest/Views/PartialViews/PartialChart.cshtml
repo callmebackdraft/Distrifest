@@ -1,0 +1,26 @@
+﻿@using Models
+@model Report
+@{ 
+    string renderCall = Model.ChartVar + ".render()";
+}
+
+<div id="@Model.ChartID" style="width: 99%; height: 300px;display: inline-block;"></div>
+
+<script>
+    var @Model.ChartVar = new CanvasJS.Chart("@Model.ChartID", {
+        backgroundColor: "#c8dff7",
+        title: {
+            text: "@Model.ChartTitle"
+        },
+        data: [{
+            type: "@Model.ChartType",
+            dataPoints: [
+                @foreach (KeyValuePair<string, int> kvp in Model.ChartData)
+                {
+                    <text>{ label: "@kvp.Key" , y: @kvp.Value},</text>
+                }
+            ]
+        }]
+    });
+    @renderCall
+</script>
