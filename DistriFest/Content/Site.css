@@ -81,6 +81,11 @@ textarea {
     color: #999999;
 }
 
+.order-table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #b0b0ba;
+    color: #000000;
+}
+
 
 .errorbox {
     background: black;

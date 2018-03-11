@@ -1,21 +1,31 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.title = "Product Lijst";
-    var identity = (ClaimsIdentity)User.Identity;
-    //ShoppingCartViewModel scvm = new ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
-    TempData["Return"] = "AllOrders";
+    ViewBag.title = "Product Beheer";
+    List<Product> SortedList = Model.OrderBy(o => o.VolumeType).ToList();
 }
 @using System.Security.Claims
 @using Models
 @model List<Product>
 
-@Html.DisplayForModel(Model)
+<div class="container" style="margin:2em">
+    <table class="table table-bordered table-responsive table-striped">
+        <thead>
+            <tr>
+                <td>Product</td>
+                <td>Product Volume</td>
+                <td>Actief</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product product in SortedList)
+            {
 
+                @Html.Partial("../PartialViews/PartialManageItem", product);
 
-@*@foreach (Product product in Model)
-    {
-        if (product.Active)
-        {
-            @Html.Partial("../PartialViews/PartialManageItem", product);
-        }
-    }*@
+            }
+            <tr onclick="location.href = '@(Url.Action("AddProductToDB","Home"))'">
+                <td colspan="3" class="text-center" style="cursor:pointer"> Voeg Product Toe</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

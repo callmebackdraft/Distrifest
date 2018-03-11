@@ -384,6 +384,8 @@
     <Content Include="Views\PartialViews\PartialPackingSlip.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\Order.cshtml" />
     <Content Include="Views\PartialViews\PartialManageItem.cshtml" />
+    <Content Include="Views\Home\ShowOrder.cshtml" />
+    <Content Include="Views\PartialViews\PartialOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

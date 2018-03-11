@@ -74,6 +74,10 @@ namespace DistriFest.Controllers
         public ActionResult DCOverview()
         {
             IOrderRepository OrderRepo = new OrderRepository();
+            if (TempData["ProcessResult"] != null)
+            {
+                ViewBag.ErrorMessage = TempData["ProcessResult"];
+            }
             return View(OrderRepo.GetAllOrders());
         }
 
@@ -102,7 +106,7 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatuses)
+        public ActionResult FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatuses, string _returnURL)
         {
             var identity = (ClaimsIdentity)User.Identity;
             try
@@ -112,7 +116,19 @@ namespace DistriFest.Controllers
                 if (Order.Products.Count > 0)
                 {
                     OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
-                    TempData["ProcessResult"] = "Bestelling succesvol verwerkt";
+                    if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
+                    {
+                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol doorgezet naar Distributiecentrum", _orderID);
+                    }
+                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Processing)
+                    {
+                        TempData["ProcessResult"] = string.Format("Bestelling: {0} in behandeling genomen", _orderID);
+                    }
+                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Delivered)
+                    {
+                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol verwerkt", _orderID);
+                    }
+                    
                 }
                 else
                 {
@@ -121,10 +137,10 @@ namespace DistriFest.Controllers
             }
             catch
             {
-                TempData["ProcessResult"] = "Er ging iets fout tijdens het verwerken van je bestelling!";
+                TempData["ProcessResult"] = "Er ging iets fout tijdens het verwerken van de bestelling!";
             }
             
-            return RedirectToAction("ShoppingCart");
+            return Redirect(_returnURL);
         }
 
         [HttpPost]
@@ -173,6 +189,10 @@ namespace DistriFest.Controllers
             return RedirectToAction("ShoppingCart");
         }
 
+        public ActionResult ShowOrder(int _orderID)
+        {
+            return View(new OrderRepository().GetOrderByID(_orderID));
+        }
 
         public ActionResult PackingSlipAsPDF(int _orderID)
         {

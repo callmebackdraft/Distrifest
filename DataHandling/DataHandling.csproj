@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="ReportSQLQuery.cs" />
     <Compile Include="SQL_CRUD_Methods.cs" />
+    <Compile Include="UserSQLQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj">

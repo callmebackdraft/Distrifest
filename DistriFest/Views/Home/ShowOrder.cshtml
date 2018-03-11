@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Bestelling: " + Model.ID;
+}
+@using Models
+@model Order
+
+<div class="container" style="margin-top:2em">
+    @Html.Partial("../PartialViews/PartialOrder", Model)
+</div>
+
+
