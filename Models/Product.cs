@@ -13,14 +13,16 @@ namespace Models
         public int Volume { get; private set; }
         public string VolumeType { get; private set; }
         public bool Active { get; private set; }
+        public int AmountInStock { get; private set; }
 
-        public Product(int _id, string _name, int _volume, string _volumeType, bool _active)
+        public Product(int _id, string _name, int _volume, string _volumeType, bool _active, int _amountInStock)
         {
             ID = _id;
             Name = _name;
             Volume = _volume;
             VolumeType = _volumeType;
             Active = _active;
+            AmountInStock = _amountInStock;
         }
 
         public Product()

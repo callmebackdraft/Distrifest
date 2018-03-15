@@ -123,7 +123,7 @@ namespace DistriFest.Controllers
             catch (Exception ex)
             {
                 // Info    
-                throw ex;
+                throw new Exception(ex.Message);
             }
             // Info.    
             return this.RedirectToAction("Login", "Account");
@@ -158,7 +158,7 @@ namespace DistriFest.Controllers
             catch (Exception ex)
             {
                 // Info    
-                throw ex;
+                throw new Exception(ex.Message);
             }
 
         }
@@ -185,7 +185,7 @@ namespace DistriFest.Controllers
             catch (Exception ex)
             {
                 // Info    
-                throw ex;
+                throw new Exception(ex.Message);
             }
             // Info.    
             return this.RedirectToAction("Index", "Home");

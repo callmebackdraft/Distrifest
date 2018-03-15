@@ -23,18 +23,34 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Product lijst", "Ordering", "Home")</li>
-                        <li>@Html.ActionLink("WinkelWagen", "ShoppingCart", "Home")</li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                        @if (User.IsInRole("StockOnly"))
                         {
-                            <li>@Html.ActionLink("Bestel Overzicht", "DCOverview", "Home")</li>
-                            <li>@Html.ActionLink("Voorraadbeheer", "StockControl", "Home")</li>
-                            <li>@Html.ActionLink("Reporting", "Reporting", "Home")</li>
+                            <li>@Html.ActionLink("VoorraadOverzicht", "StockView", "Home")</li>
                         }
-                        @if (User.IsInRole("SuperAdmin"))
+                        else
                         {
-                            <li>@Html.ActionLink("Beheer Producten", "ManageProducts", "Home")</li>
+                            <li>@Html.ActionLink("Product lijst", "Ordering", "Home")</li>
+                            <li>@Html.ActionLink("WinkelWagen", "ShoppingCart", "Home")</li>
+                            if (User.IsInRole("Bar"))
+                            {
+                                <li>@Html.ActionLink("Mijn Bestellingen","BarOrderView","Home")</li>
+                            }
+                            if (User.IsInRole("DC"))
+                            {
+
+                            }
+                            if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>@Html.ActionLink("Bestel Overzicht", "DCOverview", "Home")</li>
+                                <li>@Html.ActionLink("Voorraadbeheer", "StockControl", "Home")</li>
+                                <li>@Html.ActionLink("Reporting", "Reporting", "Home")</li>
+                            }
+                            if (User.IsInRole("SuperAdmin"))
+                            {
+                                <li>@Html.ActionLink("Beheer Producten", "ManageProducts", "Home")</li>
+                            }
                         }
+
                     </ul>
                 }
                 @Html.Partial("_LoginPartial")

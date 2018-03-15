@@ -67,7 +67,7 @@ namespace DistriFest.Controllers
         [Models.Authorize(Roles = "Admin, SuperAdmin, DC"), HandleError]
         public ActionResult StockControl()
         {
-            return View();
+            return View(new ProductRepository().GetAllProducts());
         }
 
         [Models.Authorize(Roles = "Admin, SuperAdmin, DC"), HandleError]
@@ -189,14 +189,31 @@ namespace DistriFest.Controllers
             return RedirectToAction("ShoppingCart");
         }
 
+        public ActionResult EditProduct()
+        {
+            return RedirectToAction("ManageProducts");
+        }
+        
+        public ActionResult AddProductToDB()
+        {
+            return View();
+        }
+
         public ActionResult ShowOrder(int _orderID)
         {
             return View(new OrderRepository().GetOrderByID(_orderID));
         }
 
-        public ActionResult PackingSlipAsPDF(int _orderID)
+        public ActionResult PartialPackingSlip(int _orderID)
         {
-            return new PartialViewAsPdf(new OrderRepository().GetOrderByID(_orderID));
+            PartialViewAsPdf result = new PartialViewAsPdf("../PartialViews/PartialPackingSlip", new OrderRepository().GetOrderByID(_orderID));
+            result.FileName = "Bestelling - " + _orderID + ".pdf";
+            return result;
+        }
+
+        public ActionResult PartialEmptyOrderList()
+        {
+            return new PartialViewAsPdf("../PartialViews/PartialEmptyOrderList", new ProductRepository().GetAllProducts());
         }
     }
 }

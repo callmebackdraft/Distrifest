@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutNoUI.cshtml";
+    ViewBag.Title = "Lege Bestellijst";
+}
+@using Models
+@model List<Product>
+<div style="height:297mm; width: 250mm; margin: auto; background-color:white">
+    <div class="container">
+        <div style="outline: 1px solid #000000; align-self:center; margin-bottom:2em; padding:.5em">
+            <div class="text-center">
+                <h2 style="align-self:center">Bestellijst</h2>
+            </div>
+            <p><b>BAR:_______</b></p>
+            <p><b>OrderNr:_______  (In te vullen door DC)</b></p>
+
+
+        </div>
+        <table class="table table-responsive table-hover table-bordered order-table" align="center">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Product Volume</th>
+                    <th>Aantal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Product prod in Model)
+                {
+                    if (prod.Active)
+                    {
+                        <tr>
+                            <td>@prod.Name</td>
+                            <td>@prod.Volume @prod.VolumeType</td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

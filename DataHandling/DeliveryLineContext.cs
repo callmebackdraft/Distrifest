@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Interfaces;
+using Models;
+
+namespace DataHandling
+{
+    public class DeliveryLineContext : IDeliveryLineContext
+    {
+        public DataTable GetAllDeliveryLines()
+        {
+            string query = "SELECT * FROM Deliver_Product";
+            return SQL_CRUD_Methods.SQLRead(query);
+        }
+
+        public DataTable GetAllDeliveryLinesForDelivery(int _deliveryID)
+        {
+            string query = "SELECT * FROM Deliver_Product WHERE DeliveryID = @DeliveryID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@DeliveryID",_deliveryID)
+            };
+            return SQL_CRUD_Methods.SQLRead(query, parameterlist);
+        }
+
+        public bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine)
+        {
+            string query = "INSERT INTO Delivery_Product(DeliveryID,ProductID,Amount) VALUES (@DeliveryID,@ProductID,@Amount)";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@DeliveryID",_deliveryID),
+                new KeyValuePair<string, object>("@ProductID",_deliveryLine.Product.ID),
+                new KeyValuePair<string, object>("@Amount",_deliveryLine.Amount)
+            };
+            return SQL_CRUD_Methods.SQLInsertBoolReturn(query, parameterlist);
+        }
+    }
+}

@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDeliveryContext.cs" />
+    <Compile Include="IDeliveryLineContext.cs" />
+    <Compile Include="IDeliveryLineRepository.cs" />
     <Compile Include="IDeliveryRepository.cs" />
     <Compile Include="IOrderContext.cs" />
     <Compile Include="IOrderLineContext.cs" />

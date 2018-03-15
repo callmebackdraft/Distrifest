@@ -23,7 +23,8 @@ namespace Models
             Ordering,
             WaitingForDC,
             Processing,
-            Delivered
+            Delivered,
+            Rejected
         }
     }
 }

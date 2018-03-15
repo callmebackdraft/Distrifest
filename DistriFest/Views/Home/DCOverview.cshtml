@@ -25,10 +25,10 @@
         <tbody>
             @foreach (Order order in Model)
             {
-                if (order.Statuses.Count == 2)
+                if (order.Statuses.Exists(x => x.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC) && order.Statuses.Count <= 2)
                 {
                     int ProductAmount = 0;
-                    <tr onclick="location.href = '@(Url.Action("ShowOrder","Home", new { _orderID = order.ID }))'">
+                    <tr onclick="window.open('@(Url.Action("PartialPackingSlip", "Home", new { _orderID = order.ID }))')">
                         <td>@order.ID</td>
                         <td>@order.CustomerID</td>
                         @foreach (OrderLine prod in order.Products)
@@ -52,6 +52,15 @@
                                 <input type="submit" value="Behandelen" />
                             }
                         </td>
+                        <td class="text-center">
+                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                            {
+                                <input type="hidden" name="_orderID" value="@order.ID" />
+                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Rejected" />
+                                <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
+                                <input type="submit" value="Weiger" />
+                            }
+                        </td>
                     </tr>
                 }
             }
@@ -71,7 +80,7 @@
         <tbody>
             @foreach (Order order in Model)
             {
-                if (order.Statuses.Count == 3)
+                if (order.Statuses.Exists(x => x.RegisteredStatus == OrderStatus.OrderStatusesEnum.Processing) && order.Statuses.Count <= 3)
                 {
                     <tr onclick="location.href = '@(Url.Action("ShowOrder","Home", new { _orderID = order.ID }))'">
                         <td>@order.ID</td>

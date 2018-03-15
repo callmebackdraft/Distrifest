@@ -2,14 +2,23 @@
 @using System.Text.RegularExpressions;
 @model Product
 @{
+    string bgcolor;
     string imgLoc = "~/Content/Images/" + Model.Name + ".png";
     Console.WriteLine(imgLoc);
     string volumeString = "Volume: " + Model.Volume + " " + Model.VolumeType;
     string productName = Regex.Replace(Model.Name, "([a-z?])[_ ]?([A-Z])", "$1 $2");
+    if (Model.AmountInStock == 0)
+    {
+        bgcolor = "#ee8a42";
+    }
+    else
+    {
+        bgcolor = "#615192";
+    }
 }
 
 <div class="col-sm-4 text-center">
-    <div class="col-sm-12 text-center" style="color: #999; background-color: #615192; border: 2px solid black; margin-top: 10px; box-shadow: 6px 6px 5px #343477">
+    <div class="col-sm-12 text-center" style="color: #999; background-color: @bgcolor; border: 2px solid black; margin-top: 10px; box-shadow: 6px 6px 5px #343477">
         <div style="margin-top:10px; height: 160px;">
             <img src=@Url.Content(imgLoc) alt=@Model.Name style="max-width:100%; max-height: 100%; pointer-events: none; -webkit-user-select: none;  -khtml-user-select: none;   -moz-user-select: none; -o-user-select: none;    user-select: none; " />
         </div>
@@ -18,13 +27,20 @@
 
                 <p style="color: white"> @productName <br /> @volumeString</p>
 
-
-                @using (Html.BeginForm("OrderProduct", "Home", FormMethod.Post))
+                @if (Model.AmountInStock > 0)
                 {
-                    <input name="ProdID" type="hidden" value="@Model.ID"/>
-                    <input name="Amount" type="number" value="0" min="0" style = "width: 75px; margin-right: 50px"/>
-                    <input type="submit" value="Bestel" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
+                    using (Html.BeginForm("OrderProduct", "Home", FormMethod.Post))
+                    {
+                        <input name="ProdID" type="hidden" value="@Model.ID" />
+                        <input name="Amount" type="number" value="0" min="0" style="width: 75px; margin-right: 50px" />
+                        <input type="submit" value="Bestel" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
+                    }
                 }
+                else
+                {
+                    <p style="color:white"><b>Product Momenteel niet op voorraad</b></p>
+                }
+
             </div>
         </center>
 
