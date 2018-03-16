@@ -121,6 +121,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -219,6 +222,7 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -266,6 +270,12 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\bg_logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\BierBekers.png" />
     <Content Include="Content\Images\Bospop_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -322,6 +332,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Images\distrilogo_png.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
@@ -339,6 +352,10 @@
       <DependentUpon>ADODistriFestEntities.edmx</DependentUpon>
     </Content>
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\DistriFest - Web Deploy.pubxml" />
@@ -400,6 +417,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

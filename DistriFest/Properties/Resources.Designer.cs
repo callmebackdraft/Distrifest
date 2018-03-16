@@ -63,6 +63,16 @@ namespace DistriFest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg_logo {
+            get {
+                object obj = ResourceManager.GetObject("bg_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Bospop_logo {
             get {
                 object obj = ResourceManager.GetObject("Bospop_logo", resourceCulture);
@@ -116,6 +126,16 @@ namespace DistriFest.Properties {
         internal static System.Drawing.Bitmap CocaColaZero {
             get {
                 object obj = ResourceManager.GetObject("CocaColaZero", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap distrilogo_png {
+            get {
+                object obj = ResourceManager.GetObject("distrilogo_png", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
