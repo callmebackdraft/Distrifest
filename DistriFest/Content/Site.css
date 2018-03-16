@@ -1,55 +1,132 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #6363C0;
+    background-color: #2e393c;
+    background-image: url(Images/bg_logo.png);
+    background-repeat: repeat;
 }
 
-@media (min-width:1800px) {
-    #Fix_Divrt {
-        width: 325px;
-        margin-top: 62px;
-        position: fixed;
-        top: 0%;
-        right: 0%;
-        z-index: 500;
+.navbar-inverse {
+    background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
+    border: none;
+    box-shadow: rgba(0,0,0,0.35) 0px 5px 10px;
+    color: #fff;
+}
+
+    .navbar-inverse .navbar-brand {
+        color: #fff;
     }
 
-        #Fix_Divrt .inner_middle {
-            margin-right: 25px;
-            overflow: hidden;
-            margin-top: 12px;
+    .navbar-inverse .navbar-nav > li > a {
+        color: #fff;
+    }
+
+        .navbar-inverse .navbar-nav > li > a:hover,
+        .navbar-inverse .navbar-nav > li > a:focus {
+            color: #ffffff;
+            background-color: transparent;
         }
+
+.logo{
+    margin-top: 7px;
+    max-height: 35px;
 }
 
-@media (max-width:1799px) {
-    #Fix_Divrt {
-        display: none !important;
+.row {
+    margin-top: 20px;
+    background-color: rgba(255,255,255,0.7);
+    padding: 30px;
+    padding-top: 45px;
+}
+
+.col-sm-12 {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 5px solid #b3b3b3;
+    margin-bottom: 15px;
+    box-shadow: inset 0px 0px 10px 0 rgba(0,0,0,.45), inset 0px 0px 10px 0 rgba(0,0,0,.45), 5px 5px 10px 0 rgba(0,0,0,.4);
+}
+
+.col-sm-12 p{
+    color: #000;
+}
+
+p.danger{
+    color: red;
+}
+
+.bestelinput {
+    width: 120px;
+    height: 35px;
+    margin-right: 15px;
+    box-shadow: inset 2px 2px 2px rgba(0,0,0,0.15);
+    padding-left: 10px;
+}
+
+.bestelknop {
+    background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
+}
+
+    .jumbotron {
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 2.1428571435;
+    color: inherit;
+    background-color: #eeeeee;
+    opacity: 0.7;
+
+    @media (min-width:1800px) {
+        #Fix_Divrt {
+            width: 325px;
+            margin-top: 62px;
+            position: fixed;
+            top: 0%;
+            right: 0%;
+            z-index: 500;
+        }
+
+            #Fix_Divrt .inner_middle {
+                margin-right: 25px;
+                overflow: hidden;
+                margin-top: 12px;
+            }
     }
 
-        #Fix_Divrt .inner_middle {
+    @media (max-width:1799px) {
+        #Fix_Divrt {
             display: none !important;
         }
-}
 
-.overflow-scroll {
+            #Fix_Divrt .inner_middle {
+                display: none !important;
+            }
+    }
+
+    .overflow-scroll
+
+{
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 400px;
 }
 
-    .overflow-scroll::-webkit-scrollbar {
-        width: 12px;
-    }
+.overflow-scroll::-webkit-scrollbar {
+    width: 12px;
+}
 
-    .overflow-scroll::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
-    }
+.overflow-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
 
-    .overflow-scroll::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    }
+.overflow-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
