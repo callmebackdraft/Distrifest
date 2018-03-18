@@ -78,7 +78,7 @@ namespace DistriFest.Controllers
             {
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
             }
-            return View(OrderRepo.GetAllOrders());
+            return View(OrderRepo.GetAllRelevantOrders());
         }
 
         [Models.Authorize(Roles = "Bar, SuperAdmin"), HandleError]

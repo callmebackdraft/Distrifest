@@ -10,7 +10,7 @@ namespace Interfaces
     public interface IOrderRepository
     {
 
-        List<Order> GetAllOrders();
+        List<Order> GetAllRelevantOrders();
         List<Order> GetAllOrders(int _customerID);
         Order GetOrderByID(int _orderID);
         Order RegisterNewOrder(int _customerID);

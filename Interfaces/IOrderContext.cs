@@ -10,6 +10,7 @@ namespace Interfaces
 {
     public interface IOrderContext
     {
+        DataTable GetAllRelevantOrders();
         DataTable GetAllOrders();
         DataRow GetOrderByID(int _orderID);
         int RegisterNewOrder(int _customerID);

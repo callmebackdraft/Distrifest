@@ -80,7 +80,16 @@ namespace Repositories
                 result.Add(DataRowToOrder(_dr));
             }
             return result;
+        }
 
+        public List<Order> GetAllRelevantOrders()
+        {
+            List<Order> result = new List<Order>();
+            foreach (DataRow _dr in Orderctx.GetAllRelevantOrders().Rows)
+            {
+                result.Add(DataRowToOrder(_dr));
+            }
+            return result;
         }
 
         public Order GetOrderByID(int _orderID)

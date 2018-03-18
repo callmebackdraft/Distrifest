@@ -90,5 +90,11 @@ namespace DataHandling
             };
             SQL_CRUD_Methods.SQLUpdate(query,parameterlist);
         }
+
+        public DataTable GetAllRelevantOrders()
+        {
+            string query = "SELECT t1.* FROM Orders t1 INNER JOIN (SELECT   MAX( Status ) AS max_total, OrderID FROM OrderStatus GROUP BY OrderID) t2 ON t1.ID = t2.OrderID WHERE t2.max_total > 0 AND t2.max_total < 3";
+            return SQL_CRUD_Methods.SQLRead(query);
+        }
     }
 }

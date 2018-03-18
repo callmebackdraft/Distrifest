@@ -41,10 +41,15 @@ namespace DataHandling
         public void UpdateDelivery(Delivery _delivery)
         {
             string query = "UPDATE Delivery SET DateTime = @DateTime, ExternalID = @ExternalID WHERE ID = @DeliveryID";
+            string extID = _delivery.ExternalID;
+            if (_delivery.ExternalID == null || _delivery.ExternalID == "")
+            {
+                extID = "X";
+            }
             List<KeyValuePair<string, Object>> parameterlist = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@DateTime",DateTime.Now),
-                new KeyValuePair<string, object>("@ExternalID",_delivery.ExternalID),
+                new KeyValuePair<string, object>("@ExternalID",extID),
                 new KeyValuePair<string, object>("@DeliveryID",_delivery.ID)
             };
             SQL_CRUD_Methods.SQLUpdate(query, parameterlist);
