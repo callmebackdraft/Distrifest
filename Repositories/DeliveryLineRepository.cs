@@ -38,9 +38,11 @@ namespace Repositories
             return result;
         }
 
-        public bool SaveDeliveryLine(int _orderId, DeliveryLine _deliveryLine)
+        public bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine)
         {
-            return DeLictx.SaveDeliveryLine(_orderId, _deliveryLine);
+            IProductRepository ProdRepo = new ProductRepository();
+            ProdRepo.UpdateAmountInStock(_deliveryLine.Product, _deliveryLine.Amount);
+            return DeLictx.SaveDeliveryLine(_deliveryID, _deliveryLine);
         }
 
         private DeliveryLine DataRowToDeliveryLine(DataRow _dataRow)

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BCryptPasswordHandling.cs" />
     <Compile Include="DeliveryLineContext.cs" />
+    <Compile Include="DeliverySQLQuery.cs" />
     <Compile Include="OrderLineSQLQuery.cs" />
     <Compile Include="OrderSQLQuery.cs" />
     <Compile Include="OrderStatusSQLQuery.cs" />

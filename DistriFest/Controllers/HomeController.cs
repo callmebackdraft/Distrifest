@@ -193,6 +193,12 @@ namespace DistriFest.Controllers
         {
             return RedirectToAction("ManageProducts");
         }
+
+        public ActionResult Delivery()
+        {
+            Delivery delivery = new Delivery();
+            return View(delivery);
+        }
         
         public ActionResult AddProductToDB()
         {

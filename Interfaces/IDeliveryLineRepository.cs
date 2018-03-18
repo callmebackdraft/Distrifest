@@ -12,6 +12,6 @@ namespace Interfaces
     {
         List<DeliveryLine> GetAllDeliveryLines();
         List<DeliveryLine> GetAllDeliveryLinesForDelivery(int _deliveryID);
-        bool SaveDeliveryLine(int _orderId, DeliveryLine _deliveryLine);
+        bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine);
     }
 }

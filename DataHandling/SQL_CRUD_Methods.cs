@@ -67,8 +67,9 @@ namespace DataHandling
                 commandToCheck.ExecuteNonQuery();
                 result = true;
             }
-            catch
+            catch (Exception exc)
             {
+                Console.WriteLine(exc);
                 result = false;
             }
             finally
@@ -106,6 +107,14 @@ namespace DataHandling
             int result = sqlComm.ExecuteNonQuery();
             CloseConnection(sqlComm.Connection);
             return (result > 0);
+        }
+
+        public static int SQLUpdateReturnInt(string query, List<KeyValuePair<string, object>> parameterlist)
+        {
+            SqlCommand sqlComm = BuildSQLCommand(query, parameterlist);
+            int result = Convert.ToInt16(sqlComm.ExecuteScalar());
+            CloseConnection(sqlComm.Connection);
+            return result;
         }
 
         public static bool SQLDelete(string query, List<KeyValuePair<string, object>> parameterlist)

@@ -10,7 +10,7 @@ namespace Interfaces
     public interface IDeliveryContext
     {
         DataTable GetAllDeliverys();
-        DataTable GetDeliveryByID();
+        DataRow GetDeliveryByID(int _deliveryID);
         bool SaveNewDelivery();
     }
 }

@@ -1,0 +1,25 @@
+﻿@using Models
+@model Delivery
+
+@using (Html.BeginForm("ProcessDelivery", "Home", FormMethod.Post))
+{
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>@Model.ID</th>
+                <th colspan="2" class="text-center">Extern Kenmerk: @Html.EditorFor(x => x.ExternalID)</th>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <th>Volume</th>
+                <th>Aantal geleverd</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Products.Count; i++)
+            {
+                @Html.EditorFor(x => x.Products[i]);
+            }
+        </tbody>
+    </table>
+}

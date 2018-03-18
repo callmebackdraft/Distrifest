@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Models;
 
 namespace DataHandling
 {
@@ -34,6 +35,17 @@ namespace DataHandling
                 new KeyValuePair<string, object>("@ProductID",_productID)
             };
             return SQL_CRUD_Methods.SQLRead(query, parameterlist).Rows[0];
+        }
+
+        public int UpdateAmountInStock(Product _product, int _amount)
+        {
+            string query = "DECLARE @Difference int SET @Difference = (SELECT AmountInStock FROM Product WHERE ID = @ProductID) + @AmountDelivered IF @Difference < 0 SET @AmountDelivered = @AmountDelivered - @Difference; UPDATE Product SET AmountInStock = AmountInStock + @AmountDelivered WHERE ID = @ProductID SELECT @AmountDelivered AS 'Result'";
+            List<KeyValuePair<string,object>> parameterlist = new List<KeyValuePair<string, object>>
+                {
+                    new KeyValuePair<string, object>("@AmountDelivered", _amount),
+                    new KeyValuePair<string, object>("@ProductID",_product.ID)
+                };
+            return SQL_CRUD_Methods.SQLUpdateReturnInt(query, parameterlist);
         }
     }
 }

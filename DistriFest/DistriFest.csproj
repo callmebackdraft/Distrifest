@@ -414,6 +414,8 @@
     <Content Include="Views\PartialViews\PartialOrder.cshtml" />
     <Content Include="Views\Shared\_LayoutNoUI.cshtml" />
     <Content Include="Views\PartialViews\PartialEmptyOrderList.cshtml" />
+    <Content Include="Views\Home\Delivery.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Delivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

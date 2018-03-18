@@ -42,7 +42,12 @@ namespace Repositories
             return DataRowToProduct(Prodctx.GetProductByID(_productID));
         }
 
-        private Product  DataRowToProduct(DataRow _dataRow)
+        public int UpdateAmountInStock(Product _product, int _amount)
+        {
+            return Prodctx.UpdateAmountInStock(_product, _amount);
+        }
+
+        private Product DataRowToProduct(DataRow _dataRow)
         {
             return new Product(Convert.ToInt32(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Name"), Convert.ToInt32(_dataRow.Field<decimal>("Volume")), _dataRow.Field<string>("VolumeType"), _dataRow.Field<bool>("Active"), Convert.ToInt16(_dataRow.Field<decimal>("AmountInStock")));
         }

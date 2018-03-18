@@ -27,7 +27,7 @@
             background-color: transparent;
         }
 
-.logo{
+.logo {
     margin-top: 7px;
     max-height: 35px;
 }
@@ -48,11 +48,11 @@
     box-shadow: inset 0px 0px 10px 0 rgba(0,0,0,.45), inset 0px 0px 10px 0 rgba(0,0,0,.45), 5px 5px 10px 0 rgba(0,0,0,.4);
 }
 
-.col-sm-12 p{
-    color: #000;
-}
+    .col-sm-12 p {
+        color: #000;
+    }
 
-p.danger{
+p.danger {
     color: red;
 }
 
@@ -68,7 +68,7 @@ p.danger{
     background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
 }
 
-    .jumbotron {
+.jumbotron {
     padding: 30px;
     margin-top: 20px;
     margin-bottom: 30px;
@@ -78,55 +78,54 @@ p.danger{
     color: inherit;
     background-color: #eeeeee;
     opacity: 0.7;
+}
 
-    @media (min-width:1800px) {
-        #Fix_Divrt {
-            width: 325px;
-            margin-top: 62px;
-            position: fixed;
-            top: 0%;
-            right: 0%;
-            z-index: 500;
-        }
-
-            #Fix_Divrt .inner_middle {
-                margin-right: 25px;
-                overflow: hidden;
-                margin-top: 12px;
-            }
+@media (min-width:1800px) {
+    #Fix_Divrt {
+        width: 325px;
+        margin-top: 62px;
+        position: fixed;
+        top: 0%;
+        right: 0%;
+        z-index: 500;
     }
 
-    @media (max-width:1799px) {
-        #Fix_Divrt {
+        #Fix_Divrt .inner_middle {
+            margin-right: 25px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+}
+
+@media (max-width:1799px) {
+    #Fix_Divrt {
+        display: none !important;
+    }
+
+        #Fix_Divrt .inner_middle {
             display: none !important;
         }
+}
 
-            #Fix_Divrt .inner_middle {
-                display: none !important;
-            }
-    }
-
-    .overflow-scroll
-
-{
+.overflow-scroll {
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 400px;
 }
 
-.overflow-scroll::-webkit-scrollbar {
-    width: 12px;
-}
+    .overflow-scroll::-webkit-scrollbar {
+        width: 12px;
+    }
 
-.overflow-scroll::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
+    .overflow-scroll::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+    }
 
-.overflow-scroll::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
+    .overflow-scroll::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -149,13 +148,11 @@ textarea {
 
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-    background-color: #49499A;
-    color: #999999;
+    background: linear-gradient(#b3b3b3, #7a7a7a);
 }
 
 .table tbody tr:hover td, .table tbody tr:hover th {
-    background-color: #343477;
-    color: #999999;
+    background: linear-gradient(#727272, #595959);
 }
 
 .order-table tbody tr:hover td, .table tbody tr:hover th {

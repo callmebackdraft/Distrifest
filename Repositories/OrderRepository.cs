@@ -39,6 +39,25 @@ namespace Repositories
 
         public void FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus)
         {
+            if (_orderStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
+            {
+                foreach (OrderLine _ol in _order.Products)
+                {
+                    int ActualAmount = new ProductRepository().UpdateAmountInStock(_ol.Product, _ol.Amount * -1);
+                    if (ActualAmount != (_ol.Amount * -1))
+                    {
+                        new OrderLineRepository().EditOrderedAmount(_order.ID,_ol.Product.ID, Math.Abs(ActualAmount));
+                    }
+                }
+            }
+            else if(_orderStatus == OrderStatus.OrderStatusesEnum.Rejected)
+            {
+                foreach(OrderLine _ol in _order.Products)
+                {
+                    new ProductRepository().UpdateAmountInStock(_ol.Product,_ol.Amount);
+                }
+            }
+
             Orderctx.FurtherOrderStatus(_order.ID, _orderStatus);
         }
 
