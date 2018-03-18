@@ -239,7 +239,10 @@
     <Compile Include="Models\AuthorizeAttribute.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\DeliveryLineViewModel.cs" />
+    <Compile Include="Models\ViewModels\DeliveryViewModel.cs" />
     <Compile Include="Models\ViewModels\OLChangeViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProductViewModel.cs" />
     <Compile Include="Models\ViewModels\ShoppingCartViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -415,7 +418,9 @@
     <Content Include="Views\Shared\_LayoutNoUI.cshtml" />
     <Content Include="Views\PartialViews\PartialEmptyOrderList.cshtml" />
     <Content Include="Views\Home\Delivery.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Delivery.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DeliveryViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DeliveryLineViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProductViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

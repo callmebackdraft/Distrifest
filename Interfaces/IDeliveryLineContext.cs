@@ -13,5 +13,6 @@ namespace Interfaces
         DataTable GetAllDeliveryLines();
         DataTable GetAllDeliveryLinesForDelivery(int _deliveryID);
         bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine);
+        void SaveAllDeliveryLines(Delivery _delivery);
     }
 }

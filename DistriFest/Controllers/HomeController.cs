@@ -189,6 +189,18 @@ namespace DistriFest.Controllers
             return RedirectToAction("ShoppingCart");
         }
 
+        [HttpPost]
+        public ActionResult ProcessDelivery(DeliveryViewModel _delivery)
+        {
+            IDeliveryLineRepository DelLineRepo = new DeliveryLineRepository();
+            IDeliveryRepository DelRepo = new DeliveryRepository();
+            Delivery delivery = _delivery.ConvertToDelivery();
+            DelLineRepo.SaveAllDeliveryLines(delivery);
+            DelRepo.UpdateDelivery(delivery);
+
+            return RedirectToAction("StockControl");
+        }
+
         public ActionResult EditProduct()
         {
             return RedirectToAction("ManageProducts");
@@ -196,8 +208,7 @@ namespace DistriFest.Controllers
 
         public ActionResult Delivery()
         {
-            Delivery delivery = new Delivery();
-            return View(delivery);
+            return View(new DeliveryViewModel(new DeliveryRepository().GetNewDelivery()));
         }
         
         public ActionResult AddProductToDB()

@@ -19,12 +19,23 @@ namespace DataHandling
 
         public DataTable GetAllDeliveryLinesForDelivery(int _deliveryID)
         {
-            string query = "SELECT * FROM Deliver_Product WHERE DeliveryID = @DeliveryID";
+            string query = "SELECT * FROM Delivery_Product WHERE DeliveryID = @DeliveryID";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@DeliveryID",_deliveryID)
             };
             return SQL_CRUD_Methods.SQLRead(query, parameterlist);
+        }
+
+        public void SaveAllDeliveryLines(Delivery _delivery)
+        {
+            foreach(DeliveryLine DelLine in _delivery.Products)
+            {
+                if (DelLine.Amount > 0)
+                {
+                    SaveDeliveryLine(_delivery.ID, DelLine);
+                }
+            }
         }
 
         public bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine)

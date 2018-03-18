@@ -23,5 +23,18 @@ namespace Models
             Products = _products;
             DeliveryTime = _deliveryTime;
         }
+
+        public Delivery(int _id, List<DeliveryLine> _products, DateTime _deliveryTime,string _externalID)
+        {
+            ID = _id;
+            Products = _products;
+            DeliveryTime = _deliveryTime;
+            ExternalID = _externalID;
+        }
+
+        public void SetProductsList(List<DeliveryLine> _products)
+        {
+            Products = _products;
+        }
     }
 }

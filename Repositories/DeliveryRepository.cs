@@ -32,9 +32,21 @@ namespace Repositories
             return DataRowToDelivery(Delctx.GetDeliveryByID(_deliveryID));
         }
 
-        public bool SaveNewDelivery()
+        public Delivery GetNewDelivery()
         {
-            return Delctx.SaveNewDelivery();
+            Delivery result = GetDeliveryByID(Delctx.GetNewDelivery());
+            List<DeliveryLine> DelLines = new List<DeliveryLine>();
+            foreach(Product _prod in new ProductRepository().GetAllProducts())
+            {
+                DelLines.Add(new DeliveryLine(_prod,0));
+            }
+            result.SetProductsList(DelLines);
+            return result;
+        }
+
+        public void UpdateDelivery(Delivery _delivery)
+        {
+            Delctx.UpdateDelivery(_delivery);
         }
 
         private Delivery DataRowToDelivery(DataRow _dataRow)

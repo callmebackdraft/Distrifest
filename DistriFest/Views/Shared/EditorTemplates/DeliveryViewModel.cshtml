@@ -1,13 +1,16 @@
 ﻿@using Models
-@model Delivery
+@model DeliveryViewModel
 
 @using (Html.BeginForm("ProcessDelivery", "Home", FormMethod.Post))
 {
     <table class="table table-responsive table-striped table-hover table-bordered">
         <thead>
             <tr>
+                @Html.HiddenFor(x => x.DeliveryTime, Model.DeliveryTime)
+                @Html.HiddenFor(x => x.ID,Model.ID)
                 <th>@Model.ID</th>
-                <th colspan="2" class="text-center">Extern Kenmerk: @Html.EditorFor(x => x.ExternalID)</th>
+                <th class="text-center">Extern Kenmerk: @Html.EditorFor(x => x.ExternalID)</th>
+                <th class="text-center"><input type="submit" value="Verwerk Levering" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" /></th>
             </tr>
             <tr>
                 <th>Product</th>

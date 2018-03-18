@@ -11,6 +11,7 @@ namespace Interfaces
     {
         List<Delivery> GetAllDeliverys();
         Delivery GetDeliveryByID(int _deliveryID);
-        bool SaveNewDelivery();
+        Delivery GetNewDelivery();
+        void UpdateDelivery(Delivery _delivery);
     }
 }

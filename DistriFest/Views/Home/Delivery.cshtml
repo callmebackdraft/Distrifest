@@ -1,10 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Nieuwe Levering";
 }
 @using Models
-@model Delivery
+@model DeliveryViewModel
 
 <div class="row">
     @Html.EditorForModel(Model)
-
 </div>

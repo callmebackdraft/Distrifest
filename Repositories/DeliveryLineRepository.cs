@@ -38,6 +38,16 @@ namespace Repositories
             return result;
         }
 
+        public void SaveAllDeliveryLines(Delivery _delivery)
+        {
+            IProductRepository ProdRepo = new ProductRepository();
+            DeLictx.SaveAllDeliveryLines(_delivery);
+            foreach(DeliveryLine _ol in _delivery.Products)
+            {
+                ProdRepo.UpdateAmountInStock(_ol.Product,_ol.Amount);
+            }
+        }
+
         public bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine)
         {
             IProductRepository ProdRepo = new ProductRepository();

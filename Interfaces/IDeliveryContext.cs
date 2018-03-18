@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 
 namespace Interfaces
 {
@@ -11,6 +12,7 @@ namespace Interfaces
     {
         DataTable GetAllDeliverys();
         DataRow GetDeliveryByID(int _deliveryID);
-        bool SaveNewDelivery();
+        int GetNewDelivery();
+        void UpdateDelivery(Delivery _delivery);
     }
 }
