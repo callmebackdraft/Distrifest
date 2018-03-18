@@ -17,5 +17,7 @@ namespace Interfaces
         bool AddProductToOrder(int _orderID, int _productID, int _productAmount);
         DataTable CheckForOpenOrder(int _userID);
         void FurtherOrderStatus(int _id, OrderStatus.OrderStatusesEnum _orderStatus);
+        DataTable GetAllOrders(int _customerID);
+        void UpdateOrder(Order _order);
     }
 }

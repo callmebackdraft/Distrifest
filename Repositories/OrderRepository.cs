@@ -72,6 +72,17 @@ namespace Repositories
             return result;
         }
 
+        public List<Order> GetAllOrders(int _customerID)
+        {
+            List<Order> result = new List<Order>();
+            foreach (DataRow _dr in Orderctx.GetAllOrders(_customerID).Rows)
+            {
+                result.Add(DataRowToOrder(_dr));
+            }
+            return result;
+
+        }
+
         public Order GetOrderByID(int _orderID)
         {
             return DataRowToOrder(Orderctx.GetOrderByID(_orderID));
@@ -84,6 +95,11 @@ namespace Repositories
             Order result = DataRowToOrder(Orderctx.GetOrderByID(newOrderID));
             result.AddOrderStatus(OrderStatusRepo.GenerateOrderStatus(newOrderID, OrderStatus.OrderStatusesEnum.Ordering));
             return result;
+        }
+
+        public void UpdateOrder(Order _order)
+        {
+            Orderctx.UpdateOrder(_order);
         }
 
         private Order DataRowToOrder(DataRow _dataRow)

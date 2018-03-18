@@ -1,0 +1,31 @@
+﻿@using Models
+@model List<Order>
+@{
+    List<Order> sortedList = Model.OrderByDescending(x => x.ID).ToList();
+}
+
+<div class="row">
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="col-xs-1">Bestel NR</th>
+                <th class="col-xs-3">Aantal Producten</th>
+                <th class="col-xs-3 text-center">Tijd Besteld</th>
+                <th>OrderStatus</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Order order in sortedList)
+            {
+                DateTime latestStatus = order.Statuses.Max(x => x.RegisteredDate);
+                <tr>
+                    <td>@order.ID</td>
+                    <td>@order.Products.Sum(x => x.Amount)</td>
+                    <td>@latestStatus</td>
+                    <td>@order.Statuses.First(x => x.RegisteredDate == latestStatus).GetDescription()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

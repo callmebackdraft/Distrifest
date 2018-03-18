@@ -2,19 +2,10 @@
 @using System.Text.RegularExpressions;
 @model Product
 @{
-    string bgcolor;
     string imgLoc = "~/Content/Images/" + Model.Name + ".png";
     Console.WriteLine(imgLoc);
     string volumeString = "Volume: " + Model.Volume + " " + Model.VolumeType;
     string productName = Regex.Replace(Model.Name, "([a-z?])[_ ]?([A-Z])", "$1 $2");
-    if (Model.AmountInStock == 0)
-    {
-        bgcolor = "#ee8a42";
-    }
-    else
-    {
-        bgcolor = "#615192";
-    }
 }
 
 <div class="col-sm-4 text-center">

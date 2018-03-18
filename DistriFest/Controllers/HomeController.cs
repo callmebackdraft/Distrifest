@@ -7,11 +7,12 @@ using DistriFest.Models;
 using DistriFest.Exceptions;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using DistriFest.Models.ViewModels;
 using Rotativa;
 using Models;
 using Repositories;
 using Interfaces;
-
+using System.IO;
 
 namespace DistriFest.Controllers
 {
@@ -25,7 +26,6 @@ namespace DistriFest.Controllers
             IEnumerable<Claim> claims = identity.Claims;
             return View(claims);
         }
-
 
         public ActionResult Ordering()
         {
@@ -64,7 +64,7 @@ namespace DistriFest.Controllers
             return View(ReportRepo.GetAllReportCharts());
         }
 
-        [Models.Authorize(Roles = "Admin, SuperAdmin, DC"), HandleError]
+        [Models.Authorize(Roles = "Admin, SuperAdmin, DC, StockOnly"), HandleError]
         public ActionResult StockControl()
         {
             return View(new ProductRepository().GetAllProducts());
@@ -79,6 +79,13 @@ namespace DistriFest.Controllers
                 ViewBag.ErrorMessage = TempData["ProcessResult"];
             }
             return View(OrderRepo.GetAllOrders());
+        }
+
+        [Models.Authorize(Roles = "Bar, SuperAdmin"), HandleError]
+        public ActionResult BarOrderView()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            return View(new OrderRepository().GetAllOrders(Convert.ToInt16(identity.Claims.Last().Value)));
         }
 
         [HttpPost]
@@ -105,6 +112,22 @@ namespace DistriFest.Controllers
             return RedirectToAction("Ordering");
         }
 
+        private ActionResult GetPDFPackingSlip(Order _order)
+        {
+            try
+            {
+                var report = new PartialViewAsPdf("../PartialViews/PartialPackingSlip", _order)
+                {
+                    FileName = "Bestelling:" + _order.ID,
+                };
+                return report;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An Error Occured while creating PDF please try again: " + e.Message);
+            }
+        }
+
         [HttpPost]
         public ActionResult FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatuses, string _returnURL)
         {
@@ -118,6 +141,12 @@ namespace DistriFest.Controllers
                     OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
                     if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
+                        var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
+                        Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van Bar: " + Order.CustomerID, string.Format(body, Order.CustomerID, DateTime.Now.ToString("dd/MM/yyyy")));
+                        MemoryStream strm = new MemoryStream(((ViewAsPdf)GetPDFPackingSlip(Order)).BuildFile(ControllerContext));
+                        System.Net.Mail.Attachment pdfatt = new System.Net.Mail.Attachment(strm, "Bestelling: " + Order.ID + ".pdf", "application/pdf");
+                        mail.AddAttachment(pdfatt);
+                        mail.SendMail();
                         TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol doorgezet naar Distributiecentrum", _orderID);
                     }
                     else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Processing)
@@ -128,7 +157,10 @@ namespace DistriFest.Controllers
                     {
                         TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol verwerkt", _orderID);
                     }
-                    
+                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Rejected)
+                    {
+                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol Geweigerd", _orderID);
+                    }
                 }
                 else
                 {
@@ -197,6 +229,19 @@ namespace DistriFest.Controllers
             Delivery delivery = _delivery.ConvertToDelivery();
             DelLineRepo.SaveAllDeliveryLines(delivery);
             DelRepo.UpdateDelivery(delivery);
+            return RedirectToAction("StockControl");
+        }
+
+        [HttpPost]
+        public ActionResult ProcessDCOrder(OrderViewModel _order)
+        {
+            IOrderRepository OrderRepo = new OrderRepository();
+            IOrderLineRepository OrderLineRepo = new OrderLineRepository();
+            Order order = _order.ConvertToOrder();
+            OrderRepo.UpdateOrder(order);
+            OrderLineRepo.SaveAllOrderLines(order);
+            FurtherOrderStatus(order.ID, _order.SelectedStatus, "/Home/StockControl");
+
 
             return RedirectToAction("StockControl");
         }
@@ -231,6 +276,13 @@ namespace DistriFest.Controllers
         public ActionResult PartialEmptyOrderList()
         {
             return new PartialViewAsPdf("../PartialViews/PartialEmptyOrderList", new ProductRepository().GetAllProducts());
+        }
+
+        public ActionResult DCOrder()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            IOrderRepository OrderRepo = new OrderRepository();
+            return View(new OrderViewModel(OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value))));
         }
     }
 }

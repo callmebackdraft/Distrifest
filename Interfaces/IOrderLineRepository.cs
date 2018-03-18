@@ -13,5 +13,6 @@ namespace Interfaces
         bool AddOrderLineToOrder(OrderLine _orderLine,int _orderID);
         void RemoveOrderLineFromOrder(int _prodID, int _orderID);
         void EditOrderedAmount(int _orderID, int _prodID, int _amount);
+        void SaveAllOrderLines(Order _order);
     }
 }

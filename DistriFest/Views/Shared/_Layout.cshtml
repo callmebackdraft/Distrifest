@@ -40,30 +40,30 @@
                     <ul class="nav navbar-nav">
                         @if (User.IsInRole("StockOnly"))
                         {
-                            <li>@Html.ActionLink("VoorraadOverzicht", "StockView", "Home")</li>
+                            <li>@Html.ActionLink("VoorraadBeheer", "StockControl", "Home")</li>
                         }
                         else
                         {
-                            <li>@Html.ActionLink("Product lijst", "Ordering", "Home")</li>
-                            if (User.IsInRole("Bar"))
-                            {
-                                <li>@Html.ActionLink("Mijn Bestellingen", "BarOrderView", "Home")</li>
-                            }
-                            if (User.IsInRole("DC"))
-                            {
-
-                            }
-                            if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            if (User.IsInRole("DC") || User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
                             {
                                 <li>@Html.ActionLink("Bestel Overzicht", "DCOverview", "Home")</li>
                                 <li>@Html.ActionLink("Voorraadbeheer", "StockControl", "Home")</li>
+                            }
+                            if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                            {
                                 <li>@Html.ActionLink("Reporting", "Reporting", "Home")</li>
                             }
                             if (User.IsInRole("SuperAdmin"))
                             {
                                 <li>@Html.ActionLink("Beheer Producten", "ManageProducts", "Home")</li>
                             }
-                            <li><a style="font-size:1.5em;" data-toggle="modal" data-target="#ShoppingCart"><i class="fa fa-shopping-cart"></i><span style="font-size:14px;"> (@scvm.Order.Products.Sum(x => x.Amount))</span></a></li>
+                            if (User.IsInRole("Bar") || User.IsInRole("SuperAdmin"))
+                            {
+                                <li>@Html.ActionLink("Product lijst", "Ordering", "Home")</li>
+                                <li>@Html.ActionLink("Mijn Bestellingen", "BarOrderView", "Home")</li>
+                                <li><a href="#" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#ShoppingCart"><i class="fa fa-shopping-cart"></i><span style="font-size:14px;"> (@scvm.Order.Products.Sum(x => x.Amount))</span></a></li>
+                            }
+
                         }
 
                     </ul>

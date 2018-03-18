@@ -9,9 +9,15 @@
 <div class="row" style="margin-top:2em">
     <table class="table table-responsive table-striped table-hover table-bordered">
         <thead>
-            <tr>
-                <th colspan="3" class="text-center"><a href="/Home/Delivery" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);width:100%">Registreer Nieuwe Levering</a></th>
-            </tr>
+            @if (!User.IsInRole("StockOnly"))
+            {
+                <tr>
+                    <th colspan="3" class="text-center"><a href="/Home/Delivery" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);width:100%">Registreer Nieuwe Levering</a></th>
+                </tr>
+                <tr>
+                    <th colspan="3" class="text-center"><a href="/Home/DCOrder" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);width:100%">Registreer Nieuwe Bestelling</a></th>
+                </tr>
+            }
             <tr>
                 <th>#</th>
                 <th>Product</th>

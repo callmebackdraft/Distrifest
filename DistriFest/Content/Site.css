@@ -6,6 +6,10 @@
     background-repeat: repeat;
 }
 
+.clickable {
+    cursor:pointer;
+}
+
 .navbar-inverse {
     background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
     border: none;

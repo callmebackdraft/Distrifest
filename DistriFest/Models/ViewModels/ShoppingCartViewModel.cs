@@ -21,7 +21,7 @@ namespace DistriFest.Models.ViewModels
         {
             IOrderRepository OrderRepo = new OrderRepository();
             UserID = _userID;
-            Order = OrderRepo.CheckForOpenOrder(_userID); ;
+            Order = OrderRepo.CheckForOpenOrder(_userID);
         }
     }
 }

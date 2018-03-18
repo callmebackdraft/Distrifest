@@ -44,6 +44,16 @@ namespace Repositories
             IProductRepository ProdRepo = new ProductRepository();
             return new OrderLine(ProdRepo.GetProductByID(Convert.ToInt16(_dr.Field<decimal>("ProductID"))), Convert.ToInt16(_dr.Field<decimal>("Amount")));
         }
-        
+
+        public void SaveAllOrderLines(Order _order)
+        {
+            foreach(OrderLine _ol in _order.Products)
+            {
+                if(_ol.Amount > 0)
+                {
+                    AddOrderLineToOrder(_ol, _order.ID);
+                }
+            }
+        }
     }
 }

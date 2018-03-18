@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Delivery.cs" />
     <Compile Include="DeliveryLine.cs" />
+    <Compile Include="Mail.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderLine.cs" />
     <Compile Include="OrderStatus.cs" />
