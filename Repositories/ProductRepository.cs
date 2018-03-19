@@ -48,6 +48,11 @@ namespace Repositories
             return DataRowToProduct(Prodctx.GetProductByID(_productID));
         }
 
+        public int SaveNewProduct(Product _product)
+        {
+            return Prodctx.SaveNewProduct(_product);
+        }
+
         public int UpdateAmountInStock(Product _product, int _amount)
         {
             return Prodctx.UpdateAmountInStock(_product, _amount);
@@ -55,7 +60,7 @@ namespace Repositories
 
         private Product DataRowToProduct(DataRow _dataRow)
         {
-            return new Product(Convert.ToInt32(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Name"), Convert.ToInt32(_dataRow.Field<decimal>("Volume")), _dataRow.Field<string>("VolumeType"), _dataRow.Field<bool>("Active"), Convert.ToInt16(_dataRow.Field<decimal>("AmountInStock")));
+            return new Product(Convert.ToInt32(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Type"), _dataRow.Field<string>("Name"), Convert.ToInt32(_dataRow.Field<decimal>("Volume")), _dataRow.Field<string>("VolumeType"), _dataRow.Field<bool>("Active"), Convert.ToInt16(_dataRow.Field<decimal>("AmountInStock")));
         }
     }
 }

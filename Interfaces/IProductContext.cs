@@ -15,5 +15,6 @@ namespace Interfaces
         DataRow GetProductByID(int _productID);
         int UpdateAmountInStock(Product _product,int Amount);
         void EditProduct(Product _product);
+        int SaveNewProduct(Product _product);
     }
 }

@@ -1,0 +1,59 @@
+﻿@using DistriFest.Models.ViewModels
+@model ProductViewModel
+
+@using (Html.BeginForm("AddProductToDB", "Home", FormMethod.Post))
+{
+
+    <div id="AddProduct" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Voeg Product Toe</h4>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(x => x.AmountInStock, 0)
+                    <table class="table-responsive" style="background-color:transparent" align="center">
+                        <tbody>
+                            <tr>
+                                <td width="33%">@Html.LabelFor(x => x.Name)</td>
+                                <td width="33%">@Html.EditorFor(x => x.Name, Model.Name)</td>
+                                <td width="33%">@Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })</td>
+                            </tr>
+                            <tr>
+                                <td width="33%">@Html.LabelFor(x => x.Type)</td>
+                                <td width="33%">@Html.EditorFor(x => x.Type, Model.Type)</td>
+                                <td width="33%">@Html.ValidationMessageFor(x => x.Type, null, new { @class = "text-danger" })</td>
+                            </tr>
+                            <tr>
+                                <td width="33%">@Html.LabelFor(x => x.Volume)</td>
+                                <td width="33%">@Html.EditorFor(x => x.Volume, Model.Volume)</td>
+                                <td width="33%">@Html.ValidationMessageFor(x => x.Volume, null, new { @class = "text-danger" })</td>
+                            </tr>
+                            <tr>
+                                <td width="33%">@Html.LabelFor(x => x.VolumeType)</td>
+                                <td width="33%">@Html.EditorFor(x => x.VolumeType, Model.VolumeType)</td>
+                                <td width="33%">@Html.ValidationMessageFor(x => x.VolumeType, null, new { @class = "text-danger" })</td>
+                            </tr>
+                            <tr>
+                                <td width="33%">@Html.LabelFor(x => x.Active)</td>
+                                <td width="33%">@Html.EditorFor(x => x.Active, Model.Active)</td>
+                            </tr>
+                            
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Opslaan" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+

@@ -433,6 +433,7 @@
     <Content Include="Views\Shared\EditorTemplates\OrderViewModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\OrderLineViewModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProductViewModelForEdit.cshtml" />
+    <Content Include="Views\PartialViews\PartialAddItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

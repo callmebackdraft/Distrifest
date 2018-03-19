@@ -50,6 +50,21 @@ namespace DataHandling
             return SQL_CRUD_Methods.SQLRead(query, parameterlist).Rows[0];
         }
 
+        public int SaveNewProduct(Product _product)
+        {
+            string query = "INSERT INTO Product(Type,Name,Volume,VolumeType,AmountInStock,Active) VALUES (@Type,@Name,@Volume,@VolumeType,@AmountInStock,@Active)";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@Type",_product.VolumeType),
+                new KeyValuePair<string, object>("@Name",_product.Name),
+                new KeyValuePair<string, object>("@Volume",_product.Volume),
+                new KeyValuePair<string, object>("@VolumeType",_product.VolumeType),
+                new KeyValuePair<string, object>("@AmountInStock",0),
+                new KeyValuePair<string, object>("@Active",_product.Active)
+            };
+            return SQL_CRUD_Methods.SQLInsert(query,parameterlist);
+        }
+
         public int UpdateAmountInStock(Product _product, int _amount)
         {
             string query = "DECLARE @Difference int SET @Difference = (SELECT AmountInStock FROM Product WHERE ID = @ProductID) + @AmountDelivered IF @Difference < 0 SET @AmountDelivered = @AmountDelivered - @Difference; UPDATE Product SET AmountInStock = AmountInStock + @AmountDelivered WHERE ID = @ProductID SELECT @AmountDelivered AS 'Result'";

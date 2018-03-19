@@ -265,9 +265,11 @@ namespace DistriFest.Controllers
             return View(new DeliveryViewModel(new DeliveryRepository().GetNewDelivery()));
         }
         
-        public ActionResult AddProductToDB()
+        public ActionResult AddProductToDB(ProductViewModel _product)
         {
-            return View();
+            IProductRepository ProdRepo = new ProductRepository();
+            int x = ProdRepo.SaveNewProduct(_product.ConvertToProduct());
+            return RedirectToAction("ManageProducts");
         }
 
         public ActionResult ShowOrder(int _orderID)

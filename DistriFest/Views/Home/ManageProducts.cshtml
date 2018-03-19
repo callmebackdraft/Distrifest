@@ -7,6 +7,8 @@
 @using DistriFest.Models.ViewModels
 @model List<ProductViewModel>
 
+@Html.Partial("../PartialViews/PartialAddItem", new ProductViewModel())
+
 <div class="row">
     <table class="table table-bordered table-responsive table-striped">
         <thead>
@@ -19,12 +21,10 @@
         <tbody>
             @foreach (ProductViewModel product in SortedList)
             {
-
                 @Html.Partial("../PartialViews/PartialManageItem", product);
-
             }
-            <tr onclick="location.href = '@(Url.Action("AddProductToDB","Home"))'">
-                <td colspan="3" class="text-center" style="cursor:pointer"> Voeg Product Toe</td>
+            <tr>
+                <td colspan="4" class="text-center"><a href="#" class="btn btn-default" data-toggle="modal" data-target="#AddProduct" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);width:100%">Voeg nieuw product toe</a></td>
             </tr>
         </tbody>
     </table>

@@ -1,20 +1,11 @@
 ﻿@using DistriFest.Models.ViewModels
 @using System.Text.RegularExpressions;
 @model ProductViewModel
-@{
-    string imgLoc = "~/Content/Images/" + Model.Name + ".png";
-    Console.WriteLine(imgLoc);
-    string volumeString = "Volume: " + Model.Volume + " " + Model.VolumeType;
-    string productName = Regex.Replace(Model.Name, "([a-z?])[_ ]?([A-Z])", "$1 $2");
-}
 
-<tr>
-    @using (Html.BeginForm("EditProduct", "Home", FormMethod.Post))
-    {
-        Html.HiddenFor(x => x.ID, Model.ID);
-        <td>@Model.Name</td>
-        <td>@Html.EditorFor(x => x.Volume, Model.Volume)  @Html.EditorFor(x => x.VolumeType, Model.VolumeType)</td>
-        <td>@Html.EditorFor(x => x.Active, Model.Active)</td>
-        <td class="text-center"><input type="submit" value="Opslaan" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" /></td>
-    }
-</tr>
+@using (Html.BeginForm("EditProduct", "Home", FormMethod.Post))
+{
+    <td>@Model.Name</td>
+    <td>@Html.EditorFor(x => x.Volume, Model.Volume)  @Html.EditorFor(x => x.VolumeType, Model.VolumeType)</td>
+    <td>@Html.EditorFor(x => x.Active, Model.Active)</td>
+    <td class="text-center"><input type="submit" value="Opslaan" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" /></td>
+}

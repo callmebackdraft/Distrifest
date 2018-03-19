@@ -10,6 +10,18 @@
     cursor:pointer;
 }
 
+input.input-validation-error,
+textarea.input-validation-error,
+select.input-validation-error {
+    border: 1px solid #CD0A0A;
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }
+}
+
 .navbar-inverse {
     background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
     border: none;
