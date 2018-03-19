@@ -314,8 +314,8 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
-    color: #343477;
-    background-color: #343477;
+    color: #474B4E;
+    background-color: #474B4E;
 }
 
 input,
@@ -1406,7 +1406,8 @@ pre code {
 
 table {
   max-width: 100%;
-  background-color: transparent;
+  background-color: #fff;
+  vertical-align: middle;
 }
 
 th {
@@ -1426,12 +1427,12 @@ th {
 .table tfoot > tr > td {
   padding: 8px;
   line-height: 1.428571429;
-  vertical-align: top;
+  /*vertical-align: middle;*/
   border-top: 1px solid #dddddd;
 }
 
 .table thead > tr > th {
-  vertical-align: bottom;
+  /*vertical-align: bottom;*/
   border-bottom: 2px solid #dddddd;
 }
 
