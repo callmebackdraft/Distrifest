@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Nieuwe Levering";
+}
+@using DistriFest.Models.ViewModels
+@model DeliveryViewModel
+
+<div class="row">
+    @Html.EditorForModel(Model)
+</div>

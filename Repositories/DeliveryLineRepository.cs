@@ -38,9 +38,21 @@ namespace Repositories
             return result;
         }
 
-        public bool SaveDeliveryLine(int _orderId, DeliveryLine _deliveryLine)
+        public void SaveAllDeliveryLines(Delivery _delivery)
         {
-            return DeLictx.SaveDeliveryLine(_orderId, _deliveryLine);
+            IProductRepository ProdRepo = new ProductRepository();
+            DeLictx.SaveAllDeliveryLines(_delivery);
+            foreach(DeliveryLine _ol in _delivery.Products)
+            {
+                ProdRepo.UpdateAmountInStock(_ol.Product,_ol.Amount);
+            }
+        }
+
+        public bool SaveDeliveryLine(int _deliveryID, DeliveryLine _deliveryLine)
+        {
+            IProductRepository ProdRepo = new ProductRepository();
+            ProdRepo.UpdateAmountInStock(_deliveryLine.Product, _deliveryLine.Amount);
+            return DeLictx.SaveDeliveryLine(_deliveryID, _deliveryLine);
         }
 
         private DeliveryLine DataRowToDeliveryLine(DataRow _dataRow)

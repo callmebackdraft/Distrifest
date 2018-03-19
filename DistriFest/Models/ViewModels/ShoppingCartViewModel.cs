@@ -13,11 +13,15 @@ namespace DistriFest.Models.ViewModels
         public Order Order { get; private set; }
         public int UserID { get; private set; }
 
+        public ShoppingCartViewModel()
+        {
+
+        }
         public ShoppingCartViewModel(int _userID)
         {
             IOrderRepository OrderRepo = new OrderRepository();
             UserID = _userID;
-            Order = OrderRepo.CheckForOpenOrder(_userID); ;
+            Order = OrderRepo.CheckForOpenOrder(_userID);
         }
     }
 }

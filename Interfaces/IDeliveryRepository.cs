@@ -9,8 +9,9 @@ namespace Interfaces
 {
     public interface IDeliveryRepository
     {
-        Delivery GetAllDeliverys();
-        List<Delivery> GetDeliveryByID();
-        bool SaveNewDelivery();
+        List<Delivery> GetAllDeliverys();
+        Delivery GetDeliveryByID(int _deliveryID);
+        Delivery GetNewDelivery();
+        void UpdateDelivery(Delivery _delivery);
     }
 }

@@ -1,0 +1,32 @@
+﻿@using DistriFest.Models.ViewModels
+@using Models
+@model OrderViewModel
+
+@using (Html.BeginForm("ProcessDCOrder", "Home", FormMethod.Post))
+{
+    <table class="table table-responsive table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                @Html.HiddenFor(x => x.ID, Model.ID)
+                @{ 
+                    List<SelectListItem> EnumList = (List<SelectListItem>)EnumHelper.GetSelectList(typeof(OrderStatus.OrderStatusesEnum));
+                    EnumList.RemoveAt(0);
+                }
+                <th>@Model.ID</th>
+                <th class="text-center">Bar: @Html.EditorFor(x => x.CustomerID) Status: @Html.DropDownList("SelectedStatus", EnumList)</th>
+                <th class="text-center"><input type="submit" value="Verwerk Bestelling" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" /></th>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <th>Volume</th>
+                <th>Aantal Besteld</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Products.Count; i++)
+            {
+                @Html.EditorFor(x => x.Products[i]);
+            }
+        </tbody>
+    </table>
+}

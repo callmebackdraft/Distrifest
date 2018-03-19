@@ -70,6 +70,31 @@ namespace DataHandling
             };
             return SQL_CRUD_Methods.SQLRead(query, parameterlist);
         }
-  
+
+        public DataTable GetAllOrders(int _customerID)
+        {
+            string query = "SELECT * FROM Orders WHERE CustomerID = @CustomerID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@CustomerID", _customerID),
+            };
+            return SQL_CRUD_Methods.SQLRead(query,parameterlist);
+        }
+
+        public void UpdateOrder(Order _order)
+        {
+            string query = "UPDATE Orders SET CustomerID = @CustomerID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@CustomerID", _order.CustomerID)
+            };
+            SQL_CRUD_Methods.SQLUpdate(query,parameterlist);
+        }
+
+        public DataTable GetAllRelevantOrders()
+        {
+            string query = "SELECT t1.* FROM Orders t1 INNER JOIN (SELECT   MAX( Status ) AS max_total, OrderID FROM OrderStatus GROUP BY OrderID) t2 ON t1.ID = t2.OrderID WHERE t2.max_total > 0 AND t2.max_total < 3";
+            return SQL_CRUD_Methods.SQLRead(query);
+        }
     }
 }

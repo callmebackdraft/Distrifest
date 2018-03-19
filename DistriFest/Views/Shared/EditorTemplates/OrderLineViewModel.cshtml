@@ -1,0 +1,8 @@
+﻿@using DistriFest.Models.ViewModels
+@model OrderLineViewModel
+<tr>
+    @Html.EditorFor(x => x.Product)
+    <td>@Model.Product.Name</td>
+    <td>@Model.Product.Volume @Model.Product.VolumeType</td>
+    <td>@Html.EditorFor(x => x.Amount, new { htmlAttributes = new { min = 0 } })</td>
+</tr>

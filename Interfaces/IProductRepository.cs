@@ -12,5 +12,6 @@ namespace Interfaces
         List<Product> GetAllProducts();
         List<Product> GetAllProducts(int _orderID);
         Product GetProductByID(int _productID);
+        int UpdateAmountInStock(Product _product, int _amount);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Interfaces
         DataTable GetAllProducts();
         DataTable GetAllProducts(int _orderID);
         DataRow GetProductByID(int _productID);
+        int UpdateAmountInStock(Product _product,int Amount);
     }
 }
