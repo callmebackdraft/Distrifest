@@ -11,6 +11,19 @@ namespace DataHandling
 {
     public class ProductSQLQuery : IProductContext
     {
+        public void EditProduct(Product _product)
+        {
+            string query = "UPDATE Product SET Volume = @Volume, VolumeType = @VolumeType, Active = @Active WHERE ID = @ProductID";
+            List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
+            {
+                new KeyValuePair<string, object>("@ProductID",_product.ID),
+                new KeyValuePair<string, object>("@Volume",_product.Volume),
+                new KeyValuePair<string, object>("@VolumeType",_product.VolumeType),
+                new KeyValuePair<string, object>("@Active",_product.Active)
+            };
+            SQL_CRUD_Methods.SQLUpdate(query,parameterlist);
+        }
+
         public DataTable GetAllProducts()
         {
             string query = "SELECT * FROM Product";

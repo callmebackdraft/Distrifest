@@ -53,7 +53,11 @@ namespace DistriFest.Controllers
         public ActionResult ManageProducts()
         {
             IProductRepository prodRepo = new ProductRepository();
-            List<Product> productList = prodRepo.GetAllProducts();
+            List<ProductViewModel> productList = new List<ProductViewModel>();
+            foreach(Product _prod in prodRepo.GetAllProducts())
+            {
+                productList.Add(new ProductViewModel(_prod));
+            }
             return View(productList);
         }
 
@@ -138,7 +142,10 @@ namespace DistriFest.Controllers
                 Order Order = OrderRepo.GetOrderByID(_orderID);
                 if (Order.Products.Count > 0)
                 {
-                    OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
+                    if (Order.Statuses.FindIndex(x => x.RegisteredStatus == _orderStatuses) == -1)
+                    {
+                        OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
+                    }
                     if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
                         var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
@@ -246,8 +253,10 @@ namespace DistriFest.Controllers
             return RedirectToAction("StockControl");
         }
 
-        public ActionResult EditProduct()
+        public ActionResult EditProduct(ProductViewModel _product)
         {
+            IProductRepository ProdRepo = new ProductRepository();
+            ProdRepo.EditProduct(_product.ConvertToProduct());
             return RedirectToAction("ManageProducts");
         }
 

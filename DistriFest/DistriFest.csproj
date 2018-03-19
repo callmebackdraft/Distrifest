@@ -432,6 +432,7 @@
     <Content Include="Views\Home\DCOrder.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\OrderViewModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\OrderLineViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ProductViewModelForEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

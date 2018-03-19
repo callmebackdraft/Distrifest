@@ -17,6 +17,12 @@ namespace Repositories
         {
             Prodctx = new ProductSQLQuery();
         }
+
+        public void EditProduct(Product _product)
+        {
+            Prodctx.EditProduct(_product);
+        }
+
         public List<Product> GetAllProducts()
         {
             List<Product> result = new List<Product>();

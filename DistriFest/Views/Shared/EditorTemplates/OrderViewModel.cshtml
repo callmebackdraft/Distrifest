@@ -8,12 +8,9 @@
         <thead>
             <tr>
                 @Html.HiddenFor(x => x.ID, Model.ID)
-                @{ 
-                    List<SelectListItem> EnumList = (List<SelectListItem>)EnumHelper.GetSelectList(typeof(OrderStatus.OrderStatusesEnum));
-                    EnumList.RemoveAt(0);
-                }
+                @Html.HiddenFor(x => x.SelectedStatus, OrderStatus.OrderStatusesEnum.WaitingForDC)
                 <th>@Model.ID</th>
-                <th class="text-center">Bar: @Html.EditorFor(x => x.CustomerID) Status: @Html.DropDownList("SelectedStatus", EnumList)</th>
+                <th class="text-center">Bar: @Html.EditorFor(x => x.CustomerID)</th>
                 <th class="text-center"><input type="submit" value="Verwerk Bestelling" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" /></th>
             </tr>
             <tr>

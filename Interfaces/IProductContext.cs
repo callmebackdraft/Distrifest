@@ -14,5 +14,6 @@ namespace Interfaces
         DataTable GetAllProducts(int _orderID);
         DataRow GetProductByID(int _productID);
         int UpdateAmountInStock(Product _product,int Amount);
+        void EditProduct(Product _product);
     }
 }

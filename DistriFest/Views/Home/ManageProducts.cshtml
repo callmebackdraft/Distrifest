@@ -1,11 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.title = "Product Beheer";
-    List<Product> SortedList = Model.OrderBy(o => o.VolumeType).ToList();
+    List<ProductViewModel> SortedList = Model.OrderBy(o => o.VolumeType).ToList();
 }
 @using System.Security.Claims
-@using Models
-@model List<Product>
+@using DistriFest.Models.ViewModels
+@model List<ProductViewModel>
 
 <div class="row">
     <table class="table table-bordered table-responsive table-striped">
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Product product in SortedList)
+            @foreach (ProductViewModel product in SortedList)
             {
 
                 @Html.Partial("../PartialViews/PartialManageItem", product);
