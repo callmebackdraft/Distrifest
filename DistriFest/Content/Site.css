@@ -2,7 +2,7 @@
     padding-top: 50px;
     padding-bottom: 20px;
     background-color: #2e393c;
-    background-image: url(Images/bg_logo.png);
+    background-image: url(Images/background_02.png);
     background-repeat: repeat;
 }
 
@@ -13,7 +13,7 @@
 .navbar-inverse {
     background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
     border: none;
-    box-shadow: rgba(0,0,0,0.35) 0px 5px 10px;
+    box-shadow: rgba(0,0,0,0.35) 0 5px 10px;
     color: #fff;
 }
 
@@ -49,16 +49,16 @@
     border-radius: 8px;
     border: 5px solid #b3b3b3;
     margin-bottom: 15px;
-    box-shadow: inset 0px 0px 10px 0 rgba(0,0,0,.45), inset 0px 0px 10px 0 rgba(0,0,0,.45), 5px 5px 10px 0 rgba(0,0,0,.4);
+    box-shadow: inset 0 0 10px 0 rgba(0,0,0,.45), inset 0 0 10px 0 rgba(0,0,0,.45), 5px 5px 10px 0 rgba(0,0,0,.4);
 }
 
     .col-sm-12 p {
         color: #000;
     }
 
-p.danger {
-    color: red;
-}
+        p.danger {
+            color: red;
+        }
 
 .bestelinput {
     width: 120px;
@@ -84,13 +84,17 @@ p.danger {
     opacity: 0.7;
 }
 
+.footertext{
+    color: #fff;
+}
+
 @media (min-width:1800px) {
     #Fix_Divrt {
         width: 325px;
         margin-top: 62px;
         position: fixed;
-        top: 0%;
-        right: 0%;
+        top: 0;
+        right: 0;
         z-index: 500;
     }
 
@@ -123,12 +127,16 @@ p.danger {
 
     .overflow-scroll::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
     }
 
     .overflow-scroll::-webkit-scrollbar-thumb {
         border-radius: 10px;
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -152,11 +160,12 @@ textarea {
 
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-    background: linear-gradient(#b3b3b3, #7a7a7a);
+    background: #c2c2c2;
 }
 
 .table tbody tr:hover td, .table tbody tr:hover th {
-    background: linear-gradient(#727272, #595959);
+    background: #7f7f01;
+    color: #fff;
 }
 
 .order-table tbody tr:hover td, .table tbody tr:hover th {
