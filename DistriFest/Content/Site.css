@@ -6,6 +6,15 @@
     background-repeat: repeat;
 }
 
+a {
+    color: #7f7f01;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #9a9a01;
+}
+
 .clickable {
     cursor:pointer;
 }
@@ -46,6 +55,80 @@ select.input-validation-error {
 .logo {
     margin-top: 7px;
     max-height: 35px;
+}
+
+.logintitle{
+    color: #fff;
+}
+
+.btn-default {
+    color: #fff;
+    background: linear-gradient(#b3b3b3, #7a7a7a);
+    border-color: #ccc;
+}
+
+.btn-default-wide {
+    color: #fff;
+    background: linear-gradient(#b3b3b3, #7a7a7a);
+    border-color: #ccc;
+    width: 100%;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+    color: #fff;
+    background: linear-gradient(#cacaca, #999999);
+    border-color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.btn-default-wide:hover,
+.btn-default-wide:focus,
+.btn-default-wide:active,
+.btn-default-wide.active,
+.open .dropdown-toggle.btn-default-wide {
+    color: #fff;
+    background: linear-gradient(#cacaca, #999999);
+    border-color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.btn-green {
+    color: #fff;
+    background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
+    border-color: #5c5c00;
+}
+
+.btn-green-wide {
+    color: #fff;
+    background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
+    border-color: #5c5c00;
+    width: 100%;
+}
+
+.btn-green:hover,
+.btn-green:focus,
+.btn-green:active,
+.btn-green.active,
+.open .dropdown-toggle.btn-green {
+    color: #fff;
+    background: linear-gradient(#baba01, #9e9e02);
+    border-color: #7f7f01;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.btn-green-wide:hover,
+.btn-green-wide:focus,
+.btn-green-wide:active,
+.btn-green-wide.active,
+.open .dropdown-toggle.btn-green-wide {
+    color: #fff;
+    background: linear-gradient(#baba01, #9e9e02);
+    border-color: #7f7f01;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
 
 .row {
@@ -92,8 +175,7 @@ select.input-validation-error {
     font-weight: 200;
     line-height: 2.1428571435;
     color: inherit;
-    background-color: #eeeeee;
-    opacity: 0.7;
+    background-color: rgba(255,255,255,0.7);
 }
 
 .footertext{
@@ -177,6 +259,11 @@ textarea {
 
 .table tbody tr:hover td, .table tbody tr:hover th {
     background: #7f7f01;
+    color: #fff;
+}
+
+.table tbody tr.last:hover td, .table tbody tr:hover th {
+    background-color: inherit;
     color: #fff;
 }
 

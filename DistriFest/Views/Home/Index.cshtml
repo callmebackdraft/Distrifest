@@ -6,11 +6,11 @@
 @using System.Security.Claims
 @model IEnumerable<Claim>
 <div class="jumbotron" style=" color: #000">
-    <h1>DistriFest</h1>
+    <h1>Welkom bij <img src="~/Content/Images/distrilogo_png.png"/></h1>
     @if (User.Identity.IsAuthenticated)
     {
         <div class="text-center">
-            <p class="lead">Login from @User.Identity.Name Account.</p>
+            <p class="lead">Login from account: @User.Identity.Name</p>
             @*<p>@ViewBag.Hash</p>*@
             @Model.Last().Value
             @foreach (Claim claim in Model)
