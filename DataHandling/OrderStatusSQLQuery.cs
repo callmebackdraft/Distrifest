@@ -11,6 +11,12 @@ namespace DataHandling
 {
     public class OrderStatusSQLQuery : IOrderStatusContext
     {
+        public DataTable GetAllStatuses()
+        {
+            string query = "SELECT * FROM OrderStatus";
+            return SQL_CRUD_Methods.SQLRead(query);
+        }
+
         public DataTable GetOrderStatusesForOrder(int _orderID)
         {
             string query = "SELECT * FROM OrderStatus WHERE OrderID = @OrderID";

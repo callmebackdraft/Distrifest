@@ -34,7 +34,7 @@ namespace Repositories
 
         private User DataRowToUser(DataRow _dataRow)
         {
-            return new User(Convert.ToInt16(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Name"), _dataRow.Field<bool>("Active"));
+            return new User(Convert.ToInt16(_dataRow.Field<decimal>("ID")), _dataRow.Field<string>("Name"), _dataRow.Field<string>("Role"),_dataRow.Field<bool>("Active"));
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Interfaces
         bool AddOrderLineToOrder(OrderLine _orderLine, int _orderID);
         void RemoveOrderLineFromOrder(int iD1, int iD2);
         void EditOrderedAmount(int prodID, int orderID, int amount);
+        DataTable GetAllOrderLines();
     }
 }

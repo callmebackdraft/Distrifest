@@ -13,6 +13,8 @@ using Models;
 using Repositories;
 using Interfaces;
 using System.IO;
+using DataHandling;
+using ClosedXML.Excel;
 
 namespace DistriFest.Controllers
 {
@@ -294,6 +296,37 @@ namespace DistriFest.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             IOrderRepository OrderRepo = new OrderRepository();
             return View(new OrderViewModel(OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value))));
+        }
+
+        [HttpPost]
+        public FileResult GetExcelReport()
+        {
+            //IUserContext Userctx = new UserSQLQuery();
+            //IOrderContext Orderctx = new OrderSQLQuery();
+            //IOrderLineContext OrderLinectx = new OrderLineSQLQuery();
+            //IOrderStatusContext OrderStatusctx = new OrderStatusSQLQuery();
+            //IProductContext Productctx = new ProductSQLQuery();
+            //IDeliveryContext Deliveryctx = new DeliverySQLQuery();
+            //IDeliveryLineContext DeliveryLinectx = new DeliveryLineContext();
+            IReportContext Reportctx = new ReportSQLQuery();
+            using (XLWorkbook report = new XLWorkbook())
+            {
+                //report.Worksheets.Add(Userctx.GetAllUsers(), "Gebruikers");
+                //report.Worksheets.Add(Orderctx.GetAllOrders(), "Bestellingen");
+                //report.Worksheets.Add(OrderLinectx.GetAllOrderLines(), "BestelRegels");
+                //report.Worksheets.Add(OrderStatusctx.GetAllStatuses(), "BestelStatussen");
+                //report.Worksheets.Add(Productctx.GetAllProducts(), "Producten");
+                //report.Worksheets.Add(Deliveryctx.GetAllDeliverys(), "Leveringen");
+                //report.Worksheets.Add(DeliveryLinectx.GetAllDeliveryLines(), "LeverRegels");
+                report.Worksheets.Add(Reportctx.GetOrderedReport(),"Bestel per bar");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    report.SaveAs(stream);
+                    return File(stream.ToArray(),"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","DistriFest-Repost.xlsx");
+                }
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

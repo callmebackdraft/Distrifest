@@ -17,3 +17,10 @@
         @Html.Partial("../PartialViews/PartialChart", chart);
     </div>
 }
+
+<div>
+    @using (Html.BeginForm("GetExcelReport", "Home", FormMethod.Post))
+    {
+        <input type="submit" value="Exporteer data" />
+    }
+</div>

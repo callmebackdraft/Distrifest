@@ -12,5 +12,6 @@ namespace Interfaces
     {
         DataTable GetOrderStatusesForOrder(int _orderID);
         bool SaveOrderStatusForOrder(OrderStatus _orderStatus);
+        DataTable GetAllStatuses();
     }
 }

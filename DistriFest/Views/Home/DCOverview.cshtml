@@ -20,6 +20,8 @@
                 <th class="col-xs-3">Aantal Producten</th>
                 <th class="col-xs-3 text-center">Tijd Besteld</th>
                 <th class="col-xs-2 text-center">Neem In behandeling</th>
+                <th>Weiger</th>
+                <th>Bekijk</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +30,8 @@
                 if (order.Statuses.Exists(x => x.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC) && order.Statuses.Count <= 2)
                 {
                     int ProductAmount = 0;
-                    <tr onclick="window.open('@(Url.Action("PartialPackingSlip", "Home", new { _orderID = order.ID }))')">
+                    @*<tr onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')">*@
+                    <tr>
                         <td>@order.ID</td>
                         <td>@order.CustomerID</td>
                         @foreach (OrderLine prod in order.Products)
@@ -61,6 +64,7 @@
                                 <input type="submit" value="Weiger" />
                             }
                         </td>
+                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')"/></td>
                     </tr>
                 }
             }
@@ -75,6 +79,7 @@
                 <th class="col-xs-3">Aantal Producten</th>
                 <th class="col-xs-3 text-center">Tijd Aangenomen</th>
                 <th class="col-xs-2 text-center">Verwerkt</th>
+                <th class="text-center">Bekijk</th>
             </tr>
         </thead>
         <tbody>
@@ -102,6 +107,7 @@
                                 <input type="submit" value="Afgehandeld" />
                             }
                         </td>
+                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
                     </tr>
                 }
             }

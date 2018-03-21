@@ -63,7 +63,17 @@ namespace DataHandling
 
         public DataTable CheckForOpenOrder(int _userID)
         {
-            string query = "SELECT OrderStatus.Status, Orders.ID, Orders.CustomerID FROM OrderStatus LEFT JOIN Orders ON Orders.ID = OrderStatus.OrderID WHERE OrderID =(SELECT Orders.ID FROM Orders WHERE CustomerID = @UserID AND ID=( SELECT MAX(ID) FROM Orders WHERE CustomerID = @UserID))";
+            string query =
+                @"SELECT Q.Max_Status AS [Status] ,MIN(Q.OrderID) AS OrderID, Q.CustomerID FROM (
+                SELECT MAX (Status) AS [Max_Status], OrderID, O.CustomerID
+                FROM OrderStatus AS OS INNER JOIN 
+                (SELECT *
+                FROM Orders) AS O ON OS.OrderID = O.ID
+                WHERE CustomerID = @UserID 
+                Group BY OrderID, O.CustomerID
+                ) AS Q
+                WHERE q.Max_Status = 0
+                GROUP BY Q.Max_Status, Q.CustomerID";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@UserID", _userID),
@@ -83,10 +93,11 @@ namespace DataHandling
 
         public void UpdateOrder(Order _order)
         {
-            string query = "UPDATE Orders SET CustomerID = @CustomerID";
+            string query = "UPDATE Orders SET CustomerID = @CustomerID WHERE ID = @OrderID";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@CustomerID", _order.CustomerID)
+                new KeyValuePair<string, object>("@CustomerID", _order.CustomerID),
+                new KeyValuePair<string, object>("@OrderID", _order.ID)
             };
             SQL_CRUD_Methods.SQLUpdate(query,parameterlist);
         }

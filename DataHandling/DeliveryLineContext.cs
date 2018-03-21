@@ -13,7 +13,7 @@ namespace DataHandling
     {
         public DataTable GetAllDeliveryLines()
         {
-            string query = "SELECT * FROM Deliver_Product";
+            string query = "SELECT * FROM Delivery_Product";
             return SQL_CRUD_Methods.SQLRead(query);
         }
 

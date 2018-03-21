@@ -12,13 +12,13 @@ namespace DataHandling
     {
         public DataTable GetAllUsers()
         {
-            string query = "SELECT ID, Name, Active FROM Users";
+            string query = "SELECT ID, Name, Role, Active FROM Users";
             return SQL_CRUD_Methods.SQLRead(query);
         }
 
         public DataRow GetUserByID(int _userID)
         {
-            string query = "SELECT ID, Name, Active FROM Users WHERE ID = @UserID";
+            string query = "SELECT ID, Name, Role, Active FROM Users WHERE ID = @UserID";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
                 new KeyValuePair<string, object>("@UserID",_userID)

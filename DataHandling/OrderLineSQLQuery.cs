@@ -53,5 +53,11 @@ namespace DataHandling
             };
             SQL_CRUD_Methods.SQLUpdate(query, parameterlist);
         }
+
+        public DataTable GetAllOrderLines()
+        {
+            string query = "SELECT * FROM Order_Product";
+            return SQL_CRUD_Methods.SQLRead(query);
+        }
     }
 }

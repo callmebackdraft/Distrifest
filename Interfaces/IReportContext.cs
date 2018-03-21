@@ -15,5 +15,6 @@ namespace Interfaces
         bool SaveNewReport(Report _report);
         bool DeletReport(int _reportID);
         DataTable GetReportData(string _query);
+        DataTable GetOrderedReport();
     }
 }

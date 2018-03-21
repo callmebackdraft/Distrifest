@@ -29,7 +29,7 @@ namespace Repositories
             DataTable dbResult = Orderctx.CheckForOpenOrder(_userID);
             if(dbResult.Rows.Count > 0 && dbResult.Rows.Count < 2)
             {
-                return DataRowToOrder(Orderctx.GetOrderByID(Convert.ToInt16(dbResult.Rows[0].Field<decimal>("ID"))));
+                return DataRowToOrder(Orderctx.GetOrderByID(Convert.ToInt16(dbResult.Rows[0].Field<decimal>("OrderID"))));
             }
             else
             {
