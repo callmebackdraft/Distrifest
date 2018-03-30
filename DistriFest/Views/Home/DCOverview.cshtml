@@ -12,7 +12,7 @@
 }
 <div class="row">
     <h2>Nog te verwerken</h2>
-    <table class="table table-responsive table-striped table-hover table-bordered">
+    <table class="table table-responsive table-striped table-hover table-bordered" id="waitingTable">
         <thead>
             <tr>
                 <th class="col-xs-1">Bestel NR</th>
@@ -87,7 +87,7 @@
             {
                 if (order.Statuses.Exists(x => x.RegisteredStatus == OrderStatus.OrderStatusesEnum.Processing) && order.Statuses.Count <= 3)
                 {
-                    <tr onclick="location.href = '@(Url.Action("ShowOrder","Home", new { _orderID = order.ID }))'">
+                    <tr>
                         <td>@order.ID</td>
                         <td>@order.CustomerID</td>
                         <td>@order.Products.Count</td>

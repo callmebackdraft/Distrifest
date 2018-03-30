@@ -2,6 +2,7 @@
 @model List<Order>
 @{
     List<Order> sortedList = Model.OrderByDescending(x => x.ID).ToList();
+    ViewBag.Title = "Overzich Bestellingen";
 }
 
 <div class="row">

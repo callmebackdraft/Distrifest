@@ -15,6 +15,8 @@ using Interfaces;
 using System.IO;
 using DataHandling;
 using ClosedXML.Excel;
+using Microsoft.AspNet.SignalR;
+using DistriFest.Models.SignalR;
 
 namespace DistriFest.Controllers
 {
@@ -51,7 +53,7 @@ namespace DistriFest.Controllers
             return View(scvm);
         }
 
-        [Models.Authorize(Roles = "Admin, SuperAdmin"), HandleError]
+        [Models.Authorize(Roles = "Admin, SuperAdmin, DCCoord"), HandleError]
         public ActionResult ManageProducts()
         {
             IProductRepository prodRepo = new ProductRepository();
@@ -70,7 +72,7 @@ namespace DistriFest.Controllers
             return View(ReportRepo.GetAllReportCharts());
         }
 
-        [Models.Authorize(Roles = "Admin, SuperAdmin, DC, StockOnly"), HandleError]
+        [Models.Authorize(Roles = "Admin, SuperAdmin, DC, StockOnly, DCCoord"), HandleError]
         public ActionResult StockControl()
         {
             return View(new ProductRepository().GetAllProducts());
@@ -150,6 +152,7 @@ namespace DistriFest.Controllers
                     }
                     if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
+                        UpdateDCOverviewTroughSignalR(Order);
                         var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
                         Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van Bar: " + Order.CustomerID, string.Format(body, Order.CustomerID, DateTime.Now.ToString("dd/MM/yyyy")));
                         MemoryStream strm = new MemoryStream(((ViewAsPdf)GetPDFPackingSlip(Order)).BuildFile(ControllerContext));
@@ -168,6 +171,7 @@ namespace DistriFest.Controllers
                     }
                     else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Rejected)
                     {
+                        SendMessageTroughSignalR(Order.CustomerID,"Distributie Centrum heeft uw bestelling geweigerd");
                         TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol Geweigerd", _orderID);
                     }
                 }
@@ -327,6 +331,31 @@ namespace DistriFest.Controllers
             }
 
             throw new NotImplementedException();
+        }
+
+
+        void SendMessageTroughSignalR(int _recipientID,string _message)
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            if (LiveConnections.liveConnections.ContainsKey(_recipientID))
+            {
+                hubContext.Clients.Client(LiveConnections.liveConnections[_recipientID]).AddMessageToPage(_message);
+            }
+        }
+
+        void UpdateDCOverviewTroughSignalR(Order _order)
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            if (LiveConnections.liveConnections.ContainsKey(8))
+            {
+                int ProductAmount = 0;
+                foreach (OrderLine prod in _order.Products)
+                {
+                    ProductAmount += prod.Amount;
+                }
+                DateTime latestStatus = _order.Statuses.Max(x => x.RegisteredDate);
+                hubContext.Clients.Client(LiveConnections.liveConnections[8]).UpdateOverview(_order.ID,_order.CustomerID,ProductAmount,latestStatus);
+            }
         }
     }
 }

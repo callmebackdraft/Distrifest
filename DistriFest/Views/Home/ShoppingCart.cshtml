@@ -38,7 +38,7 @@
                             @using (Html.BeginForm("ChangeProductInOrder", "Home", OrderLineChanger = new OLChangeViewModel { OrderID = Model.Order.ID, ProdID = order.Product.ID }, FormMethod.Post, new { style = "display: inline" }))
                             {
                                 @Html.TextBox("Amount", order.Amount, new { Value = order.Amount, type = "Number", min = "0", style = "width: 50px;" })
-                                <input type="submit" value="Opslaan" class="btn btn-default" style="display:inline; background-color: #343477; color: #999" onclick="" />
+                                <input type="submit" value="Opslaan" class="btn btn-default" style="display:inline; color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" onclick="" />
                             }
                         </td>
                         <td>@order.Product.Name</td>
@@ -66,16 +66,16 @@
 
         </tbody>
     </table>
-</div>
-@if (Model.Order.Products.Count() > 0)
-{
-<div class="container text-right">
-    @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+    @if (Model.Order.Products.Count() > 0)
     {
-        <input type="hidden" name="_orderID" value="@Model.Order.ID" />
-        <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.WaitingForDC" />
-        <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
-        <input type="submit" value="Bevestig Bestelling" class="btn btn-default" style="background-color: #343477; color: #999" onclick="" />
+        <div class="container text-right">
+            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+            {
+                <input type="hidden" name="_orderID" value="@Model.Order.ID" />
+                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.WaitingForDC" />
+                <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
+                <input type="submit" value="Bevestig Bestelling" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" onclick="" />
+            }
+        </div>
     }
 </div>
-}
