@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using extmodels = Models;
 
 namespace DistriFest.Models.SignalR
 {
     public static class LiveConnections
     {
-        public static Dictionary<int,string> liveConnections = new Dictionary<int, string>(); 
+        public static List<SignalRConnection> liveConnections = new List<SignalRConnection>();
     }
 }

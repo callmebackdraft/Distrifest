@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using DistriFest.Models.ViewModels;
 using Rotativa;
+using extmodels = Models;
 using Models;
 using Repositories;
 using Interfaces;
@@ -17,6 +18,7 @@ using DataHandling;
 using ClosedXML.Excel;
 using Microsoft.AspNet.SignalR;
 using DistriFest.Models.SignalR;
+using Newtonsoft.Json;
 
 namespace DistriFest.Controllers
 {
@@ -152,7 +154,7 @@ namespace DistriFest.Controllers
                     }
                     if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
-                        UpdateDCOverviewTroughSignalR(Order);
+                        UpdateDCOverviewTroughSignalR();
                         var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
                         Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van Bar: " + Order.CustomerID, string.Format(body, Order.CustomerID, DateTime.Now.ToString("dd/MM/yyyy")));
                         MemoryStream strm = new MemoryStream(((ViewAsPdf)GetPDFPackingSlip(Order)).BuildFile(ControllerContext));
@@ -171,7 +173,8 @@ namespace DistriFest.Controllers
                     }
                     else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Rejected)
                     {
-                        SendMessageTroughSignalR(Order.CustomerID,"Distributie Centrum heeft uw bestelling geweigerd");
+                        SendMessageTroughSignalR(Order.CustomerID, string.Format("Distributie Centrum heeft uw bestelling: {0} geweigerd. Melding van DC: {1}", _orderID, _returnURL));
+                        _returnURL = "/Home/DCOverview";
                         TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol Geweigerd", _orderID);
                     }
                 }
@@ -337,25 +340,39 @@ namespace DistriFest.Controllers
         void SendMessageTroughSignalR(int _recipientID,string _message)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            if (LiveConnections.liveConnections.ContainsKey(_recipientID))
+            extmodels.User recipient = new UserRepository().GetUserByID(_recipientID);
+            if (LiveConnections.liveConnections.Exists(x => x.User == recipient))
             {
-                hubContext.Clients.Client(LiveConnections.liveConnections[_recipientID]).AddMessageToPage(_message);
+                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User == recipient).ConnectionID).AddMessageToPage(_message);
             }
         }
 
-        void UpdateDCOverviewTroughSignalR(Order _order)
+        void UpdateDCOverviewTroughSignalR()
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            if (LiveConnections.liveConnections.ContainsKey(8))
+            extmodels.User dc = new UserRepository().GetUserByID(8);
+            if (LiveConnections.liveConnections.Exists(x => x.User == dc))
             {
-                int ProductAmount = 0;
-                foreach (OrderLine prod in _order.Products)
-                {
-                    ProductAmount += prod.Amount;
-                }
-                DateTime latestStatus = _order.Statuses.Max(x => x.RegisteredDate);
-                hubContext.Clients.Client(LiveConnections.liveConnections[8]).UpdateOverview(_order.ID,_order.CustomerID,ProductAmount,latestStatus);
+                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User == dc).ConnectionID).UpdateOverview("update");
             }
+        }
+
+        [HttpGet]
+        public string GetLiveConnections()
+        {
+            string result = JsonConvert.SerializeObject(LiveConnections.liveConnections, Formatting.Indented);
+            return result;
+        }
+
+        [HttpGet]
+        public string GetChatHistory(int userID)
+        {
+            extmodels.User requestor = new UserRepository().GetUserByID(userID);
+            List<ChatMessage> subResult = ChatHistory.chatHistory.FindAll(x => x.Sender.Equals(requestor));
+            subResult.AddRange(ChatHistory.chatHistory.FindAll(x => x.Recipient.Equals(requestor)));
+            List<ChatMessage> sortedResult = subResult.OrderBy(x => x.Date).ToList();
+            string result = JsonConvert.SerializeObject(sortedResult, Formatting.Indented);
+            return result;
         }
     }
 }

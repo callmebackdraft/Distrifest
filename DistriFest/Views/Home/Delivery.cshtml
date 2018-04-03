@@ -8,3 +8,49 @@
 <div class="row">
     @Html.EditorForModel(Model)
 </div>
+
+@section scripts{
+    <script>
+        $('#ConfirmationModal').on('shown.bs.modal', function (e) {
+            $("#confTable > tbody").empty();
+            checkForm();
+        });
+
+        function checkForm() {
+            var lastProd = 0;
+            var curProd = 0;
+            $.each($('#confirmation').serializeForm(), function (key, value) {
+                if (key == 'ID') {
+                    $('#deliveryNo').text(value);
+                } else if (key == 'Products') {
+                    var previousProd = 0;
+                    var prodNo = 0;
+                    var prodName = '';
+                    var prodVol = '';
+                    var prodAmount = 0;
+                    $.each(value, function (key, value) {
+                        if (prodNo == key.replace(/\D/g, '')) {
+                            if (key.includes('Name')) {
+                                prodName = value;
+                            } else if (key.includes('Volume') && !key.includes('VolumeType')) {
+                                prodVol = value;
+                            } else if (key.includes('VolumeType')) {
+                                prodVol = prodVol.concat(' ' + value);
+                            } else if (key.includes('Amount') && !key.includes('AmountInStock')) {
+                                prodAmount = value;
+                                prodNo = prodNo + 1;
+                            }
+                            if (prodNo > previousProd) {
+                                if (prodAmount > 0) {
+                                    $('#confirmationBody').append(('<tr><td>' + prodName + '</td><td>' + prodVol + '</td><td>' + prodAmount + '</td></tr>'))
+                                }
+                                previousProd = previousProd + 1;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+    </script>
+}

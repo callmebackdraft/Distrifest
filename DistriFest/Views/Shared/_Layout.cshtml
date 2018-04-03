@@ -65,7 +65,7 @@
                                 <li>@Html.ActionLink("Mijn Bestellingen", "BarOrderView", "Home")</li>
                                 <li><a href="#" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#ShoppingCart"><i class="fa fa-shopping-cart"></i><span style="font-size:14px;"> (@scvm.Order.Products.Sum(x => x.Amount))</span></a></li>
                             }
-                            <li><a href="#" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#Chat"><i class="fa fa-envelope"></i><span style="font-size:14px;"></span></a></li>
+                            <li><a href="#" id="ChatModal" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#Chat"><i class="fa fa-envelope"></i><span style="font-size:14px;"></span></a></li>
                         }
 
                     </ul>
@@ -126,26 +126,25 @@
                             <h4 class="modal-title">DistriChat</h4>
                         </div>
                         <div class="modal-body">
-                            <select id="recipient">
-                                @if (!User.IsInRole("Bar"))
-                                {
-                                    foreach (Models.User user in new UserRepository().GetAllUsers())
+                            <div class="text-center">
+                                <select id="recipient">
+                                    @if (!User.IsInRole("Bar"))
                                     {
-                                        if (LiveConnections.liveConnections.ContainsKey(user.ID))
-                                        {
-                                            <option value="@user.ID">@user.Name</option>
-                                        }
+
                                     }
-                                }
-                                else
-                                {
-                                    <option value="8">Distributie</option>
-                                }
-                            </select>
-                            <input type="text" id="message" />
-                            <input type="button" id="sendmessage" />
-                            <ul id="Discussion"></ul>
+                                    else
+                                    {
+                                        <option value="8">Distributie</option>
+                                    }
+                                </select>
+                                <input type="text" id="message" />
+                                <input type="button" id="sendmessage" value="Verstuur bericht" />
+                            </div>
+                            <div id="chatCont" style="max-height:10em; overflow-y:scroll; overflow-x:hidden">
+                                <ul id="Discussion"></ul>
+                            </div>
                         </div>
+
                         <div class="modal-footer">
 
                         </div>
@@ -165,38 +164,85 @@
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+    <script src="~/Scripts/jquery-serializeForm.js"></script>
     <script src="~/signalr/hubs" type="text/javascript"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
+    @RenderSection("confirmation", required: false)
     @if (User.Identity.IsAuthenticated)
     {
         <script>
-            
             var notificationHub = $.connection.notificationHub;
             notificationHub.client.addMessageToPage = function (message) {
                 $('#Notification').text(message);
-                $("#NotificationModal").modal();
+                $('#NotificationModal').modal();
             };
+
             notificationHub.client.addMessageToChat = function (name, message) {
-                $("#Chat").modal();
-                $('#Discussion').append('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) + '</li>');
+                addToConversation(name, message);
             };
-            notificationHub.client.updateOverview = function (id, bar, amount, date) {
+
+            notificationHub.client.updateOverview = function (response) {
                 if (document.title.includes("Bestel Overzicht")) {
                     location.reload();
                 }
             };
+
             $.connection.hub.start()
                 .done(function () {
-                    console.log('Now connected, connection ID=' + $.connection.hub.id);
+                    $.getJSON('@Html.Raw(Url.Action("GetLiveConnections", "Home"))', function (response) {
+                        $.each(response, function (key, value) {
+                            $.each(value, function (key, value) {
+                                if ($.type(value) != 'string') {
+                                    if (key == 'User') {
+                                        var ID = 0;
+                                        var Name = '';
+                                        $.each(value, function (key, value) {
+                                            if (key == 'ID') {
+                                                ID = value;
+                                            }
+                                            else if (key == 'Name') {
+                                                Name = value
+                                            }
+                                        });
+                                        $('#recipient').append($('<option>', {
+                                            value: ID,
+                                            text: Name
+                                        }));
+                                    }
+                                }
+                            });
+                        });
+                    });
+
+                    $.getJSON('@Html.Raw(Url.Action("GetChatHistory", "Home", new { userID = Convert.ToInt16(identity.Claims.Last().Value) }))', function (response) {
+                        $.each(response, function (key, value) {
+                            var Sender = '';
+                            var Message = '';
+                            $.each(value, function (key, value) {
+                                if (key == 'Sender') {
+                                    $.each(value, function (key, value) {
+                                        if (key == 'Name') {
+                                            Sender = value;
+                                        }
+                                    });
+                                } else if (key == 'Message') {
+                                    Message = value;
+                                }
+                            });
+                            addToConversation(Sender, Message);
+                        });
+                    });
+
                     $('#sendmessage').click(function () {
                         // Call the Send method on the hub.
                         notificationHub.server.chat($('#recipient').val(), $('#message').val());
                         // Clear text box and reset focus for next comment.
                         $('#message').val('').focus();
                     });
+
+
                 })
                 .fail(function () { console.log('Could not Connect!'); });
 
@@ -204,6 +250,27 @@
                 var encodedValue = $('<div />').text(value).html();
                 return encodedValue;
             }
+
+            function addToConversation(name, message) {
+                $('#Discussion').append($('<li>').append('<strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message)));
+                scrollToBottom();
+            }
+
+            $('#Chat').on('shown.bs.modal', function (e) {
+                scrollToBottom();
+            });
+
+
+            function scrollToBottom() {
+                var container = $('#chatCont');
+                var height = container[0].scrollHeight;
+                container.scrollTop(height);
+            }
+
+            $('document').ready(function () {
+
+            })
+
         </script>
     }
 </body>

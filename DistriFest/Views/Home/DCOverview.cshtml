@@ -10,6 +10,42 @@
         <span class="text-warning" style="margin-top:auto; margin-bottom:auto">@ViewBag.ErrorMessage</span>
     </div>
 }
+
+<div id="RejectionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Weigering voor bestelling: <strong id="rejectOrderID"></strong></h4>
+                <p class="danger"><strong>Let op: </strong> De bar krijgt een melding van deze weigering</p>
+            </div>
+
+            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <input id="rejectInputID" type="hidden" name="_orderID" value="x" />
+                    <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Rejected" />
+                    <select name="_returnURL" id="_returnURLSelect">
+                        <option value="Vanwege voorraad redenen is uw bestelling geweigerd">Voorraad</option>
+                        <option value="De bestelling bevat onvoldoende producten om bestelling te leveren">Onvoldoende besteld</option>
+                        <option value="x">Anders</option>
+                    </select>
+                    <br />
+                    <p id="returnURLTextInput">Geef reden van weigering op:<input type="text" name="x" id="_returnURLTextInput" oninvalid="this.setCustomValidity('Geef een reden op')" oninput="setCustomValidity('')" /></p>
+                    <br />
+                    
+                    
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Bevestig Weigering" />
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
 <div class="row">
     <h2>Nog te verwerken</h2>
     <table class="table table-responsive table-striped table-hover table-bordered" id="waitingTable">
@@ -56,15 +92,9 @@
                             }
                         </td>
                         <td class="text-center">
-                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
-                            {
-                                <input type="hidden" name="_orderID" value="@order.ID" />
-                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Rejected" />
-                                <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
-                                <input type="submit" value="Weiger" />
-                            }
+                            <input id="clickMe" type="button" value="Weiger" onclick="reject(@order.ID);" />
                         </td>
-                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')"/></td>
+                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
                     </tr>
                 }
             }
@@ -114,3 +144,34 @@
         </tbody>
     </table>
 </div>
+
+@section scripts{
+    <script>
+        function reject(_orderID) {
+            $('#RejectionModal').modal();
+            $('input[id="rejectInputID"]').val(_orderID);
+            $('#rejectOrderID').html(_orderID);
+        }
+
+        $('#_returnURLSelect').on('change', function () {
+            if (this.value == "x") {
+                $('#_returnURLSelect').attr('name', 'x');
+                $("#_returnURLTextInput").attr('name', '_returnURL');
+                $("#_returnURLTextInput").attr('name', '_returnURL');
+                $("#_returnURLTextInput").prop('required', true);
+                $("#_returnURLTextInput").prop('disabled', false);
+                $("#returnURLTextInput").show();
+            } else {
+                $('#_returnURLSelect').attr('name', '_returnURL');
+                $("#_returnURLTextInput").attr('name', 'x');
+                $("#_returnURLTextInput").prop('required', false);
+                $("#_returnURLTextInput").prop('disabled', true);
+                $("#returnURLTextInput").hide();
+            }
+        });
+
+        $('document').ready(function () {
+            $("#returnURLTextInput").hide();
+        })
+    </script>
+}

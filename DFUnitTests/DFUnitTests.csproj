@@ -59,6 +59,10 @@
       <Project>{372ed0b1-3efb-4e87-a236-7607e89395b6}</Project>
       <Name>DataHandling</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DistriFest\DistriFest.csproj">
+      <Project>{f2f66e5a-7cef-4381-9ed0-128318bff99b}</Project>
+      <Name>DistriFest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Exceptions\Exceptions.csproj">
       <Project>{66b66afd-b70a-4589-9e9f-1bda2862ceb7}</Project>
       <Name>Exceptions</Name>
