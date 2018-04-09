@@ -338,6 +338,8 @@
     <Content Include="Content\Images\CocaColaZero.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\Images\districhat_logo.png" />
+    <None Include="Content\Images\distrilogo.svg" />
     <Content Include="Content\Images\DraagTrays.png" />
     <Content Include="Content\Images\Fanta.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -492,6 +494,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
