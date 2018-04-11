@@ -33,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/"><img src="~/Content/Images/distrilogo_png.png" class="logo" /></a>
+                <a href="/"><img src="~/Content/Images/distrilogo_png.png" class="logo" style="margin-top: 8px;"/></a>
             </div>
             <div class="navbar-collapse collapse">
                 @if (User.Identity.IsAuthenticated)
@@ -137,8 +137,8 @@
                                         <option value="8">Distributie</option>
                                     }
                                 </select>
-                                <input type="text" id="message" />
-                                <input type="button" id="sendmessage" value="Verstuur bericht" />
+                                <input type="text" class="chatinput" id="message" />
+                                <input type="button" class="btn btn-default" id="sendmessage" value="Verstuur bericht" />
                             </div>
                             <div id="chatCont" style="max-height:10em; overflow-y:scroll; overflow-x:hidden">
                                 <ul id="Discussion"></ul>

@@ -53,7 +53,6 @@ select.input-validation-error {
         }
 
 .logo {
-    margin-top: 7px;
     max-height: 35px;
 }
 
@@ -207,6 +206,49 @@ select.input-validation-error {
         #Fix_Divrt .inner_middle {
             display: none !important;
         }
+}
+
+.modal-dialog {
+    z-index: 1050;
+    width: auto;
+    padding-top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        right: auto;
+        left: 50%;
+        width: 600px;
+        padding-top: 100px;
+        padding-bottom: 30px;
+    }
+
+    .modal-content {
+        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.modal-header {
+    min-height: 16.428571429px;
+    padding: 15px;
+    background: linear-gradient(#7f7f01, #7f7f01, #7f7f01, #5c5c00);
+}
+
+.modal-title {
+    color: #fff;
+    margin: 0;
+    line-height: 1.428571429;
+}
+
+.chatinput {
+    max-width: 80%;
+    height: 35px;
+    margin-right: 5px;
+    box-shadow: inset 2px 2px 2px rgba(0,0,0,0.15);
+    padding-left: 10px;
 }
 
 .overflow-scroll {
