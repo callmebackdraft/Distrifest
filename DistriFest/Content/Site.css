@@ -1,9 +1,14 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    padding-right: 15px;
     background-color: #2e393c;
     background-image: url(Images/background_02.png);
     background-repeat: repeat;
+}
+
+body, .navbar-inverse {
+    padding-left: calc(100vw - 100%);
 }
 
 a {
@@ -212,6 +217,12 @@ body.modal-open,
 .modal-open .navbar-fixed-top,
 .modal-open .navbar-fixed-bottom {
     margin-right: 0px;
+    overflow: hidden;
+
+}
+
+.modal-open {
+    overflow: auto;
 }
 
 .modal {
