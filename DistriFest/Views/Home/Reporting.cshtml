@@ -6,21 +6,24 @@
 @model List<Report>
 @if (ViewBag.ErrorMessage != null)
 {
-    <div class="text-center errorbox" style="margin-top:10px; width:99%; height:50px; background-color:#c8dff7">
+    <div class="text-center errorbox" style="margin-top:20px; width:100%; height:50px; background-color:#c8dff7">
         <span class="text-danger">@ViewBag.ErrorMessage</span>
     </div>
 }
 
-@foreach (Report chart in Model)
-{
-    <div style="margin-top:10px;">
-        @Html.Partial("../PartialViews/PartialChart", chart);
-    </div>
+<div class="row">
+
+        @foreach (Report chart in Model)
+    {
+        <div style="text-align: center; margin-bottom: 15px;">
+            @Html.Partial("../PartialViews/PartialChart", chart)
+        </div>
 }
 
-<div>
-    @using (Html.BeginForm("GetExcelReport", "Home", FormMethod.Post))
-    {
-        <input type="submit" value="Exporteer data" />
+        <div>
+            @using (Html.BeginForm("GetExcelReport", "Home", FormMethod.Post))
+        {
+            <input type="submit" class="btn btn-green" value="Exporteer data" />
     }
+        </div>
 </div>
