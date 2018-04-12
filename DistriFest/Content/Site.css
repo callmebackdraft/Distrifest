@@ -143,6 +143,11 @@ select.input-validation-error {
     border-radius: 6px;
 }
 
+.ReportDiv {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
 .col-sm-12 {
     width: 100%;
     background-color: #fff;
