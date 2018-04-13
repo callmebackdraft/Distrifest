@@ -38,7 +38,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" value="Bevestig Weigering" />
+                    <input type="submit" class="btn btn-green" value="Bevestig Weigering" />
                 </div>
             }
         </div>
@@ -88,13 +88,13 @@
                                 <input type="hidden" name="_orderID" value="@order.ID" />
                                 <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Processing" />
                                 <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
-                                <input type="submit" value="Behandelen" />
+                                <input type="submit" class="btn btn-default" value="Behandelen" />
                             }
                         </td>
                         <td class="text-center">
-                            <input id="clickMe" type="button" value="Weiger" onclick="reject(@order.ID);" />
+                            <input id="clickMe" type="button" class="btn btn-default" value="Weiger" onclick="reject(@order.ID);" />
                         </td>
-                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
+                        <td class="text-center"><input type="button" class="btn btn-default" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
                     </tr>
                 }
             }
@@ -134,10 +134,10 @@
                                 <input type="hidden" name="_orderID" value="@order.ID" />
                                 <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Delivered" />
                                 <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
-                                <input type="submit" value="Afgehandeld" />
+                                <input type="submit" class="btn btn-default" value="Afgehandeld" />
                             }
                         </td>
-                        <td class="text-center"><input type="button" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
+                        <td class="text-center"><input type="button" class="btn btn-default" value="Bekijk" onclick="window.open('@(Url.Action("ShowOrder", "Home", new { _orderID = order.ID }))')" /></td>
                     </tr>
                 }
             }
