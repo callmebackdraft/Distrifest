@@ -39,7 +39,7 @@
                     $.each(value, function (key, value) {
                         if (prodNo == key.replace(/\D/g, '')) {
                             if (key.includes('Name')) {
-                                prodName = value;
+                                prodName = value.replace(/([A-Z])/g, " $1");
                             } else if (key.includes('Volume') && !key.includes('VolumeType')) {
                                 prodVol = value;
                             } else if (key.includes('VolumeType')) {

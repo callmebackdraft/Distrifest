@@ -192,7 +192,7 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteProductFromOrder(Models.ViewModels.OLChangeViewModel ocm)
+        public ActionResult DeleteProductFromOrder(Models.ViewModels.OLChangeViewModel ocm, string _returnURL)
         {
             var identity = (ClaimsIdentity)User.Identity;
             try
@@ -211,7 +211,7 @@ namespace DistriFest.Controllers
             {
                 return RedirectToAction("Ordering");
             }
-            return RedirectToAction("ShoppingCart");
+            return Redirect(_returnURL);
         }
 
         [HttpPost]
@@ -219,7 +219,7 @@ namespace DistriFest.Controllers
         {
             if (ocm.Amount == 0)
             {
-                DeleteProductFromOrder(ocm);
+                DeleteProductFromOrder(ocm, "/Home/ShoppingCart");
                 return RedirectToAction("ShoppingCart");
             }
             var identity = (ClaimsIdentity)User.Identity;

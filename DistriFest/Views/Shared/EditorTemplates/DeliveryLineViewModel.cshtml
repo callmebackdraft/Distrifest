@@ -1,8 +1,9 @@
 ﻿@using DistriFest.Models.ViewModels
+@using System.Text.RegularExpressions
 @model DeliveryLineViewModel
 <tr>
     @Html.EditorFor(x => x.Product)
-    <td>@Model.Product.Name</td>
+    <td>@Regex.Replace(Model.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0")</td>
     <td>@Model.Product.Volume @Model.Product.VolumeType</td>
     <td>@Html.EditorFor(x => x.Amount, new { htmlAttributes = new { min = 0 } })</td>
 </tr>

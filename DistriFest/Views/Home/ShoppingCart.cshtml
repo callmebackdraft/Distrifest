@@ -5,6 +5,7 @@
     OLChangeViewModel OrderLineChanger;
 }
 @using DistriFest.Models.ViewModels
+@using System.Text.RegularExpressions
 @using Models
 @model ShoppingCartViewModel
 
@@ -41,7 +42,7 @@
                                 <input type="submit" value="Opslaan" class="btn btn-default" style="display:inline; color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" onclick="" />
                             }
                         </td>
-                        <td>@order.Product.Name</td>
+                        <td>@Regex.Replace(order.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0")</td>
                         @if (order.Product.VolumeType == "Liter")
                         {
                             <td>Fust met inhoud van @order.Product.Volume Liter</td>

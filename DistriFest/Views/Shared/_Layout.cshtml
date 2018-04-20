@@ -63,7 +63,11 @@
                             {
                                 <li>@Html.ActionLink("Product lijst", "Ordering", "Home")</li>
                                 <li>@Html.ActionLink("Mijn Bestellingen", "BarOrderView", "Home")</li>
-                                <li><a href="#" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#ShoppingCart"><i class="fa fa-shopping-cart"></i><span style="font-size:14px;"> (@scvm.Order.Products.Sum(x => x.Amount))</span></a></li>
+                                if (scvm.Order.Products.Count > 0)
+                                {
+                                    <li><a href="#" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#ShoppingCart"><i class="fa fa-shopping-cart"></i><span style="font-size:14px;"> (@scvm.Order.Products.Count)</span></a></li>
+                                }
+
                             }
                             <li><a href="#" id="ChatModal" class="clickable" style="font-size:1.5em;" data-toggle="modal" data-target="#Chat"><i class="fa fa-envelope"></i><span style="font-size:14px;"></span></a></li>
                         }
@@ -156,7 +160,7 @@
         @RenderBody()
         <footer>
             <hr />
-            <p class="footertext">&copy; @DateTime.Now.Year - Dennis Aspers</p>
+            <p class="footertext">&copy; @DateTime.Now.Year - Dennis Aspers  <span style="float:right">Design by Ferry Adams</span></p>
         </footer>
     </div>
 

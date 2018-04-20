@@ -20,21 +20,13 @@
                 {
                     {
                         <tr>
-                            @{
-                                var split = Regex.Split(order.Product.Name, @"(?<!^)(?=[A-Z])");
-                            }
-                            @foreach (string s in split)
-                            {
-                                prodName.Append(s);
-                                prodName.Append(' ');
-                            }
-                            @{
-                                i += order.Amount;
-                            }
+
+
 
                             @using (Html.BeginForm("DeleteProductFromOrder", "Home", new OLChangeViewModel { ProdID = order.Product.ID, Amount = order.Amount, OrderID = Model.Order.ID }, FormMethod.Post, new { style = "display: inline-block; width: 100%" }))
                             {
-                                <td colspan="4">@order.Amount X @prodName  <input type="submit" value="verwijder" class="btn btn-sm" style="float:right;" /></td>
+                                <td colspan="4">@order.Amount X @Regex.Replace(order.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0") <input type="submit" value="verwijder" class="btn btn-sm" style="float:right;" /><input type="hidden" name="_returnURL" value="@Request.RawUrl" /></td>
+
                             }
                         </tr>
                         prodName.Clear();

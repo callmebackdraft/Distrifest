@@ -3,6 +3,7 @@
     ViewBag.Title = "Voorraadbeheer";
 }
 @using Models
+@using System.Text.RegularExpressions
 @using Repositories
 @using Interfaces
 @model List<Product>
@@ -29,7 +30,7 @@
             {
                 <tr>
                     <td>@prod.ID</td>
-                    <td>@prod.Name @prod.Volume @prod.VolumeType</td>
+                    <td>@Regex.Replace(prod.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0") @prod.Volume @prod.VolumeType</td>
                     <td>@prod.AmountInStock</td>
                 </tr>
             }
