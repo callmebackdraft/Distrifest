@@ -17,7 +17,7 @@
             {
                 <p>@claim.Value</p>
             }
-            @Html.ActionLink("Download Lege Orderlijst", "PartialEmptyOrderList", "Home", new { target = "_blank" })
+            <b>@Html.ActionLink("Download Lege Orderlijst", "PartialEmptyOrderList", "Home", new { @class = "btn btn-green", target = "_blank" })</b>
         </div>
     }
     else

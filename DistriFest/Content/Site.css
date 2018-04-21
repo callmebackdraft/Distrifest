@@ -121,9 +121,9 @@ select.input-validation-error {
 }
 
 .btn-green:hover,
-.btn-green:focus,
+/*.btn-green:focus,
 .btn-green:active,
-.btn-green.active,
+.btn-green.active,*/
 .open .dropdown-toggle.btn-green {
     color: #fff;
     background: linear-gradient(#baba01, #9e9e02);
@@ -132,9 +132,9 @@ select.input-validation-error {
 }
 
 .btn-green-wide:hover,
-.btn-green-wide:focus,
+/*.btn-green-wide:focus,
 .btn-green-wide:active,
-.btn-green-wide.active,
+.btn-green-wide.active,*/
 .open .dropdown-toggle.btn-green-wide {
     color: #fff;
     background: linear-gradient(#baba01, #9e9e02);
