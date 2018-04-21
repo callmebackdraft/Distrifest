@@ -3,19 +3,32 @@
     ViewBag.Title = "Lege Bestellijst";
 }
 @using Models
+@using System.Text.RegularExpressions
 @model List<Product>
-<div style="height:297mm; width: 250mm; margin: auto; background-color:white">
+<div class="EmptyListBody">
+    <div class="EmptyListHeader">
+        <img src="~/Content/Images/distrilogo_png.png" class="EmptyListDistriLogo" />
+        <img src="~/Content/Images/Bospop_logo_zwart.png" class="EmptyListFestivalLogo" />
+    </div>
     <div class="container">
-        <div style="outline: 1px solid #000000; align-self:center; margin-bottom:2em; padding:.5em">
+        <div class="EmptyListTitle">
             <div class="text-center">
-                <h2 style="align-self:center">Bestellijst</h2>
+                <h1 class="green">OFFLINE ORDERLIJST</h1>
             </div>
-            <p><b>BAR:_______</b></p>
-            <p><b>OrderNr:_______  (In te vullen door DC)</b></p>
-
-
+            <table class="EmptyListTable">
+                <tr>
+                    <td>Barnummer:</td>
+                    <td>&nbsp;_________________&nbsp;</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Ordernummer: </td>
+                    <td>&nbsp;_________________&nbsp;</td>
+                    <td class="green">&nbsp;<i>(in te vullen door DC)</i></td>
+                </tr>
+            </table>
         </div>
-        <table class="table table-responsive table-hover table-bordered order-table" align="center">
+        <table class="table table-responsive table-hover table-bordered table-striped order-table" align="center">
             <thead>
                 <tr>
                     <th>Product</th>
@@ -29,7 +42,7 @@
                     if (prod.Active)
                     {
                         <tr>
-                            <td>@prod.Name</td>
+                            <td>@Regex.Replace(prod.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0")</td>
                             <td>@prod.Volume @prod.VolumeType</td>
                             <td></td>
                         </tr>
@@ -38,4 +51,8 @@
             </tbody>
         </table>
     </div>
+    <footer>
+        <hr />
+        <p class="footertext_dark">&copy; @DateTime.Now.Year - Dennis Aspers  <span style="float: right;">Design by Ferry Adams</span></p>
+    </footer>
 </div>
