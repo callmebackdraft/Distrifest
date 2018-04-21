@@ -13,7 +13,7 @@
     {
         @Html.HiddenFor(x => x.Type, Model.Type)
         @Html.HiddenFor(x => x.Name, Model.Name)
-        <td>@Model.Name @Html.HiddenFor(x => x.ID, Model.ID)</td>
+        <td>@Regex.Replace(Model.Name, "([a-z?])[_ ]?([A-Z])", "$1 $2") @Html.HiddenFor(x => x.ID, Model.ID)</td>
         <td>@Html.EditorFor(x => x.Volume, Model.Volume)  @Html.EditorFor(x => x.VolumeType, Model.VolumeType)</td>
         <td>@Html.EditorFor(x => x.Active)</td>
         <td class="text-center"><input type="submit" value="Opslaan" class="btn btn-default" /></td>
