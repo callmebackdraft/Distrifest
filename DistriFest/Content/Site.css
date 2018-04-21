@@ -157,7 +157,7 @@ select.input-validation-error {
 
 .conversation {
     max-height:15em;
-    overflow-y:scroll;
+    overflow-y:auto;
     overflow-x:hidden;
     margin-top: 15px;
     margin-bottom: 15px;
