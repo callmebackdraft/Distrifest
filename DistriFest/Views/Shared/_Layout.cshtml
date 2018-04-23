@@ -181,8 +181,13 @@
         <script>
             var notificationHub = $.connection.notificationHub;
             notificationHub.client.addMessageToPage = function (message) {
-                var result = message.replace(/,/g, "<br />");
-                $('#Notification').html(message);
+                var notify = "";
+                if (message == "UpdateProductList" && document.title.includes("Product Lijst")) {
+                    notify = "Er is een nieuwe levering binnen gekomen, productlijst word ververst.";
+                } else {
+                    notify = message;
+                }
+                $('#Notification').html(notify);
                 $('#NotificationModal').modal();
                 
             };

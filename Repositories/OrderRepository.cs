@@ -55,7 +55,7 @@ namespace Repositories
                             result.Add("Sommige producten zijn meer besteld dan er op voorraad zijn. De bestelde hoeveelheden van de volgende producten zijn aangepast: <br />");
                         }
                         new OrderLineRepository().EditOrderedAmount(_order.ID,_ol.Product.ID, Math.Abs(ActualAmount));
-                        result.Add(Regex.Replace("<strong>" + _ol.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0") +  "</strong> - Origineel besteld: <strong>" + _ol.Amount + "</strong> Aangepast naar: <strong>" + Math.Abs(ActualAmount) + "</strong><br />");
+                        result.Add("<strong>" + Regex.Replace(_ol.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0") +  "</strong> - Origineel besteld: <strong>" + _ol.Amount + "</strong> Aangepast naar: <strong>" + Math.Abs(ActualAmount) + "</strong><br />");
                         iteration++;
                     }
                 }

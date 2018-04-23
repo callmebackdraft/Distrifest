@@ -244,6 +244,13 @@ namespace DistriFest.Controllers
         {
             IDeliveryLineRepository DelLineRepo = new DeliveryLineRepository();
             IDeliveryRepository DelRepo = new DeliveryRepository();
+            foreach (SignalRConnection src in LiveConnections.liveConnections)
+            {
+                if (src.User.Name.Contains("Bar"))
+                {
+                    SendMessageTroughSignalR(src.User.ID, "UpdateProductList");
+                }
+            }
             Delivery delivery = _delivery.ConvertToDelivery();
             DelLineRepo.SaveAllDeliveryLines(delivery);
             DelRepo.UpdateDelivery(delivery);
@@ -273,7 +280,26 @@ namespace DistriFest.Controllers
 
         public ActionResult Delivery()
         {
-            return View(new DeliveryViewModel(new DeliveryRepository().GetNewDelivery()));
+            Delivery delivery = new Delivery();
+            IDeliveryRepository DelRepo = new DeliveryRepository();
+            foreach (Delivery del in DelRepo.GetAllDeliverys())
+            {
+                if (del.Products.Count == 0)
+                {
+                    delivery = del;
+                    List<DeliveryLine> DelLines = new List<DeliveryLine>();
+                    foreach (Product _prod in new ProductRepository().GetAllProducts())
+                    {
+                        DelLines.Add(new DeliveryLine(_prod, 0));
+                    }
+                    delivery.SetProductsList(DelLines);
+                }
+            }
+            if (delivery.ID == 0)
+            {
+                delivery = DelRepo.GetNewDelivery();
+            }
+            return View(new DeliveryViewModel(delivery));
         }
         
         public ActionResult AddProductToDB(ProductViewModel _product)
