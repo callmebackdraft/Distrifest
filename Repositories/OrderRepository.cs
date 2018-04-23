@@ -7,6 +7,7 @@ using Interfaces;
 using Models;
 using DataHandling;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Repositories
 {
@@ -37,28 +38,39 @@ namespace Repositories
             }
         }
 
-        public void FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus)
+        public List<string> FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus)
         {
+            List<string> result = new List<string>();
             if (_orderStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
             {
+                result.Add("Bestelling: <strong>" + _order.ID + "</strong> succesvol naar DC doorgestuurd: <br />");
+                int iteration = 0;
                 foreach (OrderLine _ol in _order.Products)
                 {
                     int ActualAmount = new ProductRepository().UpdateAmountInStock(_ol.Product, _ol.Amount * -1);
                     if (ActualAmount != (_ol.Amount * -1))
                     {
+                        if(iteration == 0)
+                        {
+                            result.Add("Sommige producten zijn meer besteld dan er op voorraad zijn. De bestelde hoeveelheden van de volgende producten zijn aangepast: <br />");
+                        }
                         new OrderLineRepository().EditOrderedAmount(_order.ID,_ol.Product.ID, Math.Abs(ActualAmount));
+                        result.Add(Regex.Replace("<strong>" + _ol.Product.Name, @"(?!^)(?:[A-Z](?:[a-z]+|(?:[A-Z\d](?![a-z]))*)|\d+)", " $0") +  "</strong> - Origineel besteld: <strong>" + _ol.Amount + "</strong> Aangepast naar: <strong>" + Math.Abs(ActualAmount) + "</strong><br />");
+                        iteration++;
                     }
                 }
             }
             else if(_orderStatus == OrderStatus.OrderStatusesEnum.Rejected)
             {
-                foreach(OrderLine _ol in _order.Products)
+                result.Add("Bestelling: " + _order.ID + " succesvol geweigerd. Melding gestuurd naar: " + new UserRepository().GetUserByID(_order.CustomerID).Name);
+                foreach (OrderLine _ol in _order.Products)
                 {
                     new ProductRepository().UpdateAmountInStock(_ol.Product,_ol.Amount);
                 }
             }
 
             Orderctx.FurtherOrderStatus(_order.ID, _orderStatus);
+            return result;
         }
 
         public List<Order> GetAllOrders()

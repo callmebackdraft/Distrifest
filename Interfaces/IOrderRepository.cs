@@ -16,7 +16,7 @@ namespace Interfaces
         Order RegisterNewOrder(int _customerID);
         bool AddProductToOrder(int _orderID, int _productID, int _productAmount);
         Order CheckForOpenOrder(int _userID);
-        void FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus);
+        List<string> FurtherOrderStatus(Order _order, OrderStatus.OrderStatusesEnum _orderStatus);
         void UpdateOrder(Order order);
     }
 }

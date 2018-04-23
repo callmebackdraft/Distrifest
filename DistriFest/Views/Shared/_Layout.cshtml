@@ -21,6 +21,8 @@
     <title>@ViewBag.Title - DistriFest</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     @Styles.Render("~/Content/fontawesome")
 </head>
@@ -179,12 +181,15 @@
         <script>
             var notificationHub = $.connection.notificationHub;
             notificationHub.client.addMessageToPage = function (message) {
-                $('#Notification').text(message);
+                var result = message.replace(/,/g, "<br />");
+                $('#Notification').html(message);
                 $('#NotificationModal').modal();
+                
             };
 
             notificationHub.client.addMessageToChat = function (name, message) {
                 addToConversation(name, message);
+                $('#Chat').modal();
             };
 
             notificationHub.client.updateOverview = function (response) {
@@ -192,6 +197,10 @@
                     location.reload();
                 }
             };
+
+            $('#NotificationModal').on('hidden.bs.modal', function () {
+                location.reload();
+            })
 
             $.connection.hub.start()
                 .done(function () {

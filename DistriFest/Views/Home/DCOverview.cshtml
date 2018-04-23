@@ -4,12 +4,6 @@
 @{
     ViewBag.Title = "Bestel Overzicht";
 }
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="text-center errorbox" style="margin-top:10px; width:99%; height:50px; background-color:#c8dff7">
-        <span class="text-warning" style="margin-top:auto; margin-bottom:auto">@ViewBag.ErrorMessage</span>
-    </div>
-}
 
 <div id="RejectionModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -21,11 +15,11 @@
                 <p class="danger"><strong>Let op: </strong> De bar krijgt een melding van deze weigering</p>
             </div>
 
-            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+            @using (Ajax.BeginForm("FurtherOrderStatus", "Home", new AjaxOptions { HttpMethod = "Post" }))
             {
                 <div class="modal-body">
                     <input id="rejectInputID" type="hidden" name="_orderID" value="x" />
-                    <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Rejected" />
+                    <input type="hidden" name="_orderStatus" value="@OrderStatus.OrderStatusesEnum.Rejected" />
                     <select name="_returnURL" id="_returnURLSelect">
                         <option value="Vanwege voorraad redenen is uw bestelling geweigerd">Voorraad</option>
                         <option value="De bestelling bevat onvoldoende producten om bestelling te leveren">Onvoldoende besteld</option>
@@ -38,7 +32,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-green" value="Bevestig Weigering" />
+                    <input type="submit" class="btn btn-green" value="Bevestig Weigering" id="rejectSubmit"/>
                 </div>
             }
         </div>
@@ -83,10 +77,10 @@
                             }
                         }
                         <td class="text-center">
-                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                            @using (Ajax.BeginForm("FurtherOrderStatus", "Home", new AjaxOptions { HttpMethod = "Post" }))
                             {
                                 <input type="hidden" name="_orderID" value="@order.ID" />
-                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Processing" />
+                                <input type="hidden" name="_orderStatus" value="@OrderStatus.OrderStatusesEnum.Processing" />
                                 <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
                                 <input type="submit" class="btn btn-default" value="Behandelen" />
                             }
@@ -129,10 +123,10 @@
                             }
                         }
                         <td class="text-center">
-                            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+                            @using (Ajax.BeginForm("FurtherOrderStatus", "Home", new AjaxOptions { HttpMethod = "Post" }))
                             {
                                 <input type="hidden" name="_orderID" value="@order.ID" />
-                                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.Delivered" />
+                                <input type="hidden" name="_orderStatus" value="@OrderStatus.OrderStatusesEnum.Delivered" />
                                 <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
                                 <input type="submit" class="btn btn-default" value="Afgehandeld" />
                             }
@@ -152,6 +146,10 @@
             $('input[id="rejectInputID"]').val(_orderID);
             $('#rejectOrderID').html(_orderID);
         }
+
+        $('#rejectSubmit').click(function () {
+            $('#RejectionModal').modal('toggle');
+        });
 
         $('#_returnURLSelect').on('change', function () {
             if (this.value == "x") {

@@ -10,12 +10,6 @@
 @model ShoppingCartViewModel
 
 
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="text-center errorbox" style="margin-top:20px; width:99%; height:50px; background-color:#fff">
-        <span class="text-warning" style="margin-top:auto; margin-bottom:auto">@ViewBag.ErrorMessage</span>
-    </div>
-}
 <div class="row">
     <h2>WinkelWagen</h2>
     <p>Hier kunt u de bestelde producten controleren, waar nodig wijzigingen aanbrengen en en de bestelling doorsturen.</p>
@@ -68,10 +62,10 @@
     @if (Model.Order.Products.Count() > 0)
     {
         <div class="container text-right">
-            @using (Html.BeginForm("FurtherOrderStatus", "Home", FormMethod.Post))
+            @using (Ajax.BeginForm("FurtherOrderStatus","Home", new AjaxOptions { HttpMethod = "Post" }))
             {
                 <input type="hidden" name="_orderID" value="@Model.Order.ID" />
-                <input type="hidden" name="_orderStatuses" value="@OrderStatus.OrderStatusesEnum.WaitingForDC" />
+                <input type="hidden" name="_orderStatus" value="@OrderStatus.OrderStatusesEnum.WaitingForDC" />
                 <input type="hidden" name="_returnURL" value="@Request.RawUrl" />
                 <input type="submit" value="Bevestig Bestelling" class="btn btn-default" style="color: #fff; background: linear-gradient(#b3b3b3, #7a7a7a);" onclick="" />
             }

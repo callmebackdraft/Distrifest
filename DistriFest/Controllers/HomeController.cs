@@ -139,8 +139,9 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public ActionResult FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatuses, string _returnURL)
+        public void FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatus, string _returnURL)
         {
+            string notificationMsg = "";
             var identity = (ClaimsIdentity)User.Identity;
             try
             {
@@ -148,34 +149,37 @@ namespace DistriFest.Controllers
                 Order Order = OrderRepo.GetOrderByID(_orderID);
                 if (Order.Products.Count > 0)
                 {
-                    if (Order.Statuses.FindIndex(x => x.RegisteredStatus == _orderStatuses) == -1)
+                    if (Order.Statuses.FindIndex(x => x.RegisteredStatus == _orderStatus) == -1)
                     {
-                        OrderRepo.FurtherOrderStatus(Order, _orderStatuses);
+                        foreach (string str in OrderRepo.FurtherOrderStatus(Order, _orderStatus))
+                        {
+                            notificationMsg += str;
+                        }
                     }
-                    if (_orderStatuses == OrderStatus.OrderStatusesEnum.WaitingForDC)
+                    if (_orderStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
                         UpdateDCOverviewTroughSignalR();
                         var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
                         Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van Bar: " + Order.CustomerID, string.Format(body, Order.CustomerID, DateTime.Now.ToString("dd/MM/yyyy")));
                         MemoryStream strm = new MemoryStream(((ViewAsPdf)GetPDFPackingSlip(Order)).BuildFile(ControllerContext));
                         System.Net.Mail.Attachment pdfatt = new System.Net.Mail.Attachment(strm, "Bestelling: " + Order.ID + ".pdf", "application/pdf");
+                        SendMessageTroughSignalR(Order.CustomerID, notificationMsg);
+                        SendMessageTroughSignalR(8, new UserRepository().GetUserByID(Order.CustomerID).Name + " Heeft een nieuwe bestelling doorgevoerd");
                         mail.AddAttachment(pdfatt);
                         mail.SendMail();
-                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol doorgezet naar Distributiecentrum", _orderID);
                     }
-                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Processing)
+                    else if (_orderStatus == OrderStatus.OrderStatusesEnum.Processing)
                     {
-                        TempData["ProcessResult"] = string.Format("Bestelling: {0} in behandeling genomen", _orderID);
+                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} in behandeling genomen", _orderID));
                     }
-                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Delivered)
+                    else if (_orderStatus == OrderStatus.OrderStatusesEnum.Delivered)
                     {
-                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol verwerkt", _orderID);
+                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} succesvol verwerkt", _orderID));
                     }
-                    else if (_orderStatuses == OrderStatus.OrderStatusesEnum.Rejected)
+                    else if (_orderStatus == OrderStatus.OrderStatusesEnum.Rejected)
                     {
                         SendMessageTroughSignalR(Order.CustomerID, string.Format("Distributie Centrum heeft uw bestelling: {0} geweigerd. Melding van DC: {1}", _orderID, _returnURL));
-                        _returnURL = "/Home/DCOverview";
-                        TempData["ProcessResult"] = string.Format("Bestelling: {0} succesvol Geweigerd", _orderID);
+                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} succesvol Geweigerd", _orderID));
                     }
                 }
                 else
@@ -187,8 +191,6 @@ namespace DistriFest.Controllers
             {
                 TempData["ProcessResult"] = "Er ging iets fout tijdens het verwerken van de bestelling!";
             }
-            
-            return Redirect(_returnURL);
         }
 
         [HttpPost]
@@ -341,9 +343,9 @@ namespace DistriFest.Controllers
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
             extmodels.User recipient = new UserRepository().GetUserByID(_recipientID);
-            if (LiveConnections.liveConnections.Exists(x => x.User == recipient))
+            if (LiveConnections.liveConnections.Exists(x => x.User.ID == recipient.ID))
             {
-                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User == recipient).ConnectionID).AddMessageToPage(_message);
+                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User.ID == recipient.ID).ConnectionID).AddMessageToPage(_message);
             }
         }
 
@@ -351,9 +353,9 @@ namespace DistriFest.Controllers
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
             extmodels.User dc = new UserRepository().GetUserByID(8);
-            if (LiveConnections.liveConnections.Exists(x => x.User == dc))
+            if (LiveConnections.liveConnections.Exists(x => x.User.Name == "DC"))
             {
-                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User == dc).ConnectionID).UpdateOverview("update");
+                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User.Name == "DC").ConnectionID).UpdateOverview("update");
             }
         }
 
