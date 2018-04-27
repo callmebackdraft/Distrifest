@@ -96,7 +96,7 @@ namespace DataHandling
             string query = "UPDATE Orders SET CustomerID = @CustomerID WHERE ID = @OrderID";
             List<KeyValuePair<string, object>> parameterlist = new List<KeyValuePair<string, object>>
             {
-                new KeyValuePair<string, object>("@CustomerID", _order.CustomerID),
+                new KeyValuePair<string, object>("@CustomerID", _order.Customer.ID),
                 new KeyValuePair<string, object>("@OrderID", _order.ID)
             };
             SQL_CRUD_Methods.SQLUpdate(query,parameterlist);

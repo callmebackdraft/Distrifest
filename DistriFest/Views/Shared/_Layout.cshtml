@@ -189,7 +189,6 @@
                 }
                 $('#Notification').html(notify);
                 $('#NotificationModal').modal();
-                
             };
 
             notificationHub.client.addMessageToChat = function (name, message) {
@@ -284,10 +283,6 @@
                 var height = container[0].scrollHeight;
                 container.scrollTop(height);
             }
-
-            $('document').ready(function () {
-
-            })
 
             $(document).ready(function () {
                 $("#message").keypress(function (event) {

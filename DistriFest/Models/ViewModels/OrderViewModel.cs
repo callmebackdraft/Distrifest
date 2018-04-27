@@ -13,7 +13,8 @@ namespace DistriFest.Models.ViewModels
     public class OrderViewModel
     {
         public int ID { get; set; }
-        public int CustomerID { get; set; }
+        public m.User Customer { get; set; }
+        //public int CustomerID { get; set; }
         public List<OrderLineViewModel> Products { get; set; }
         public List<OrderStatusViewModel> Statuses { get; set; }
         public List<SelectListItem> UserList { get; set; }
@@ -31,7 +32,7 @@ namespace DistriFest.Models.ViewModels
         public OrderViewModel(m.Order _order)
         {
             ID = _order.ID;
-            CustomerID = _order.CustomerID;
+            Customer = _order.Customer;
             Products = new List<OrderLineViewModel>();
             IProductRepository ProdRepo = new ProductRepository();
             IUserRepository UserRepo = new UserRepository();
@@ -58,11 +59,12 @@ namespace DistriFest.Models.ViewModels
         public m.Order ConvertToOrder()
         {
             List<m.OrderLine> OrderLines = new List<m.OrderLine>();
+            IUserRepository UserRepo = new UserRepository();
             foreach(OrderLineViewModel _olvm in Products)
             {
                 OrderLines.Add(_olvm.ConvertToOrderLine());
             }
-            return new m.Order(ID, SelectedUserID, OrderLines);
+            return new m.Order(ID, UserRepo.GetUserByID(SelectedUserID), OrderLines);
         }
     }
 }

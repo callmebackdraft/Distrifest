@@ -8,7 +8,7 @@
                 <div class="text-center">
                     <h2 style="align-self:center">Bestelling: @Model.ID</h2>
                 </div>
-                <p>Bar: <b>@Model.CustomerID</b></p>
+                <p>Bar: <b>@Model.Customer.ID</b></p>
                 @foreach (OrderStatus os in Model.Statuses)
                 {
                     if (os.RegisteredStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)

@@ -37,10 +37,6 @@ namespace DistriFest.Controllers
         {
             IProductRepository prodRepo = new ProductRepository();
             List<Product> productList = prodRepo.GetAllProducts();
-            if (TempData["ProcessResult"] != null)
-            {
-                ViewBag.ErrorMessage = TempData["ProcessResult"];
-            }
             return View(productList);
         }
 
@@ -48,10 +44,6 @@ namespace DistriFest.Controllers
         {
             var identity = (ClaimsIdentity)User.Identity;
             Models.ViewModels.ShoppingCartViewModel scvm = new Models.ViewModels.ShoppingCartViewModel(Convert.ToInt16(identity.Claims.Last().Value));
-            if (TempData["ProcessResult"] != null)
-            {
-                ViewBag.ErrorMessage = TempData["ProcessResult"];
-            }
             return View(scvm);
         }
 
@@ -84,10 +76,6 @@ namespace DistriFest.Controllers
         public ActionResult DCOverview()
         {
             IOrderRepository OrderRepo = new OrderRepository();
-            if (TempData["ProcessResult"] != null)
-            {
-                ViewBag.ErrorMessage = TempData["ProcessResult"];
-            }
             return View(OrderRepo.GetAllRelevantOrders());
         }
 
@@ -139,10 +127,11 @@ namespace DistriFest.Controllers
         }
 
         [HttpPost]
-        public void FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatus, string _returnURL)
+        public void FurtherOrderStatus(int _orderID, OrderStatus.OrderStatusesEnum _orderStatus, string _DCMSG)
         {
             string notificationMsg = "";
             var identity = (ClaimsIdentity)User.Identity;
+            int notificationRecipientID = 0;
             try
             {
                 IOrderRepository OrderRepo = new OrderRepository();
@@ -158,38 +147,49 @@ namespace DistriFest.Controllers
                     }
                     if (_orderStatus == OrderStatus.OrderStatusesEnum.WaitingForDC)
                     {
-                        UpdateDCOverviewTroughSignalR();
+                        UpdateOrderOverviewTroughSignalR();
                         var body = System.IO.File.ReadAllText(Server.MapPath(@"~\Content\EmailTemplate.cshtml"));
-                        Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van Bar: " + Order.CustomerID, string.Format(body, Order.CustomerID, DateTime.Now.ToString("dd/MM/yyyy")));
+                        Mail mail = new Mail("dc@notacorrect.nl", "Nieuwe Bestelling: " + Order.ID + " van: " + Order.Customer.Name, string.Format(body, Order.Customer.ID, DateTime.Now.ToString("dd/MM/yyyy")));
                         MemoryStream strm = new MemoryStream(((ViewAsPdf)GetPDFPackingSlip(Order)).BuildFile(ControllerContext));
                         System.Net.Mail.Attachment pdfatt = new System.Net.Mail.Attachment(strm, "Bestelling: " + Order.ID + ".pdf", "application/pdf");
-                        SendMessageTroughSignalR(Order.CustomerID, notificationMsg);
-                        SendMessageTroughSignalR(8, new UserRepository().GetUserByID(Order.CustomerID).Name + " Heeft een nieuwe bestelling doorgevoerd");
+                        if (Convert.ToInt16(identity.Claims.Last().Value) != Order.Customer.ID)
+                        {
+                            notificationRecipientID = Convert.ToInt16(identity.Claims.Last().Value);
+                        } else
+                        {
+                            notificationRecipientID = Order.Customer.ID;
+                            SendMessageTroughSignalR(8, Order.Customer.Name + " Heeft een nieuwe bestelling doorgevoerd");
+                        }
+                        SendMessageTroughSignalR(notificationRecipientID, notificationMsg);
                         mail.AddAttachment(pdfatt);
                         mail.SendMail();
                     }
                     else if (_orderStatus == OrderStatus.OrderStatusesEnum.Processing)
                     {
-                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} in behandeling genomen", _orderID));
+                        UpdateOrderOverviewTroughSignalR();
+                        SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), string.Format("Bestelling: {0} in behandeling genomen", _orderID));
                     }
                     else if (_orderStatus == OrderStatus.OrderStatusesEnum.Delivered)
                     {
-                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} succesvol verwerkt", _orderID));
+                        UpdateOrderOverviewTroughSignalR();
+                        SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), string.Format("Bestelling: {0} succesvol verwerkt", _orderID));
                     }
                     else if (_orderStatus == OrderStatus.OrderStatusesEnum.Rejected)
                     {
-                        SendMessageTroughSignalR(Order.CustomerID, string.Format("Distributie Centrum heeft uw bestelling: {0} geweigerd. Melding van DC: {1}", _orderID, _returnURL));
-                        SendMessageTroughSignalR(8, string.Format("Bestelling: {0} succesvol Geweigerd", _orderID));
+                        UpdateOrderOverviewTroughSignalR();
+                        SendMessageTroughSignalR(Order.Customer.ID, string.Format("Distributie Centrum heeft uw bestelling: {0} geweigerd. Melding van DC: {1}", _orderID, _DCMSG));
+                        SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), notificationMsg);
+                        
                     }
                 }
                 else
                 {
-                    TempData["ProcessResult"] = "Geen Producten in bestelling";
+                    SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Geen Producten in bestelling");
                 }                
             }
             catch
             {
-                TempData["ProcessResult"] = "Er ging iets fout tijdens het verwerken van de bestelling!";
+                SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Er ging iets fout tijdens het verwerken van de bestelling!");
             }
         }
 
@@ -201,18 +201,13 @@ namespace DistriFest.Controllers
             {
                 IOrderLineRepository OrderLineRepo = new OrderLineRepository();
                 OrderLineRepo.RemoveOrderLineFromOrder(ocm.ProdID,ocm.OrderID);
-                
-                TempData["ProcessResult"] = "Product succesvol verwijderd";
+                SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Product succesvol verwijderd");
             }
             catch
             {
-                TempData["ProcessResult"] = "Er ging iets mis tijdens het verwijderen van het product, probeer het opnieuw.";
+                SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Er ging iets mis tijdens het verwijderen van het product, probeer het opnieuw.");
             }
 
-            if ((string)TempData["Return"] == "Ordering")
-            {
-                return RedirectToAction("Ordering");
-            }
             return Redirect(_returnURL);
         }
 
@@ -229,11 +224,11 @@ namespace DistriFest.Controllers
             {
                 IOrderLineRepository OrderLineRepo = new OrderLineRepository();
                 OrderLineRepo.EditOrderedAmount(ocm.OrderID, ocm.ProdID, ocm.Amount);
-                TempData["ProcessResult"] = "Product succesvol aangepast";
+                SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Product succesvol aangepast");
             }
             catch
             {
-                TempData["ProcessResult"] = "Er ging iets mis tijdens het wijzigen, probeer het opnieuw.";
+                SendMessageTroughSignalR(Convert.ToInt16(identity.Claims.Last().Value), "Er ging iets mis tijdens het wijzigen, probeer het opnieuw.");
             }
 
             return RedirectToAction("ShoppingCart");
@@ -265,9 +260,7 @@ namespace DistriFest.Controllers
             Order order = _order.ConvertToOrder();
             OrderRepo.UpdateOrder(order);
             OrderLineRepo.SaveAllOrderLines(order);
-            FurtherOrderStatus(order.ID, _order.SelectedStatus, "/Home/StockControl");
-
-
+            FurtherOrderStatus(order.ID, _order.SelectedStatus, " ");
             return RedirectToAction("StockControl");
         }
 
@@ -333,6 +326,13 @@ namespace DistriFest.Controllers
             return View(new OrderViewModel(OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value))));
         }
 
+        public ActionResult ReturnBooking()
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            IOrderRepository OrderRepo = new OrderRepository();
+            return View(new OrderViewModel(OrderRepo.CheckForOpenOrder(Convert.ToInt16(identity.Claims.Last().Value))));
+        }
+
         [HttpPost]
         public FileResult GetExcelReport()
         {
@@ -375,13 +375,16 @@ namespace DistriFest.Controllers
             }
         }
 
-        void UpdateDCOverviewTroughSignalR()
+        void UpdateOrderOverviewTroughSignalR()
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            extmodels.User dc = new UserRepository().GetUserByID(8);
-            if (LiveConnections.liveConnections.Exists(x => x.User.Name == "DC"))
+            var identity = (ClaimsIdentity)User.Identity;
+            foreach (SignalRConnection src in LiveConnections.liveConnections)
             {
-                hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User.Name == "DC").ConnectionID).UpdateOverview("update");
+                if (src.User.Role != "Bar" && src.User.ID != Convert.ToInt16(identity.Claims.Last().Value))
+                {
+                    hubContext.Clients.Client(LiveConnections.liveConnections.FirstOrDefault(p => p.User.ID == src.User.ID).ConnectionID).UpdateOverview("update");
+                }
             }
         }
 

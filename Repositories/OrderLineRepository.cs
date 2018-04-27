@@ -49,7 +49,7 @@ namespace Repositories
         {
             foreach(OrderLine _ol in _order.Products)
             {
-                if(_ol.Amount > 0)
+                if(_ol.Amount != 0)
                 {
                     AddOrderLineToOrder(_ol, _order.ID);
                 }

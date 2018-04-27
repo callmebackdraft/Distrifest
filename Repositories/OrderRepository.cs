@@ -62,7 +62,7 @@ namespace Repositories
             }
             else if(_orderStatus == OrderStatus.OrderStatusesEnum.Rejected)
             {
-                result.Add("Bestelling: " + _order.ID + " succesvol geweigerd. Melding gestuurd naar: " + new UserRepository().GetUserByID(_order.CustomerID).Name);
+                result.Add("Bestelling: " + _order.ID + " succesvol geweigerd. Melding gestuurd naar: " + _order.Customer.Name);
                 foreach (OrderLine _ol in _order.Products)
                 {
                     new ProductRepository().UpdateAmountInStock(_ol.Product,_ol.Amount);
@@ -128,7 +128,8 @@ namespace Repositories
             int OrderID = Convert.ToInt16(_dataRow.Field<decimal>("ID"));
             IOrderLineRepository OrderLineRepo = new OrderLineRepository();
             IOrderStatusRepository OrderStatusRepo = new OrderStatusRepository();
-            Order result = new Order(OrderID, Convert.ToInt16(_dataRow.Field<Decimal>("CustomerID")));
+            IUserRepository UserRepo = new UserRepository();
+            Order result = new Order(OrderID, UserRepo.GetUserByID(Convert.ToInt16(_dataRow.Field<Decimal>("CustomerID"))));
             foreach (OrderLine OL in OrderLineRepo.GetAllOrderLinesForOrder(OrderID))
             {
                 result.AddOrderLine(OL);

@@ -1,11 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Nieuwe Bestelling";
 }
 @using DistriFest.Models.ViewModels
 @model OrderViewModel
 
-@using (Ajax.BeginForm("ProcessDCOrder", "Home", new AjaxOptions { HttpMethod = "Post" }, new { id = "confirmation", onsubmit = "DoSubmit();" }))
+@using (Ajax.BeginForm("ProcessDCOrder", "Home", new AjaxOptions { HttpMethod = "Post" }, new { id = "confirmation", onsubmit= "DoSubmit();" }))
 {
     <div class="row">
         @Html.EditorForModel(Model)
@@ -16,6 +15,7 @@
     <script>
         $('#ConfirmationModal').on('shown.bs.modal', function (e) {
             $("#confTable > tbody").empty();
+            $('#SelectedStatus').val("Delivered");
             checkForm();
         });
 
@@ -25,7 +25,7 @@
 
         function DoSubmit() {
             $('input[type=number]').each(function () {
-                $(this).val(Math.abs($(this).val()))
+                $(this).val(-Math.abs($(this).val()))
             })
         };
 
@@ -76,10 +76,9 @@
             if (totalProductcount == 0) {
                 $('#confirmationBody').append(('<tr><td colspan="3"> Geen producten Besteld  </td></tr>'))
                 $('#Confirm').prop("disabled", true);
-            } else {
-                $('#Confirm').prop("disabled", false);
             }
         }
 
     </script>
 }
+
